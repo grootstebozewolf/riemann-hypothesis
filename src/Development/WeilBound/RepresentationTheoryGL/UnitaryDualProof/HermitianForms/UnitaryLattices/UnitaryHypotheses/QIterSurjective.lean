@@ -2,8 +2,9 @@ module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.MirabolicDerivatives.ColMatMulGlEmbMat
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.HermitianForms.GlCongr
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicTwistedKernelDerivativeZeroStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RestrictionMirabolicTwistedKernelStatement
+public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.MirabolicDerivatives.UnipotentDerivatives.DerUnipLeUnipB
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicTwistedKernelDerivativeZero
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RestrictionMirabolicTwistedKernel
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TwistedJacquetPhiMinusEquiv
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.HermitianForms.UnitaryLattices.UnitaryHypotheses.BlkAtApply
 import Mathlib.Algebra.Order.Floor.Extended
@@ -92,7 +93,7 @@ theorem ker_qIter (ψ : AddChar k Circle) {n : ℕ} :
       LinearMap.ker ((twKer (iterPhi k ψ j τ).ρ (MirUin k n) 1).mkQ ∘ₗ qIter k ψ j τ) =
         twKer τ.ρ (derUnipM k (n + j) n) (derCharM k ψ (n + j) n)
   | 0, τ => by
-    exact (Submodule.ker_mkQ _).trans (GlobalTheory.T.mirabolic_twisted_kernel_derivative_zero k ψ n τ.V τ.ρ)
+    exact (Submodule.ker_mkQ _).trans (_root_.GlobalTheory.CompanionTheory.BZMir.twKer_MirUin_eq_derUnipM k ψ n τ.V τ.ρ)
   | j + 1, τ => by
     let s := (levi k (n + j + 1)).comp (Mir k (n + j)).subtype
     let N₁ := MirUin k (n + j + 1)
@@ -202,7 +203,7 @@ theorem derDict (ψ : AddChar k Circle) (n j : ℕ) {V : Type} [AddCommGroup V] 
       ∀ g v, q (π (blkAt k n (n + j + 1) (by omega) g) v) = deriv k ψ j π g (q v) := by
   refine ⟨(twKer (iterPhi k ψ j (resM k π)).ρ (MirUin k n) 1).mkQ ∘ₗ qIter k ψ j (resM k π), ?_, ?_, ?_⟩
   · exact (Submodule.mkQ_surjective _).comp (qIter_surjective ψ j _)
-  · exact (ker_qIter ψ j (resM k π)).trans (GlobalTheory.T.restriction_mirabolic_twisted_kernel k ψ (n + j) n V π)
+  · exact (ker_qIter ψ j (resM k π)).trans (_root_.GlobalTheory.CompanionTheory.BZMirDer.twKer_resM_derUnipM k ψ (n + j) n V π)
   · intro g v
     rw [← emb_levi n j g]
     show (twKer (iterPhi k ψ j (resM k π)).ρ (MirUin k n) 1).mkQ

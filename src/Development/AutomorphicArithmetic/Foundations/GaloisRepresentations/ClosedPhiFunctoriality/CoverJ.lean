@@ -2,11 +2,15 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ClosedPhiFunctoriality.IntBasisAlt
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsEquivariantTransitionMatrixCoverStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFiniteExtensionEntriesOfCompactRepStatement
+public import Mathlib.NumberTheory.Padics.Complex
+public import Mathlib.Topology.Instances.Matrix
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFiniteExtensionEntriesOfCompactRep
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsLatticeLayerCoverBasisModPowStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsPadicIntSpanImageLatticeRegularStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsStableSpanningFinsetMatricesStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SmallTracesDvdSpanImageStatement
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TrivIsCr
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsPadicIntSpanImageLatticeRegular
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsStableSpanningFinsetMatrices
+public import Formalism.SharpRestriction.LevelLetterCocycles.DataN
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SmallTracesDvdSpanImage
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,8 +61,8 @@ namespace UpperTheory.Gal.ClosedPhiFromClosedTrace
 theorem coverJ_holds : CoverJ := by
   intro l _ Γ _ _ _ _ a L₀ r hr hss Cl hCl p θ hap
   classical
-  obtain ⟨d, ρ, b, e, hρ, hreads, hind, hbr⟩ := GlobalTheory.T.exists_padicInt_span_image_lattice_regular l Γ a r hr
-  obtain ⟨c, hc⟩ := GlobalTheory.T.small_traces_dvd_span_image l Γ a r hr hss
+  obtain ⟨d, ρ, b, e, hρ, hreads, hind, hbr⟩ := _root_.GlobalTheory.BKLim.exists_zl_span_lattice_reads l Γ a r hr
+  obtain ⟨c, hc⟩ := _root_.GlobalTheory.smallTrace_dvd_span l Γ a r hr hss
   obtain ⟨K, hK⟩ := traceL l a d b
   have hl1 : (1 : ℝ) < l := by exact_mod_cast (Fact.out : l.Prime).one_lt
   have hl0 : (0 : ℝ) < l := by linarith
@@ -70,13 +74,13 @@ theorem coverJ_holds : CoverJ := by
         ∀ g, ∀ x ∈ t, ∃ c' : Matrix (Fin a) (Fin a) (Om l) → ℤ_[l], ((ρ' g : GL (Fin a) (Om l)) : Matrix (Fin a) (Fin a) (Om l)) * x = ∑ y ∈ t, zOm l (c' y) • y) := by
     intro ρ'
     by_cases h : Continuous ρ'
-    · obtain ⟨L, hLf, hL⟩ := GlobalTheory.T.exists_finiteExtension_entries_of_compact_rep l Γ a ρ' h
+    · obtain ⟨L, hLf, hL⟩ := _root_.GlobalTheory.CompactRepField.exists_finiteDimensional_entries_mem_of_continuous l Γ a ρ' h
       haveI := hLf
       haveI := L₀.2
       let L' : FinExt l := ⟨L ⊔ L₀.1, inferInstance⟩
       have hL' : ∀ g i j, ((ρ' g : GL (Fin a) (Om l)) : Matrix (Fin a) (Fin a) (Om l)) i j ∈ L'.1 := fun g i j =>
         (le_sup_left : L ≤ L ⊔ L₀.1) (hL g i j)
-      obtain ⟨t, h1, h2, h3, h4⟩ := GlobalTheory.T.exists_stable_spanning_finset_matrices l Γ a ρ' L' h hL'
+      obtain ⟨t, h1, h2, h3, h4⟩ := _root_.GlobalTheory.exists_stable_spanning_finset l Γ a ρ' L' h hL'
       exact ⟨L', t, fun _ => ⟨le_sup_right, hL', h1, h2, h3, h4⟩⟩
     · exact ⟨L₀, ∅, fun h' => absurd h' h⟩
   choose Lf tf htf using hch

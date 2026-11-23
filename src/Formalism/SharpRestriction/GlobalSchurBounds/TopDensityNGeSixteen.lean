@@ -1,5 +1,7 @@
 module
 
+public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.FiltrationCocycleLiftCriterion
+public import Formalism.StatementOC
 public import Formalism.SharpRestriction.GlobalSchurBounds.QuadraticLogDerivCongr
 public import Formalism.SharpRestriction.GlobalSchurBounds.CMFieldLemmas
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLattice
@@ -11,21 +13,18 @@ public import Formalism.SizeWindowBrackets.FrameTraceRatioFinEquiv
 public import Development.AutomorphicArithmetic.ConductorsKronecker.Imports
 public import Development.AutomorphicArithmetic.ConductorsKronecker.RecSurj
 public import Development.AutomorphicArithmetic.ConductorsKronecker.dataField
-import Development.AutomorphicArithmetic.PrimitiveCosets.ToEBij
-import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DualPl
 public import Formalism.LocalRingCardinality.Lemmas
 public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.PointsPropertyOfD7
-public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.ZetaZeroFreeRegion
 public import Formalism.SharpRestriction.GlobalSchurBounds.Joints
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.PrimePairSizeCondition
-import Formalism.SizeWindowBrackets.ChainSlopeWindows.GaloisMapComplexConjugation
-import Formalism.SizeWindowBrackets.ChainSlopeWindows.JointDModelAppliesUnitLattice
 public import Formalism.SizeWindowBrackets.ChainSlopeWindows.WeightedSlopeExcessDecomposition
 public import Lemmata.GeneralBFactLeftBisAlt.Imports
+public import Mathlib.NumberTheory.LSeries.PrimesInAP
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import Mathlib.Combinatorics.Enumerative.DyckWord
 import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
@@ -34,13 +33,9 @@ import Mathlib.Geometry.Euclidean.Volume.Basic
 import Mathlib.NumberTheory.Chebyshev
 import Mathlib.NumberTheory.Height.NumberField
 import Mathlib.NumberTheory.Height.Projectivization
-public import Mathlib.NumberTheory.LSeries.PrimesInAP
 import Mathlib.NumberTheory.LucasLehmer
-import Mathlib.NumberTheory.NumberField.Discriminant.Different
 import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.Tactic.Basify
-import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Echelon.Zsqrtd
 import Mathlib.Tactic.Inclusion.Extension.Core.Core
 import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
@@ -48,8 +43,6 @@ import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
 import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
 import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
 import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.HaveILetI
-import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.NormNum.Irrational
 import Mathlib.Tactic.NormNum.IsCoprime
 import Mathlib.Tactic.NormNum.IsSquare
@@ -62,12 +55,48 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+import Development.AutomorphicArithmetic.PrimitiveCosets.ToEBij
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DualPl
+import Formalism.SizeWindowBrackets.ChainSlopeWindows.GaloisMapComplexConjugation
+import Formalism.SizeWindowBrackets.ChainSlopeWindows.JointDModelAppliesUnitLattice
+import Mathlib.NumberTheory.NumberField.Discriminant.Different
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import Formalism.SizeWindowBrackets.SecondKindBucket
 import Formalism.SizeWindowBrackets.WindowSettingSatisfiable
 
+-- This file was produced by scripts/clump.py from the modules listed below.
+-- Members: Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.ZetaZeroFreeRegion, Formalism.SharpRestriction.GlobalSchurBounds.TopDensityNGeSixteen
+
+-- ===== clump member: Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.ZetaZeroFreeRegion =====
+-- clump-header: {"m": "Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.ZetaZeroFreeRegion", "h": "module\n\npublic import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.FiltrationCocycleLiftCriterion\npublic import Formalism.StatementOC\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Topology.Sheaves.Init\n\n"}
+section -- clump:auto
+@[expose] public section
+
+noncomputable section
+
+namespace Formalism.MainNotions.ZetaZeroFreeRegion
+
+theorem G_eq_Gz (y : ℝ) : Formalism.MainNotions.GlobalTheoryTheory.G y = Formalism.Gz y := by
+  rw [Formalism.MainNotions.GlobalTheoryTheory.G_eq_Gfun]
+  unfold Formalism.BasicNotions.Gfun Formalism.Gz Formalism.Sz
+  ring
+
+end Formalism.MainNotions.ZetaZeroFreeRegion
+
+end
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.ZetaZeroFreeRegion =====
+
+-- ===== clump member: Formalism.SharpRestriction.GlobalSchurBounds.TopDensityNGeSixteen =====
+-- clump-header: {"m": "Formalism.SharpRestriction.GlobalSchurBounds.TopDensityNGeSixteen", "h": "module\n\npublic import Formalism.SharpRestriction.GlobalSchurBounds.QuadraticLogDerivCongr\npublic import Formalism.SharpRestriction.GlobalSchurBounds.CMFieldLemmas\npublic import Formalism.SharpRestriction.GlobalSchurBounds.StandardLattice\npublic import Formalism.SharpRestriction.GlobalSchurBounds.ZetaZeroFreeRegion\npublic import Development.AutomorphicArithmetic.PrimitiveCosets.RecH\npublic import Formalism.SharpRestriction.ParamsHeightRankConstant\npublic import Formalism.SizeWindowBrackets.ClaimGaFree\npublic import Formalism.SizeWindowBrackets.FrameTraceRatioFinEquiv\npublic import Development.AutomorphicArithmetic.ConductorsKronecker.Imports\npublic import Development.AutomorphicArithmetic.ConductorsKronecker.RecSurj\npublic import Development.AutomorphicArithmetic.ConductorsKronecker.dataField\nimport Development.AutomorphicArithmetic.PrimitiveCosets.ToEBij\nimport Formalism.HarderNarasimhan.HarderNarasimhanProofs.DualPl\npublic import Formalism.LocalRingCardinality.Lemmas\npublic import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.PointsPropertyOfD7\npublic import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.ZetaZeroFreeRegion\npublic import Formalism.SharpRestriction.GlobalSchurBounds.Joints\npublic import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.PrimePairSizeCondition\nimport Formalism.SizeWindowBrackets.ChainSlopeWindows.GaloisMapComplexConjugation\nimport Formalism.SizeWindowBrackets.ChainSlopeWindows.JointDModelAppliesUnitLattice\npublic import Formalism.SizeWindowBrackets.ChainSlopeWindows.WeightedSlopeExcessDecomposition\npublic import Lemmata.GeneralBFactLeftBisAlt.Imports\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\npublic import Mathlib.NumberTheory.LSeries.PrimesInAP\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.NumberField.Discriminant.Different\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.HaveILetI\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Sheaves.Init\nimport Formalism.SizeWindowBrackets.SecondKindBucket\nimport Formalism.SizeWindowBrackets.WindowSettingSatisfiable\n\n"}
+section -- clump:auto
 @[expose] public section
 
 noncomputable section
@@ -1734,3 +1763,6 @@ open Formalism.MainNotions.Lnk
 end Formalism.MainNotions
 
 end
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Formalism.SharpRestriction.GlobalSchurBounds.TopDensityNGeSixteen =====

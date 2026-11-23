@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.EtaleEmpty
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleIsLocalHomeomorphStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalInverseStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleIsLocalHomeomorph
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalInverse
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,7 +55,7 @@ namespace GlobalTheory.OTY
 
 theorem holo_etale_iff_holo_chart : ∀ (n : ℕ) (Y : Type) [TopologicalSpace Y] [T2Space Y] [SecondCountableTopology Y] [MeasurableSpace Y] [BorelSpace Y] (ι La : Type) [AddCommGroup La] (A : WeightedAtlas n Y ι La), ∀ (U : Set Y) (z : Y → V n), Etale A U z → ∀ (Ω : Set Y) (u : Y → ℂ), IsOpen Ω → ((∀ e : OpenPartialHomeomorph U (V n), IsChart n (fun y : U => z y) e → DifferentiableOn ℂ ((fun y : U => u y) ∘ e.symm) (e.target ∩ e.symm ⁻¹' (Subtype.val ⁻¹' Ω))) ↔ ∀ i, DifferentiableOn ℂ (u ∘ (A.chart i).symm) ((A.chart i).target ∩ (A.chart i).symm ⁻¹' (U ∩ Ω))) := by
   intro n Y _ _ _ _ _ ι La _ A U z hE Ω u hΩ
-  have hloc := GlobalTheory.T.etale_isLocalHomeomorph' n Y ι La A U z hE
+  have hloc := _root_.GlobalTheory.OTY.etale_isLocalHomeomorph n Y ι La A U z hE
   constructor
   · intro h i v hv
     obtain ⟨hvt, hvU, hvΩ⟩ := hv
@@ -97,7 +97,7 @@ theorem holo_etale_iff_holo_chart : ∀ (n : ℕ) (Y : Type) [TopologicalSpace Y
     obtain ⟨hvt, hvΩ⟩ := hv
     have hs := A.mem_pick (e.symm v : U)
     set i := A.pick (e.symm v : U)
-    obtain ⟨hc, hev, -⟩ := GlobalTheory.T.contDiffAt_chart_inverse_of_etale n Y ι La A U z hE e he v hvt i hs
+    obtain ⟨hc, hev, -⟩ := _root_.GlobalTheory.OTY.etale_local_inverse n Y ι La A U z hE e he v hvt i hs
     have hmem : A.chart i (e.symm v : U) ∈ (A.chart i).target ∩ (A.chart i).symm ⁻¹' (U ∩ Ω) := by
       refine ⟨(A.chart i).map_source hs, ?_⟩
       simp only [Set.mem_preimage]

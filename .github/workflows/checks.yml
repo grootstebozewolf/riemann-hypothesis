@@ -192,9 +192,10 @@ jobs:
             } >> "$GITHUB_STEP_SUMMARY"
           done
           # The notes quote these checksums; fail if either export ever changes.
+          # These are for the pins of #185: Lean v4.37.0-rc1 and Mathlib 31ce06ea.
           printf '%s  %s\n' \
-            ccaa35047adcb2b493ad0ca36abfdd02633b56f5afad009d027b4570ee0f2194 challenge.export \
-            0977ecc3ea2a1abd7b9b3356a4643574dd65c3b4c8a98ca25b18f5629efe0218 fc-challenge.export \
+            bb37c4bb518fe68a13f12aa3929dd62dfecb663f0c063ad8c338e39601f28a60 challenge.export \
+            d08f9a601253ac28f09d7a64f674fd4227e665d573eae437a582f41f0ecb262c fc-challenge.export \
             | sha256sum -c
 
       # The other two steps, rehearsed: `Main.lean` is replaced by a placeholder that assumes

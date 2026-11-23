@@ -2,7 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MapMemA
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.PowerSeriesVecReduceModUMulVec
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PowerSeriesExistsUniqueDecompOverFrobeniusLikeEnStatement
+public import Mathlib.RingTheory.PowerSeries.Basic
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PowerSeriesExistsUniqueDecompOverFrobeniusLikeEn
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -62,7 +63,7 @@ theorem colon_map_expand_le : ∀ (O K : Type) [CommRing O] [NormedField K] [IsU
     obtain ⟨f, hf⟩ := (equivA O K).surjective ⟨w i, hw i⟩
     exact ⟨f, by rw [← coe_equivA, hf]⟩
   choose f hf using hf
-  have hdec := fun i => (GlobalTheory.T.powerSeries_existsUnique_decomp_over_frobeniusLike_endo l hl2 (PowerSeries.expand l (Fact.out : l.Prime).ne_zero)
+  have hdec := fun i => (_root_.GlobalTheory.InertiaEigenvalues.PowerSeriesFree.main l hl2 (PowerSeries.expand l (Fact.out : l.Prime).ne_zero)
     (fun g m => PowerSeries.coeff_expand _ _ g) (f i)).exists
   choose g hg using hdec
   have hα' := fun j : Fin l => hα (fun i => PowerSeries.map (algebraMap O K) (g i j))

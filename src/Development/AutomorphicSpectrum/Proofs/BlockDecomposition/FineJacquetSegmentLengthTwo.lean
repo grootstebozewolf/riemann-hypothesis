@@ -3,20 +3,21 @@ module
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.ZelevinskyJacquet.FineJacquetModules.SegDefs
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IrreducibleAdmissibleGL
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.SegmentRepresentation
-import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.NotInSupportOfSubsingleton
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IrrParIffCuspidalProduct
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AlgebraMapIntertwiningMapBijectiveOfIsSmooth
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnitarisableSegmentTwistPrecedesAddOneLe
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InSupportOfIsSubquotient
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InstAddCommGroupTwo
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JhMultSubAddQuot
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HasFiniteLengthOfIsIrreducible
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IrreducibleSubquotientCuspidalPermutationStatement
+public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.ZelevinskyJacquet.LSegJacquet
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IrreducibleSubquotientCuspidalPermutation
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetMultiplicityCuspidalProductStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetMultiplicityPos
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetMultiplicitySubquotientLe
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProductIrreducibleFiniteLength
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SegmentTermInjective
+import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.NotInSupportOfSubsingleton
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JhMultSubAddQuot
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JacquetMultiplicityPos
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -310,7 +311,7 @@ theorem fine_jacquet_length_two_segment (hA : GlobalTheory.Published.Irreducible
   have hmono : ∀ {c : ℕ} (y : Fin c → IrrGL (k := k)) (hy : ∑ a, (y a).1 = N), jm y hy π ≤ jm y hy (prodIrr (seg2 ρ hρ).term hd) :=
     fun y hy => GlobalTheory.CompanionTheory.JmMono.jm_le_of_isSubquotient y hy π _ hsm hsq
   have hdec : ∃ hy : ∑ a, (dec (seg2 ρ hρ) a).1 = N, 1 ≤ jm (dec (seg2 ρ hρ)) hy π := by
-    obtain ⟨e, he, h1⟩ := GlobalTheory.T.irreducible_subquotient_cuspidal_permutation hA (seg2 ρ hρ).term hd (seg2 ρ hρ).isCusp_term π hπs hc.1 hsq
+    obtain ⟨e, he, h1⟩ := _root_.GlobalTheory.CompanionTheory.SegNcjm.exists_perm_one_le_jm hA (seg2 ρ hρ).term hd (seg2 ρ hρ).isCusp_term π hπs hc.1 hsq
     rcases perm_two e with rfl | rfl
     · have h2 : 1 ≤ jm (seg2 ρ hρ).term hd π := h1
       rw [hz] at h2

@@ -2,7 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsTrDataGaussianIntOne
 public import Mathlib.Algebra.TrivSqZeroExt.Basic
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TowerEmbeddingInjectiveStatement
+public import Development.AbelianVarietyTheory.Definitions.Foundations.NotCoboundaryConstantOne
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TowerEmbeddingInjective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -253,7 +254,7 @@ theorem exists_derOn_levelAlg : ∀ (p : ℕ) [Fact p.Prime] (Ω : Type) [Field 
     Module.compHom _ ((RingHom.id _).fromOpposite fun _ _ => mul_comm _ _)
   haveI : IsCentralScalar (integralClosure (O0 p) Ω) M := ⟨fun _ _ => rfl⟩
   obtain ⟨ι, hι⟩ := GlobalTheory.K5.Basic.exists_isEmb T n
-  have hinj := GlobalTheory.T.tower_embedding_injective p Ω hc T n hn ι hι
+  have hinj := _root_.GlobalTheory.K5.EmbInj.emb_injective p Ω hc T n hn ι hι
   have hk : Function.Injective (kap T n) := by
     intro a b hab
     apply hinj

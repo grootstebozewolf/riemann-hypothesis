@@ -3,8 +3,9 @@ module
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.SectionsHaveFiniteDimension
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.CubeTheoremAndSectionsFiniteGrowthAbelianVariety
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EventuallySectionAndRelAmplePowDivStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SectionsHaveFiniteDimensionInvarianceIsomorphismStatement
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EventuallySectionAndRelAmplePowDiv
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SectionsHaveFiniteDimensionInvarianceIsomorphism
 import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.IsIntegralOfIsAbelianSchemeField
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -238,7 +239,7 @@ theorem Eff.nsmul [IsIntegral X] {c : Pic X} (hc : Eff c) (n : ℕ) : Eff ((n + 
 
 theorem sectionsDim_congr_of_cechPicardClass_eq (p : X ⟶ Sp K) {A B : LB X} (hA : A.IsLB) (hB : B.IsLB) (h : cls A hA = cls B hB) {r : ℕ}
     (hr : SectionsHaveFiniteDimension p A r) : SectionsHaveFiniteDimension p B r :=
-  ((GlobalTheory.T.sectionsHaveFiniteDimension_invariance_isomorphisms K X p A hA).2.1 B hB ((cls_eq_iff hA hB).1 h)).1 r hr
+  ((_root_.GlobalTheory.SecDim.lbPow_mul_and_pull_and_sectionsFiniteDim_iso_invariant K X p A hA).2.1 B hB ((cls_eq_iff hA hB).1 h)).1 r hr
 
 theorem h0_le [IsIntegral X] (p : X ⟶ Sp K) {A B : LB X} (hA : A.IsLB) (hB : B.IsLB)
     (h : Eff (cls B hB - cls A hA)) {r r' : ℕ} (hr : SectionsHaveFiniteDimension p A r) (hr' : SectionsHaveFiniteDimension p B r') : r ≤ r' := by
@@ -267,7 +268,7 @@ theorem vol_basic : ∀ (K : Type) [Field K] [IsAlgClosed K] (P : Out.PolAV (Sp 
       exact congrArg (P.A.hom.appLE ⊤ (N.U j) le_top).hom
         ((Scheme.ΓSpecIso (CommRingCat.of K)).commRingCatIsoToRingEquiv.symm_apply_apply (c k))
   have uniq : ∀ N : LB P.A.left, N.IsLB → ∀ r r', SectionsHaveFiniteDimension P.A.hom N r → SectionsHaveFiniteDimension P.A.hom N r' → r = r' :=
-    fun N hN => (GlobalTheory.T.sectionsHaveFiniteDimension_invariance_isomorphisms K _ _ N hN).1
+    fun N hN => (_root_.GlobalTheory.SecDim.lbPow_mul_and_pull_and_sectionsFiniteDim_iso_invariant K _ _ N hN).1
   refine ⟨fin M hM, ?_, ?_, ?_, ?_, ?_⟩
   · rintro δ δ' ⟨h, hh, ht⟩ ⟨h', hh', ht'⟩
     obtain rfl : h = h' := funext fun e => uniq _ (isLB_pow hM e) _ _ (hh e) (hh' e)
@@ -289,7 +290,7 @@ theorem vol_basic : ∀ (K : Type) [Field K] [IsAlgClosed K] (P : Out.PolAV (Sp 
     choose h hh using fun e => fin _ (isLB_pow hM e)
     obtain rfl : h' = fun e => h (a * e) := funext fun e =>
       uniq _ (isLB_pow hM (a * e)) _ _ (sectionsDim_congr_of_cechPicardClass_eq _ _ _ (cls_pow_pow hM a e) (hh' e)) (hh _)
-    obtain ⟨c, hc⟩ := eventually_atTop.1 (GlobalTheory.T.eventually_section_and_relAmple_pow_div K P M (lbPow M 0) hM (isLB_pow hM 0) hamp)
+    obtain ⟨c, hc⟩ := eventually_atTop.1 (_root_.GlobalTheory.AmpleDominates.eventually_sec_and_relAmple K P M (lbPow M 0) hM (isLB_pow hM 0) hamp)
     refine ⟨h, hh, tendsto_of_multiples h a g c ha δ (fun e e' he => ?_) ht⟩
     obtain ⟨t, rfl⟩ := Nat.exists_eq_add_of_le (show e ≤ e' by omega)
     refine h0_le _ (isLB_pow hM e) (isLB_pow hM (e + t))

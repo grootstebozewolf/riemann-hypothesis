@@ -3,15 +3,18 @@ module
 public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.SegmentDerivatives.DerivJac
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IrreducibleAdmissibleGL
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.MirabolicDerivatives.UnipotentDerivatives.DerUnipLeUnipB
-import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.NotInSupportOfSubsingleton
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SupercuspidalSupportUniqueGL
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IrreducibleSubquotientParabolicProductTwoFiniteL
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JhMultSubAddQuot
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LeviIrreducibleTensorDecompositionStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicTwistedKernelDerivativeZeroStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RestrictionMirabolicTwistedKernelStatement
+public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.LeviEmbMemNormalizerLower
+public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.NontrivialOfIrreducible
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LeviIrreducibleTensorDecomposition
+public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.MirabolicDerivatives.ColMatMulGlEmbMat
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicTwistedKernelDerivativeZero
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RestrictionMirabolicTwistedKernel
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TwistedJacquetPhiMinusEquiv
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.JacquetModuleFiniteLength
+import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.NotInSupportOfSubsingleton
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JhMultSubAddQuot
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -82,7 +85,7 @@ theorem exists_proj (ψ : AddChar k Circle) (n : ℕ) : ∀ (j : ℕ) (τ : MRep
     intro τ
     refine ⟨LinearMap.id, Function.surjective_id, fun _ _ => rfl, ?_⟩
     rintro _ ⟨y, hy, rfl⟩
-    exact (GlobalTheory.T.mirabolic_twisted_kernel_derivative_zero k ψ n τ.V τ.ρ).ge hy
+    exact (_root_.GlobalTheory.CompanionTheory.BZMir.twKer_MirUin_eq_derUnipM k ψ n τ.V τ.ρ).ge hy
   | succ j ih =>
     intro τ
     obtain ⟨p, hp, hq, hk⟩ := ih (MRep.phiM k ψ τ)
@@ -288,7 +291,7 @@ theorem exists_jac_deriv (ψ : AddChar k Circle) (n j : ℕ) {V : Type} [AddComm
     have h1 : π (u : GL (Fin (n + j + 1)) k) v - (((1 : (unipRad k (stdBlocks (dd n (j + 1)) (dd_sum n j))) →* ℂˣ) u : ℂˣ) : ℂ) • v ∈
         twKer π (derUnip k (n + j + 1) n) (derChar k ψ (n + j + 1) n) :=
       Submodule.subset_span ⟨⟨u, hmem⟩, v, by rw [derChar_eq_one (dd_sum n j) ψ ⟨u, hmem⟩ u.2]; rfl⟩
-    rw [← GlobalTheory.T.restriction_mirabolic_twisted_kernel k ψ (n + j) n V π] at h1
+    rw [← _root_.GlobalTheory.CompanionTheory.BZMirDer.twKer_resM_derUnipM k ψ (n + j) n V π] at h1
     exact (Submodule.Quotient.mk_eq_zero _).2 (hk (Submodule.mem_map_of_mem h1))
   refine ⟨(twKer π (unipRad k (stdBlocks (dd n (j + 1)) (dd_sum n j))) 1).liftQ q hker, ?_, fun g v => ?_⟩
   · intro x
@@ -385,7 +388,7 @@ theorem exists_tensor (hA : GlobalTheory.Published.IrreducibleAdmissibleGL) {n t
       Nonempty (Representation.Equiv (σ 0).rep.ρ A) := by
   obtain ⟨Y, _, _, τ, hτi, hτs, hP⟩ := exists_irr_block T hT A hAi h
   have hτsm : IsSmooth τ := hτs.isSmooth hs
-  obtain ⟨σ, ⟨φ⟩⟩ := GlobalTheory.T.levi_irreducible_tensor_decomposition hA (dd n t) (⟨Y, τ, hτsm, hτi⟩ : IrrRep _)
+  obtain ⟨σ, ⟨φ⟩⟩ := _root_.GlobalTheory.CompanionTheory.LeviTensor.nonempty_equiv_piTensor hA (dd n t) (⟨Y, τ, hτsm, hτi⟩ : IrrRep _)
   have h3 : IsSubquotient A ((piTensor fun a => (σ a).rep.ρ).comp (iota n t) :
       Representation ℂ (GL (Fin n) k) _) :=
     hP.trans (GlobalTheory.LocGL.SupportUnique.isSubquotient_comp

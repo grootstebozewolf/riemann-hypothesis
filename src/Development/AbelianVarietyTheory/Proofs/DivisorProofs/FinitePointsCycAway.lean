@@ -4,22 +4,26 @@ public import Development.AbelianVarietyTheory.Definitions.Divisors.SRelOneOneIf
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.ExistsArBaseAway
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.SiegelToroidalIntegral
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SiegelObjectPullbackLevelPowerCalculus
 import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.PowObjGeometricallyConnected
 import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.FiniteFibrePoints
 import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverIffIsProperAndExistsIsAmpleLB
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SiegelObjectPullbackLevelPowerCalculus
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.BijectiveTensorOmegaStd
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EighthPowerShapeDependsOnlyOnMatrices
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsThetaFamilyFromVeryDensePointsStatement
+import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.FiniteHomogeneousInf
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsThetaFamilyFromVeryDensePoints
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsThetaLevelAbelianSchemePullback
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HasThetaConstantsIffOfThetaLevelPullback
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsMonHomLift
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RelAmpleFormBundlePowerOfPosDefStatement
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Clauses
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RelAmpleFormBundlePowerOfPosDef
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SiegelObjectPullbackExistsAndPrincipal
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SiegelPullbackIdCompCancel
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SiegelPullbackIffEighthPowerPullback
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ThetaLevelPullbackIdCompCancelStatement
+import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ThetaLevelPullbackIdCompCancel
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ThetaPointDeterminesShapeComplex
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -273,7 +277,7 @@ theorem exists_shape (hL : Out.Laws) {W : Matrix (Fin 8) (Fin 8) ℤ} (hW : IsE8
       rw [← sub_smul, ZMod.val_intCast, ← natCast_zsmul, smul_smul, Int.emod_def, sub_sub_cancel]
     exact (congrArg (fun x => levHom c (Out.baseOver S) (Multiplicative.ofAdd x)) h3).trans (levHom_nsmul c _ _)
   · set W' := (κ : ℤ) • W - (a j).transpose * W * a j with hW'
-    have amp := GlobalTheory.T.relAmple_formBundle_power_of_posDef hL.globalFns h k 8 o _ S s c t.A pr W' hpr hprod hc.1 (hκ₀ j κ (hκ j))
+    have amp := _root_.GlobalTheory.PosDefAmple.relAmple_linComb_of_posDef hL.globalFns h k 8 o _ S s c t.A pr W' hpr hprod hc.1 (hκ₀ j κ (hκ j))
     have e := cls_shape hL.globalFns c hc.1 t pr W (a j) hiso _ (hact j) κ
     have hB := LB.isLB_linComb c.isLB (K := Fin 8 × Fin 8) (fun uv => (lift (pr uv.1) (pr uv.2)).left)
       (fun uv => W' uv.1 uv.2)
@@ -289,7 +293,7 @@ theorem tMap_of_hasTh (hL : Out.Laws) (hL2 : Out.Laws2) (J : Type) [Finite J]
     ∃ j₀ : ℕ, ∀ j ≥ j₀, ∀ (o : Type) [CommRing o] (b : TBase o ((n ^ j) ^ 2)) (K : Type) [Field K] [IsAlgClosed K]
       (s : Sp K ⟶ Sp o) (t t' : TObj g ((n ^ j) ^ 2) J b s) (v : Ix g ((n ^ j) ^ 2) → K),
       t.Shape Mat κ → t'.Shape Mat κ → t.HasTh (𝟙 _) v → t'.HasTh (𝟙 _) v → TMap t' t (𝟙 _) := by
-  obtain ⟨j₀, H⟩ := GlobalTheory.T.exists_theta_family_from_very_dense_points hL hL2 g J Mat κ n hn hodd
+  obtain ⟨j₀, H⟩ := _root_.GlobalTheory.ZM.exists_tObj_of_veryDense hL hL2 g J Mat κ n hn hodd
   refine ⟨j₀, fun j hj o _ b K _ _ s t t' v h1 h1' h2 h2' => ?_⟩
   have hid : spMap (RingHom.id K) = 𝟙 (Sp K) := Spec.map_id (CommRingCat.of K)
   obtain ⟨em, hem⟩ := exists_spMap s
@@ -303,7 +307,7 @@ theorem tMap_of_hasTh (hL : Out.Laws) (hL2 : Out.Laws2) (J : Type) [Finite J]
   obtain ⟨t₀, -, h₀⟩ := H j hj o b K em v hvd
   have m := h₀ K (RingHom.id K) t h1 h2
   have m' := h₀ K (RingHom.id K) t' h1' h2'
-  refine ((GlobalTheory.T.thetaLevelPullback_id_comp_cancel o g _ J b _ _ _ _ _ _ t₀ t t').2 _ (𝟙 _) m).2 ?_
+  refine ((_root_.GlobalTheory.ZM.tmap_id_comp_cancel o g _ J b _ _ _ _ _ _ t₀ t t').2 _ (𝟙 _) m).2 ?_
   rwa [Category.id_comp]
 
 theorem exists_act {W : Matrix (Fin 8) (Fin 8) ℤ} {J : Type} {a : J → Matrix (Fin 8) (Fin 8) ℤ}

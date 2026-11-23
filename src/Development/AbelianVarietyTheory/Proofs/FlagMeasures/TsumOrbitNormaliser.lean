@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ComplementReferenceCompactSubgroup
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CommonStabilizerStabilizersCommensurableVolumeStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CommonStabilizerStabilizersCommensurableVolume
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianDoubleCosetTermBasicFacts
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianFramesComplementUnitaryActsOnTermsStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianFramesStabilizerActsOnTermsStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianFramesComplementUnitaryActsOnTerms
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianFramesStabilizerActsOnTerms
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -136,10 +136,10 @@ theorem amp_mass_smul : ∀ {F : Type} [Field F] [ValuativeRel F] [TopologicalSp
   have c1 : ∀ s ∈ S.St, h * s * h⁻¹ ∈ S.St := fun s hs => conj_St S hh hs
   have c2 : ∀ s ∈ S.St, h⁻¹ * s * h ∈ S.St := fun s hs => by
     simpa using conj_St S (inv_mem hh) hs
-  have aS := GlobalTheory.T.hermitianFrames_stabilizer_acts_on_terms L r k S d
-  have aH := GlobalTheory.T.hermitianFrames_complementUnitary_acts_on_terms L r k S
+  have aS := _root_.GlobalTheory.FrameAct.stabiliser_acts_on_terms L r k S d
+  have aH := _root_.GlobalTheory.HL.ComplAct.main L r k S
   have hmu : ∀ Λ, S.IsTerm d Λ → ∀ s ∈ S.St, S.mu (s • Λ) = S.mu Λ := fun Λ hΛ =>
-    ((GlobalTheory.T.commonStabilizer_stabilizers_commensurable_volume L r k S).1 Λ (GlobalTheory.HL.TermBasic.term_basic L r k S d Λ hΛ).1.1).2.2
+    ((_root_.GlobalTheory.HL.volSt L r k S).1 Λ (GlobalTheory.HL.TermBasic.term_basic L r k S d Λ hΛ).1.1).2.2
   have iS : ∀ s ∈ S.St, ∀ Λ, (S.IsTerm d (s • Λ) ∧ Q (s • Λ)) ↔ (S.IsTerm d Λ ∧ Q Λ) := by
     intro s hs Λ
     constructor

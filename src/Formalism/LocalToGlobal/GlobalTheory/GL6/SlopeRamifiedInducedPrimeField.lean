@@ -1,10 +1,18 @@
 module
 
+public import Formalism.LocalToGlobal.HermitianForms.FormsTied
+public import Formalism.SharpRestriction.GlobalSchurBounds.ProductFirstZerothParts
+public import Formalism.LocalToGlobal.GroupLattices.TrivialTransfer.OneAddPowOfSq
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.AdmissibleOfSplitAndRoundTrips
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedRankEqFinrank
+public import Formalism.LocalToGlobal.Columns.PolyFnLemmas
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.CoordMapInjective
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiamondCommDistinctPlaces
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.ValuationClassTranslateMem
+public import Formalism.LocalToGlobal.Columns.PolyFn
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.FrobeniusNoKernelOfFrobeniusSimilitude
 public import Formalism.LocalToGlobal.Columns.SliceIntegralDeltaNeBot
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedLatticePropsOfModel
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedLatticeOfRankSlopeLength
-import Formalism.LocalToGlobal.GlobalTheory.GL6.DiamondCommDistinctPlaces
-import Formalism.LocalToGlobal.GlobalTheory.HLatOpsP
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +54,963 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.Prop
+import Mathlib.RingTheory.Etale.Weakly
+import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
+import Mathlib.RingTheory.TotallySplit
+import Formalism.LocalToGlobal.GlobalTheory.HLatOpsP
 
+-- This file was produced by scripts/clump.py from the modules listed below.
+-- Members: Formalism.LocalToGlobal.GlobalTheory.GL6.EqOneOfCoprimeTorsionTwoPrimes, Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedLatticeOfRankSlopeLength, Formalism.LocalToGlobal.GlobalTheory.GL6.SlopeRamifiedInducedPrimeField
+
+-- ===== clump member: Formalism.LocalToGlobal.GlobalTheory.GL6.EqOneOfCoprimeTorsionTwoPrimes =====
+-- clump-header: {"m": "Formalism.LocalToGlobal.GlobalTheory.GL6.EqOneOfCoprimeTorsionTwoPrimes", "h": "module\n\npublic import Formalism.LocalToGlobal.HermitianForms.FormsTied\npublic import Formalism.SharpRestriction.GlobalSchurBounds.ProductFirstZerothParts\npublic import Formalism.LocalToGlobal.GroupLattices.TrivialTransfer.OneAddPowOfSq\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Algebra.Order.Star.Int\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Sheaves.Init\nimport Std.Tactic.BVDecide.Normalize.Prop\n\n"}
+section -- clump:auto
+@[expose] public section
+
+noncomputable section
+
+namespace Formalism.L2.GlobalTheoryTheory.LocalLatticeBases
+
+open Formalism.BasicNotions Formalism.L2.Forms NumberField IsDedekindDomain Matrix Formalism.UG
+open scoped TensorProduct
+
+section Grp
+
+theorem conj_pow_rational_rel {H A : Type} [Group H] [Group A] (ι : H →* A) (g : H) (hh yy δ κ : A) (hge : ι g = hh)
+    (e1 : yy = hh * (yy * δ) * κ) (j : ℕ) : (δ * κ) ^ j = yy⁻¹ * ι (g⁻¹ ^ j) * yy := by
+  have h1 : yy⁻¹ * hh⁻¹ * yy = δ * κ := by
+    calc yy⁻¹ * hh⁻¹ * yy = yy⁻¹ * hh⁻¹ * (hh * (yy * δ) * κ) := by rw [← e1]
+      _ = δ * κ := by simp [mul_assoc]
+  rw [← h1, map_pow, map_inv, hge]
+  induction j with
+  | zero => simp
+  | succ j ih =>
+    rw [pow_succ, pow_succ, ih]
+    simp [mul_assoc]
+
+theorem map_mul_pow_of_map_eq_one {A B : Type} [Group A] [Group B] (ψ : A →* B) (δ κ : A) (h : ψ δ = 1) (j : ℕ) :
+    ψ ((δ * κ) ^ j) = (ψ κ) ^ j := by
+  rw [map_pow, map_mul, h, one_mul]
+
+theorem pow_image_eq_one {H A B : Type} [Group H] [Group A] [Group B] (ψ : A →* B) (ι : H →* A) (z yy : A) (γ : H)
+    (hz : ∀ j : ℕ, z ^ j = yy⁻¹ * ι (γ ^ j) * yy) (j N : ℕ) (h : (γ ^ j) ^ N = 1) : (ψ (z ^ j)) ^ N = 1 := by
+  rw [← map_pow, ← pow_mul, hz, pow_mul, h]
+  simp
+
+theorem pow_eq_one_of_comp_eq_one {H A B C : Type} [Group H] [Group A] [Group B] [Group C] (ι : H →* A) (ψ : A →* B)
+    (φ : B →* C) (hinj : Function.Injective (φ.comp (ψ.comp ι))) (z yy : A) (γ : H)
+    (hz : ∀ j : ℕ, z ^ j = yy⁻¹ * ι (γ ^ j) * yy) (j : ℕ) (h : φ (ψ (z ^ j)) = 1) : γ ^ j = 1 := by
+  apply hinj
+  rw [map_one]
+  rw [hz] at h
+  simp only [map_mul, map_inv] at h
+  have h2 := congrArg (fun t => φ (ψ yy) * t * (φ (ψ yy))⁻¹) h
+  simp [mul_assoc] at h2
+  simpa using h2
+
+theorem eq_one_of_coprime_torsion_two_primes {H : Type} [Group H] (γ : H) (p q N0 : ℕ) (hp : p.Prime) (hq : q.Prime) (hpq : p ≠ q) (hN0 : 0 < N0)
+    (h0 : γ ^ N0 = 1) (hcp : ∀ j N : ℕ, Nat.Coprime N p → (γ ^ j) ^ N = 1 → γ ^ j = 1)
+    (hcq : ∀ j N : ℕ, Nat.Coprime N q → (γ ^ j) ^ N = 1 → γ ^ j = 1) : γ = 1 := by
+  obtain ⟨a, m, hm, hN⟩ := Nat.exists_eq_pow_mul_and_not_dvd hN0.ne' p hp.one_lt.ne'
+  obtain ⟨b, m', hm', hN'⟩ := Nat.exists_eq_pow_mul_and_not_dvd hN0.ne' q hq.one_lt.ne'
+  have h1 : γ ^ (p ^ a) = 1 :=
+    hcp (p ^ a) m ((Nat.Prime.coprime_iff_not_dvd hp).mpr hm).symm (by rw [← pow_mul, ← hN, h0])
+  have h2 : γ ^ (q ^ b) = 1 :=
+    hcq (q ^ b) m' ((Nat.Prime.coprime_iff_not_dvd hq).mpr hm').symm (by rw [← pow_mul, ← hN', h0])
+  have hcop : Nat.Coprime (p ^ a) (q ^ b) := Nat.Coprime.pow a b ((Nat.coprime_primes hp hq).mpr hpq)
+  have h3 : γ ^ Nat.gcd (p ^ a) (q ^ b) = 1 := pow_gcd_eq_one.mpr ⟨h1, h2⟩
+  rwa [hcop.gcd_eq_one, pow_one] at h3
+
+theorem eq_inv_of_conj_trivial {H A : Type} [Group H] [Group A] (ι : H →* A) (γ : H) (yy δ κ : A)
+    (hz : (δ * κ) ^ 1 = yy⁻¹ * ι (γ ^ 1) * yy) (h : γ = 1) : δ = κ⁻¹ := by
+  subst h
+  have h1 : δ * κ = 1 := by simpa using hz
+  exact eq_inv_of_mul_eq_one_left h1
+
+theorem base_change_GL_injective {A B : Type} [CommRing A] [CommRing B] {m : ℕ} (φ : A →+* B)
+    (hφ : Function.Injective φ) : Function.Injective (bc (n := Fin m) φ) := by
+  intro x y hxy
+  apply Units.ext
+  ext i j
+  have h1 := congrArg (fun z : GL (Fin m) B => (z : Matrix (Fin m) (Fin m) B) i j) hxy
+  simp [bc] at h1
+  exact hφ h1
+
+theorem base_change_GL_comp {A B C : Type} [CommRing A] [CommRing B] [CommRing C] {m : ℕ} (g : A →+* B) (f : B →+* C)
+    (x : GL (Fin m) A) : bc (n := Fin m) f (bc (n := Fin m) g x) = bc (n := Fin m) (f.comp g) x := by
+  apply Units.ext
+  ext i j
+  simp [bc]
+
+theorem base_change_GL_comp_injective {A B C D' : Type} [CommRing A] [CommRing B] [CommRing C] [CommRing D'] {m : ℕ}
+    (ι : A →+* B) (ψ : B →+* C) (φ : C →+* D') (h : Function.Injective (φ.comp (ψ.comp ι))) :
+    Function.Injective ((bc (n := Fin m) φ).comp ((bc (n := Fin m) ψ).comp (bc (n := Fin m) ι))) := by
+  intro x y hxy
+  simp only [MonoidHom.comp_apply, base_change_GL_comp] at hxy
+  exact base_change_GL_injective _ h hxy
+
+end Grp
+
+section Loc
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
+  {σ : E →ₐ[F] E} {n : ℕ} {J : Matrix (Fin n) (Fin n) E} {T f : ℕ} {bad : Set (HeightOneSpectrum (𝓞 F))}
+  {gp : Fin 2 → ℕ}
+
+theorem level_matrix_entries_integral (S : StepLevel F E σ J T f bad) (G : GLoc F E σ gp) {a t nb skip fc : ℕ} {zl : Bool}
+    (L : GLev S G a t nb skip fc zl) (i : Fin 2) (v : HeightOneSpectrum (𝓞 F)) (h : (gp i : 𝓞 F) ∈ v.asIdeal)
+    (x : GL (Fin n) (E ⊗[F] v.adicCompletion F)) (hx : x ∈ levelVL σ J v S.Lb) (p q : Fin n) :
+    G.mat i v h (L.fr i v h) x p q ∈ v.adicCompletionIntegers F := by
+  set fr := L.fr i v h with hfr
+  set e : Fin n → v.adicCompletion F := Pi.single q 1 with he
+  set X : Fin n → v.adicCompletion F := (fr : Matrix (Fin n) (Fin n) (v.adicCompletion F)) *ᵥ e with hX
+  have hXi : ∀ b, (((fr⁻¹ : GL (Fin n) (v.adicCompletion F)) : Matrix (Fin n) (Fin n) (v.adicCompletion F)) *ᵥ X) b ∈
+      v.adicCompletionIntegers F := by
+    intro b
+    rw [hX, Matrix.mulVec_mulVec, ← Units.val_mul, inv_mul_cancel, Units.val_one, Matrix.one_mulVec, he]
+    by_cases hb : b = q
+    · subst hb; simp only [Pi.single_eq_same]; exact (v.adicCompletionIntegers F).one_mem
+    · rw [Pi.single_eq_of_ne hb]; exact (v.adicCompletionIntegers F).zero_mem
+  obtain ⟨y, hy, hyX⟩ := (L.fr_lat i v h X).2 hXi
+  have hst : x ∈ stabGL (latS (F := F) (v.adicCompletion F) (intV E v) S.Lb) := hx.2
+  have hxy := (hst y).1 hy
+  have hmap : ∀ b, G.phi i v h (((x : Matrix (Fin n) (Fin n) (E ⊗[F] v.adicCompletion F)) *ᵥ y) b) =
+      (((bc (G.phi i v h) x : GL (Fin n) (v.adicCompletion F)) : Matrix (Fin n) (Fin n) (v.adicCompletion F)) *ᵥ X) b := by
+    intro b
+    rw [RingHom.map_mulVec]
+    have : (⇑(G.phi i v h) ∘ y) = X := funext hyX
+    rw [this]
+    rfl
+  have h2 := (L.fr_lat i v h _).1 ⟨_, hxy, hmap⟩ p
+  rw [hX, Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, he, Matrix.mulVec_single_one] at h2
+  unfold GLoc.mat
+  simpa [Units.val_mul, Matrix.mul_assoc, Matrix.col_apply, hfr] using h2
+
+theorem torsion_reduction_trivial (S : StepLevel F E σ J T f bad) (G : GLoc F E σ gp) {a t nb skip fc : ℕ} {zl : Bool}
+    (L : GLev S G a t nb skip fc zl) (ha : n ≤ a) (i : Fin 2) (hp : (gp i).Prime) (v : HeightOneSpectrum (𝓞 F))
+    (h : (gp i : 𝓞 F) ∈ v.asIdeal) (x : GL (Fin n) (E ⊗[F] v.adicCompletion F)) (hx : x ∈ S.Uloc v)
+    (N : ℕ) (hc : Nat.Coprime N (gp i)) (hN : x ^ N = 1) : bc (G.phi i v h) x = 1 := by
+  set fr := L.fr i v h with hfr
+  set M : GL (Fin n) (v.adicCompletion F) := fr⁻¹ * bc (G.phi i v h) x * fr with hM
+  have hxL := S.Uloc_lev v hx
+  have hxiL : x⁻¹ ∈ levelVL σ J v S.Lb := (levelVL σ J v S.Lb).inv_mem hxL
+  have hMi : ∀ p q, (M : Matrix (Fin n) (Fin n) (v.adicCompletion F)) p q ∈ v.adicCompletionIntegers F :=
+    level_matrix_entries_integral S G L i v h x hxL
+  have hMinv : M⁻¹ = fr⁻¹ * bc (G.phi i v h) x⁻¹ * fr := by rw [hM, map_inv]; group
+  have hMii : ∀ p q, ((M⁻¹ : GL (Fin n) (v.adicCompletion F)) : Matrix (Fin n) (Fin n) (v.adicCompletion F)) p q ∈
+      v.adicCompletionIntegers F := by
+    rw [hMinv]; exact level_matrix_entries_integral S G L i v h x⁻¹ hxiL
+  let A : Matrix (Fin n) (Fin n) (v.adicCompletionIntegers F) := fun p q => ⟨_, hMi p q⟩
+  let B : Matrix (Fin n) (Fin n) (v.adicCompletionIntegers F) := fun p q => ⟨_, hMii p q⟩
+  have hAm : A.map (algebraMap (v.adicCompletionIntegers F) (v.adicCompletion F)) =
+      (M : Matrix (Fin n) (Fin n) (v.adicCompletion F)) := by ext p q; rfl
+  have hBm : B.map (algebraMap (v.adicCompletionIntegers F) (v.adicCompletion F)) =
+      ((M⁻¹ : GL (Fin n) (v.adicCompletion F)) : Matrix (Fin n) (Fin n) (v.adicCompletion F)) := by ext p q; rfl
+  have hinj := FaithfulSMul.algebraMap_injective (v.adicCompletionIntegers F) (v.adicCompletion F)
+  have hAB : A * B = 1 := by
+    apply Matrix.map_injective hinj
+    beta_reduce
+    rw [Matrix.map_mul, hAm, hBm, ← Units.val_mul, mul_inv_cancel, Units.val_one]
+    rw [Matrix.map_one _ (map_zero _) (map_one _)]
+  have hBA : B * A = 1 := by
+    apply Matrix.map_injective hinj
+    beta_reduce
+    rw [Matrix.map_mul, hAm, hBm, ← Units.val_mul, inv_mul_cancel, Units.val_one]
+    rw [Matrix.map_one _ (map_zero _) (map_one _)]
+  let aGL : GL (Fin n) (v.adicCompletionIntegers F) := ⟨A, B, hAB, hBA⟩
+  have hbc : bc (algebraMap (v.adicCompletionIntegers F) (v.adicCompletion F)) aGL = M := Units.ext hAm
+  have hInJ := (L.mem i v h x hxL).1 hx
+  have hred : ∀ p q, redM F v (G.mat i v h fr x) p q =
+      Ideal.Quotient.mk (IsLocalRing.maximalIdeal (v.adicCompletionIntegers F)) (A p q) := by
+    intro p q
+    unfold redM
+    rw [dite_eq_left (show G.mat i v h fr x p q ∈ v.adicCompletionIntegers F from hMi p q)]
+    rfl
+  have hup : redGL (n := Fin n) (IsLocalRing.maximalIdeal (v.adicCompletionIntegers F)) aGL ∈
+      upperUni n (v.adicCompletionIntegers F ⧸ IsLocalRing.maximalIdeal (v.adicCompletionIntegers F)) := by
+    intro p q
+    refine ⟨fun hqp => ?_, ?_⟩
+    · have h1 := hInJ.1 p q (by
+        unfold blkOf
+        rw [if_pos (lt_of_lt_of_le q.2 ha), if_pos (lt_of_lt_of_le p.2 ha)]
+        exact hqp)
+      rw [hred] at h1
+      exact h1
+    · have h1 := hInJ.2.1 p (lt_of_lt_of_le p.2 ha)
+      rw [hred] at h1
+      exact h1
+  have hiw : M ∈ iwU F n v := by
+    refine ⟨aGL, ?_, hbc⟩
+    exact Subgroup.subset_closure hup
+  have hpw : ∀ j : ℕ, M ^ j = fr⁻¹ * (bc (G.phi i v h) x) ^ j * fr := by
+    intro j
+    induction j with
+    | zero => simp
+    | succ j ih => rw [pow_succ, ih, hM, pow_succ]; group
+  have hMN : M ^ N = 1 := by
+    rw [hpw, ← map_pow, hN, map_one, mul_one, inv_mul_cancel]
+  have h1 := Formalism.L2.G.Triv.iwU_coprime v (gp i) hp h M hiw N hc hMN
+  have : bc (G.phi i v h) x = fr * M * fr⁻¹ := by rw [hM]; group
+  rw [this, h1, mul_one, mul_inv_cancel]
+
+private theorem loc1_lemma_2 (S : StepLevel F E σ J T f bad) (v : HeightOneSpectrum (𝓞 F))
+    (hv : (T : 𝓞 F) ∈ v.asIdeal) (X : GL (Fin n) (E ⊗[F] v.adicCompletion F)) (hX : X = 1) :
+    X ∈ levelVL σ J v S.Lb ∧ ∃ hg : X ∈ stabGL (latS (F := F) (v.adicCompletion F) (intV E v) (Submodule.span (𝓞 E) (dualSet (σ : E →+* E) J S.Lb))),
+      ∀ y : latS (F := F) (v.adicCompletion F) (intV E v) (Submodule.span (𝓞 E) (dualSet (σ : E →+* E) J S.Lb)),
+        (1 : ℤ) • S.fT v hv ⟨(X : Matrix (Fin n) (Fin n) (E ⊗[F] v.adicCompletion F)) *ᵥ y.1, (hg y.1).1 y.2⟩ = S.fT v hv y := by
+  subst hX
+  exact ⟨one_mem _, one_mem _, fun y => by simp⟩
+
+private theorem locmul_lemma_3 (S : StepLevel F E σ J T f bad) (v : HeightOneSpectrum (𝓞 F))
+    (hv : (T : 𝓞 F) ∈ v.asIdeal) {k k' : ℤ} (x x' z : GL (Fin n) (E ⊗[F] v.adicCompletion F)) (hz : z = x * x')
+    (h : x ∈ levelVL σ J v S.Lb ∧ ∃ hg : x ∈ stabGL (latS (F := F) (v.adicCompletion F) (intV E v) (Submodule.span (𝓞 E) (dualSet (σ : E →+* E) J S.Lb))),
+      ∀ y : latS (F := F) (v.adicCompletion F) (intV E v) (Submodule.span (𝓞 E) (dualSet (σ : E →+* E) J S.Lb)),
+        k • S.fT v hv ⟨(x : Matrix (Fin n) (Fin n) (E ⊗[F] v.adicCompletion F)) *ᵥ y.1, (hg y.1).1 y.2⟩ = S.fT v hv y)
+    (h' : x' ∈ levelVL σ J v S.Lb ∧ ∃ hg : x' ∈ stabGL (latS (F := F) (v.adicCompletion F) (intV E v) (Submodule.span (𝓞 E) (dualSet (σ : E →+* E) J S.Lb))),
+      ∀ y : latS (F := F) (v.adicCompletion F) (intV E v) (Submodule.span (𝓞 E) (dualSet (σ : E →+* E) J S.Lb)),
+        k' • S.fT v hv ⟨(x' : Matrix (Fin n) (Fin n) (E ⊗[F] v.adicCompletion F)) *ᵥ y.1, (hg y.1).1 y.2⟩ = S.fT v hv y) :
+    z ∈ levelVL σ J v S.Lb ∧ ∃ hg : z ∈ stabGL (latS (F := F) (v.adicCompletion F) (intV E v) (Submodule.span (𝓞 E) (dualSet (σ : E →+* E) J S.Lb))),
+      ∀ y : latS (F := F) (v.adicCompletion F) (intV E v) (Submodule.span (𝓞 E) (dualSet (σ : E →+* E) J S.Lb)),
+        (k * k') • S.fT v hv ⟨(z : Matrix (Fin n) (Fin n) (E ⊗[F] v.adicCompletion F)) *ᵥ y.1, (hg y.1).1 y.2⟩ = S.fT v hv y := by
+  subst hz
+  obtain ⟨hx, hg, hf⟩ := h
+  obtain ⟨hx', hg', hf'⟩ := h'
+  refine ⟨mul_mem hx hx', mul_mem hg hg', fun y => ?_⟩
+  rw [← hf' y, ← hf ⟨_, (hg' y.1).1 y.2⟩, mul_comm k k', mul_smul]
+  simp only [Units.val_mul, ← Matrix.mulVec_mulVec]
+
+private theorem mem_stabFun_lemma {A : Type} [CommRing A] {R : Type} [CommRing R] [Algebra R A] {M : Type}
+    [AddCommGroup M] [Module R M] {m : ℕ} (Λ : Submodule R (Fin m → A)) (g' : Λ →ₗ[R] M) (g : GL (Fin m) A) :
+    g ∈ stabFun Λ g' ↔ ∃ hg : g ∈ stabGL Λ,
+      ∀ x : Λ, g' ⟨(g : Matrix (Fin m) (Fin m) A) *ᵥ (x : Fin m → A), (hg x).1 x.2⟩ = g' x :=
+  Iff.rfl
+
+private theorem conj_loc_lemma (S : StepLevel F E σ J T f bad) (v : HeightOneSpectrum (𝓞 F))
+    (hv : (T : 𝓞 F) ∈ v.asIdeal) {k : ℤ} {x : GL (Fin n) (E ⊗[F] v.adicCompletion F)}
+    (hx : x ∈ levelVL σ J v S.Lb)
+    (hg : x ∈ stabGL (latS (F := F) (v.adicCompletion F) (intV E v)
+      (Submodule.span (𝓞 E) (dualSet (σ : E →+* E) J S.Lb))))
+    (hf : ∀ y : latS (F := F) (v.adicCompletion F) (intV E v) (Submodule.span (𝓞 E) (dualSet (σ : E →+* E) J S.Lb)),
+      k • S.fT v hv ⟨(x : Matrix (Fin n) (Fin n) (E ⊗[F] v.adicCompletion F)) *ᵥ y.1, (hg y.1).1 y.2⟩ = S.fT v hv y)
+    (y : GL (Fin n) (E ⊗[F] v.adicCompletion F)) (hy : y ∈ S.Uloc v) : x⁻¹ * y * x ∈ S.Uloc v := by
+  rw [S.UlocAlt v hv, Subgroup.mem_inf, mem_stabFun_lemma] at hy ⊢
+  obtain ⟨hyl, hgy, hfy⟩ := hy
+  have hi := inv_mem hg
+  refine ⟨mul_mem (mul_mem (inv_mem hx) hyl) hx, mul_mem (mul_mem hi hgy) hg, fun z => ?_⟩
+  have m1 := (hg z.1).1 z.2
+  have m2 := (hgy _).1 m1
+  have m3 := (hi _).1 m2
+  have e1 := hfy ⟨_, m1⟩
+  have e2 := hf z
+  have e3 := hf ⟨_, m3⟩
+  simp only [Units.val_mul, ← Matrix.mulVec_mulVec]
+  rw [← e3, ← e2, ← e1]
+  simp only [Matrix.mulVec_mulVec, Units.mul_inv_cancel_left]
+
+theorem diamond_conj_mem_level' (S : StepLevel F E σ J T f bad) (v : HeightOneSpectrum (𝓞 F))
+    (hv : (T : 𝓞 F) ∈ v.asIdeal) {k : ℤ} {δ : UPts σ J (FiniteAdeleRing (𝓞 F) F)}
+    (h : IsDia S v hv k δ) (κ : S.U) : δ.1⁻¹ * κ.1 * δ.1 ∈ S.U := by
+  unfold IsDia at h
+  obtain ⟨h0, hx, hg, hf⟩ := h
+  have hκ := (S.U_eq κ.1).mp κ.2
+  rw [S.U_eq]
+  refine ⟨mul_mem (mul_mem (inv_mem δ.2) hκ.1) δ.2, fun w => ?_⟩
+  rw [map_mul, map_mul, map_inv]
+  by_cases hw : w = v
+  · rw [hw]
+    exact conj_loc_lemma S v hv hx hg hf _ (hκ.2 v)
+  · rw [h0 w hw, inv_one, one_mul, mul_one]
+    exact hκ.2 w
+
+theorem pow_mul_mem_of_normalises {G : Type} [Group G] (U : Subgroup G) (d : G) (hd : ∀ κ ∈ U, d⁻¹ * κ * d ∈ U) (N : ℕ)
+    (hN : d ^ N ∈ U) (κ : G) (hκ : κ ∈ U) : (d * κ) ^ N ∈ U := by
+  have key : ∀ m : ℕ, ∃ u ∈ U, (d * κ) ^ m = d ^ m * u := by
+    intro m
+    induction m with
+    | zero => exact ⟨1, U.one_mem, by simp⟩
+    | succ m ih =>
+      obtain ⟨u, hu, he⟩ := ih
+      refine ⟨d⁻¹ * u * d * κ, U.mul_mem (hd u hu) hκ, ?_⟩
+      rw [pow_succ, pow_succ, he]
+      simp [mul_assoc]
+  obtain ⟨u, hu, he⟩ := key N
+  rw [he]
+  exact U.mul_mem hN hu
+
+theorem zsmul_eq_of_dvd_sub_one {M : Type} [AddCommGroup M] (T : ℕ) (m : M) (hT : (T : ℤ) • m = 0) (k : ℤ)
+    (hk : (T : ℤ) ∣ k - 1) : k • m = m := by
+  obtain ⟨c, hc⟩ := hk
+  have hk' : k = 1 + (T : ℤ) * c := by linarith
+  rw [hk', add_smul, one_smul, mul_comm, mul_smul, hT, smul_zero, add_zero]
+
+theorem level_functional_torsion (S : StepLevel F E σ J T f bad) (v : HeightOneSpectrum (𝓞 F)) (hv : (T : 𝓞 F) ∈ v.asIdeal) (x) :
+    (T : ℤ) • S.fT v hv x = 0 := by
+  have h := S.fT_T v hv x
+  rw [map_smul, Nat.cast_smul_eq_nsmul] at h
+  rw [natCast_zsmul]
+  exact h
+
+def LocalDiamondCondition (S : StepLevel F E σ J T f bad) (v : HeightOneSpectrum (𝓞 F)) (hv : (T : 𝓞 F) ∈ v.asIdeal) (k : ℤ)
+    (x : GL (Fin n) (E ⊗[F] v.adicCompletion F)) : Prop :=
+  x ∈ levelVL σ J v S.Lb ∧ ∃ hg : x ∈ stabGL (latS (F := F) (v.adicCompletion F) (intV E v)
+      (Submodule.span (𝓞 E) (dualSet (σ : E →+* E) J S.Lb))),
+    ∀ y : latS (F := F) (v.adicCompletion F) (intV E v) (Submodule.span (𝓞 E) (dualSet (σ : E →+* E) J S.Lb)),
+      k • S.fT v hv ⟨(x : Matrix (Fin n) (Fin n) (E ⊗[F] v.adicCompletion F)) *ᵥ y.1, (hg y.1).1 y.2⟩ = S.fT v hv y
+
+theorem is_diamond_local_cond (S : StepLevel F E σ J T f bad) (v : HeightOneSpectrum (𝓞 F)) (hv : (T : 𝓞 F) ∈ v.asIdeal)
+    {k : ℤ} {δ : UPts σ J (FiniteAdeleRing (𝓞 F) F)} (h : IsDia S v hv k δ) :
+    LocalDiamondCondition S v hv k (bc (prV (E := E) v) δ.1) := by
+  unfold IsDia at h
+  exact h.2
+
+theorem local_diamond_cond_one (S : StepLevel F E σ J T f bad) (v : HeightOneSpectrum (𝓞 F)) (hv : (T : 𝓞 F) ∈ v.asIdeal) :
+    LocalDiamondCondition S v hv 1 1 := by
+  unfold LocalDiamondCondition
+  exact loc1_lemma_2 S v hv 1 rfl
+
+theorem local_diamond_cond_mul (S : StepLevel F E σ J T f bad) (v : HeightOneSpectrum (𝓞 F)) (hv : (T : 𝓞 F) ∈ v.asIdeal)
+    {k k' : ℤ} {x x' : GL (Fin n) (E ⊗[F] v.adicCompletion F)} (h : LocalDiamondCondition S v hv k x) (h' : LocalDiamondCondition S v hv k' x') :
+    LocalDiamondCondition S v hv (k * k') (x * x') := by
+  unfold LocalDiamondCondition at h h' ⊢
+  exact locmul_lemma_3 S v hv _ _ _ rfl h h'
+
+theorem local_diamond_conj_mem (S : StepLevel F E σ J T f bad) (v : HeightOneSpectrum (𝓞 F)) (hv : (T : 𝓞 F) ∈ v.asIdeal)
+    {k : ℤ} {x : GL (Fin n) (E ⊗[F] v.adicCompletion F)} (h : LocalDiamondCondition S v hv k x) (y : GL (Fin n) (E ⊗[F] v.adicCompletion F))
+    (hy : y ∈ S.Uloc v) : x⁻¹ * y * x ∈ S.Uloc v := by
+  unfold LocalDiamondCondition at h
+  obtain ⟨hx, hg, hf⟩ := h
+  exact conj_loc_lemma S v hv hx hg hf y hy
+
+theorem local_diamond_mem_level (S : StepLevel F E σ J T f bad) (v : HeightOneSpectrum (𝓞 F)) (hv : (T : 𝓞 F) ∈ v.asIdeal)
+    {k : ℤ} {x : GL (Fin n) (E ⊗[F] v.adicCompletion F)} (h : LocalDiamondCondition S v hv k x) (hk : (T : ℤ) ∣ k - 1) :
+    x ∈ S.Uloc v := by
+  unfold LocalDiamondCondition at h
+  obtain ⟨hx, hg, hf⟩ := h
+  rw [S.UlocAlt v hv, Subgroup.mem_inf, mem_stabFun_lemma]
+  refine ⟨hx, hg, fun y => ?_⟩
+  rw [← hf y, zsmul_eq_of_dvd_sub_one T _ (level_functional_torsion S v hv _) k hk]
+
+theorem local_multiplier_congr_one (S : StepLevel F E σ J T f bad) (hT : T.Prime) (v : HeightOneSpectrum (𝓞 F))
+    (hv : (T : 𝓞 F) ∈ v.asIdeal) {k : ℤ} {x : GL (Fin n) (E ⊗[F] v.adicCompletion F)} (h : LocalDiamondCondition S v hv k x)
+    (hU : x ∈ S.Uloc v) : (T : ℤ) ∣ k - 1 := by
+  unfold LocalDiamondCondition at h
+  obtain ⟨-, hg, hf⟩ := h
+  rw [S.UlocAlt v hv, Subgroup.mem_inf, mem_stabFun_lemma] at hU
+  obtain ⟨-, hg', hf'⟩ := hU
+  obtain ⟨y, hy⟩ : ∃ y, S.fT v hv y ≠ 0 := by
+    by_contra hcon
+    push_neg at hcon
+    exact S.fT_ne v hv (LinearMap.ext fun z => by simpa using hcon z)
+  have e1 := hf y
+  rw [hf' y] at e1
+  have e4 : (k - 1) • S.fT v hv y = 0 := by rw [sub_smul, one_smul, e1, sub_self]
+  have hd : addOrderOf (S.fT v hv y) ∣ T := by
+    have h5 := addOrderOf_dvd_natCard (S.fT v hv y)
+    rwa [S.fM_card] at h5
+  have hord : addOrderOf (S.fT v hv y) = T := by
+    rcases (Nat.dvd_prime hT).mp hd with h1 | h1
+    · have h7 := addOrderOf_nsmul_eq_zero (S.fT v hv y)
+      rw [h1, one_nsmul] at h7
+      exact absurd h7 hy
+    · exact h1
+  have h6 := (addOrderOf_dvd_iff_zsmul_eq_zero).mpr e4
+  rwa [hord] at h6
+
+def MultiPlaceDiamond (S : StepLevel F E σ J T f bad) {P : Type} (pl : P → HeightOneSpectrum (𝓞 F))
+    (hpl : ∀ p, (T : 𝓞 F) ∈ (pl p).asIdeal) (k : P → ℤ) (δ : UPts σ J (FiniteAdeleRing (𝓞 F) F)) : Prop :=
+  (∀ w, (∀ p, w ≠ pl p) → bc (prV (E := E) w) δ.1 = 1) ∧ ∀ p, LocalDiamondCondition S (pl p) (hpl p) (k p) (bc (prV (E := E) (pl p)) δ.1)
+
+theorem multi_diamond_mul (S : StepLevel F E σ J T f bad) {P : Type} (pl : P → HeightOneSpectrum (𝓞 F))
+    (hpl : ∀ p, (T : 𝓞 F) ∈ (pl p).asIdeal) {k k' : P → ℤ} {δ δ' : UPts σ J (FiniteAdeleRing (𝓞 F) F)}
+    (h : MultiPlaceDiamond S pl hpl k δ) (h' : MultiPlaceDiamond S pl hpl k' δ') : MultiPlaceDiamond S pl hpl (k * k') (δ * δ') := by
+  unfold MultiPlaceDiamond at h h' ⊢
+  refine ⟨fun w hw => ?_, fun p => ?_⟩
+  · rw [Subgroup.coe_mul, map_mul, h.1 w hw, h'.1 w hw, one_mul]
+  · rw [Subgroup.coe_mul, map_mul]
+    exact local_diamond_cond_mul S (pl p) (hpl p) (h.2 p) (h'.2 p)
+
+theorem multi_diamond_one (S : StepLevel F E σ J T f bad) {P : Type} (pl : P → HeightOneSpectrum (𝓞 F))
+    (hpl : ∀ p, (T : 𝓞 F) ∈ (pl p).asIdeal) : MultiPlaceDiamond S pl hpl 1 1 := by
+  unfold MultiPlaceDiamond
+  refine ⟨fun w _ => by simp, fun p => ?_⟩
+  simpa using local_diamond_cond_one S (pl p) (hpl p)
+
+theorem multi_diamond_pow (S : StepLevel F E σ J T f bad) {P : Type} (pl : P → HeightOneSpectrum (𝓞 F))
+    (hpl : ∀ p, (T : 𝓞 F) ∈ (pl p).asIdeal) {k : P → ℤ} {δ : UPts σ J (FiniteAdeleRing (𝓞 F) F)}
+    (h : MultiPlaceDiamond S pl hpl k δ) (j : ℕ) : MultiPlaceDiamond S pl hpl (k ^ j) (δ ^ j) := by
+  induction j with
+  | zero => simpa using multi_diamond_one S pl hpl
+  | succ j ih =>
+    rw [pow_succ, pow_succ]
+    exact multi_diamond_mul S pl hpl ih h
+
+theorem multi_diamond_of_is_diamond (S : StepLevel F E σ J T f bad) {P : Type} [DecidableEq P] (pl : P → HeightOneSpectrum (𝓞 F))
+    (hpl : ∀ p, (T : 𝓞 F) ∈ (pl p).asIdeal) (hinj : Function.Injective pl) (p0 : P) {k : ℤ}
+    {δ : UPts σ J (FiniteAdeleRing (𝓞 F) F)} (h : IsDia S (pl p0) (hpl p0) k δ) :
+    MultiPlaceDiamond S pl hpl (Function.update 1 p0 k) δ := by
+  have hloc := is_diamond_local_cond S (pl p0) (hpl p0) h
+  unfold IsDia at h
+  unfold MultiPlaceDiamond
+  refine ⟨fun w hw => h.1 w (hw p0), fun p => ?_⟩
+  by_cases hp : p = p0
+  · subst hp
+    simpa using hloc
+  · rw [h.1 (pl p) (fun e => hp (hinj e))]
+    simpa [Function.update_apply, hp] using local_diamond_cond_one S (pl p) (hpl p)
+
+theorem multi_diamond_conj_mem (S : StepLevel F E σ J T f bad) {P : Type} (pl : P → HeightOneSpectrum (𝓞 F))
+    (hpl : ∀ p, (T : 𝓞 F) ∈ (pl p).asIdeal) {k : P → ℤ} {δ : UPts σ J (FiniteAdeleRing (𝓞 F) F)}
+    (h : MultiPlaceDiamond S pl hpl k δ) (κ : GL (Fin n) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)) (hκ : κ ∈ S.U) :
+    δ.1⁻¹ * κ * δ.1 ∈ S.U := by
+  unfold MultiPlaceDiamond at h
+  obtain ⟨h0, hl⟩ := h
+  have hκ' := (S.U_eq κ).mp hκ
+  rw [S.U_eq]
+  refine ⟨mul_mem (mul_mem (inv_mem δ.2) hκ'.1) δ.2, fun w => ?_⟩
+  rw [map_mul, map_mul, map_inv]
+  by_cases hw : ∃ p, w = pl p
+  · obtain ⟨p, rfl⟩ := hw
+    exact local_diamond_conj_mem S (pl p) (hpl p) (hl p) _ (hκ'.2 (pl p))
+  · push_neg at hw
+    rw [h0 w hw, inv_one, one_mul, mul_one]
+    exact hκ'.2 w
+
+theorem multi_diamond_mem_level (S : StepLevel F E σ J T f bad) {P : Type} (pl : P → HeightOneSpectrum (𝓞 F))
+    (hpl : ∀ p, (T : 𝓞 F) ∈ (pl p).asIdeal) {k : P → ℤ} {δ : UPts σ J (FiniteAdeleRing (𝓞 F) F)}
+    (h : MultiPlaceDiamond S pl hpl k δ) (hk : ∀ p, (T : ℤ) ∣ k p - 1) : δ.1 ∈ S.U := by
+  unfold MultiPlaceDiamond at h
+  obtain ⟨h0, hl⟩ := h
+  rw [S.U_eq]
+  refine ⟨δ.2, fun w => ?_⟩
+  by_cases hw : ∃ p, w = pl p
+  · obtain ⟨p, rfl⟩ := hw
+    exact local_diamond_mem_level S (pl p) (hpl p) (hl p) (hk p)
+  · push_neg at hw
+    rw [h0 w hw]
+    exact one_mem _
+
+theorem multi_diamond_multiplier_congr (S : StepLevel F E σ J T f bad) (hT : T.Prime) {P : Type} (pl : P → HeightOneSpectrum (𝓞 F))
+    (hpl : ∀ p, (T : 𝓞 F) ∈ (pl p).asIdeal) {k : P → ℤ} {δ : UPts σ J (FiniteAdeleRing (𝓞 F) F)}
+    (h : MultiPlaceDiamond S pl hpl k δ) (hU : δ.1 ∈ S.U) (p : P) : (T : ℤ) ∣ k p - 1 := by
+  unfold MultiPlaceDiamond at h
+  exact local_multiplier_congr_one S hT (pl p) (hpl p) (h.2 p) (((S.U_eq _).mp hU).2 (pl p))
+
+theorem class_mul_right_of_normalises (S : StepLevel F E σ J T f bad) (y y' δ' δ : UPts σ J (FiniteAdeleRing (𝓞 F) F))
+    (hδ : ∀ κ ∈ S.U, δ.1⁻¹ * κ * δ.1 ∈ S.U)
+    (h : (Quotient.mk'' y' : Cls S) = Quotient.mk'' (y * δ')) :
+    (Quotient.mk'' (y' * δ) : Cls S) = Quotient.mk'' (y * δ' * δ) := by
+  obtain ⟨g, hg, κ, hκ, he⟩ := (@DoubleCoset.eq _ _ _ _ _ _).mp h
+  apply (@DoubleCoset.eq _ _ _ _ _ _).mpr
+  refine ⟨g, hg, δ⁻¹ * κ * δ, ?_, ?_⟩
+  · rw [Subgroup.mem_subgroupOf] at hκ ⊢
+    simpa [mul_assoc] using hδ _ hκ
+  · rw [he]
+    simp [mul_assoc]
+
+end Loc
+
+variable {D : D7} {u : D.what₂.Word}
+
+private theorem gres_lemma_4 (A : AtTTied u) (v : (D.mem u).A.vT) (j : Fin 2) :
+    ((D.host.g j : ℕ) : (D.mem u).A.Fv v) ≠ 0 := by
+  intro hg
+  obtain ⟨x, hx⟩ := Ideal.mem_span_singleton'.mp A.piU_cong
+  have h1 := congrArg (A.res v) hx
+  rw [map_mul, map_sub, map_one, A.res_pi v, map_natCast] at h1
+  have h01 : ((D.host.g 0 : ℕ) : (D.mem u).A.Fv v) * ((D.host.g 1 : ℕ) : (D.mem u).A.Fv v) = 0 := by
+    rcases (show j = 0 ∨ j = 1 by fin_cases j <;> simp) with rfl | rfl
+    · rw [hg, zero_mul]
+    · rw [hg, mul_zero]
+  have hc : ((D.host.QS * D.host.q * D.host.d * (D.host.g 0 * D.host.g 1) ^ 2 : ℕ) : (D.mem u).A.Fv v) = 0 := by
+    push_cast
+    rw [h01]
+    simp
+  rw [hc, mul_zero, zero_sub] at h1
+  exact one_ne_zero (neg_eq_zero.mp h1.symm)
+
+theorem level_prime_ne_type_prime' (A : AtTTied u) (j : Fin 2) : (D.mem u).A.T ≠ D.host.g j := by
+  intro h
+  have hpos : 0 < @Fintype.card _ (D.mem u).A.vTFin := by
+    rw [(D.mem u).A.card_vT]
+    show 0 < 2 * D.R.ord
+    have h1 := D.R.m_le_f
+    have h2 := D.R.two_le_m
+    omega
+  obtain ⟨v⟩ := (@Fintype.card_pos_iff _ (D.mem u).A.vTFin).mp hpos
+  apply gres_lemma_4 A v j
+  rw [← h]
+  have h1 := (A.res_v v _).mp (A.eV v).2
+  rw [map_natCast, map_natCast] at h1
+  exact h1
+
+theorem level_places_prime_to_type (A : AtTTied u) (v : (D.mem u).A.vT) : (A.eV v).1 ∉ badG D := by
+  intro hb
+  rcases hb with hb | hb
+  · apply gres_lemma_4 A v 0
+    have h1 := (A.res_v v _).mp hb
+    rw [map_natCast, map_natCast] at h1
+    exact h1
+  · apply gres_lemma_4 A v 1
+    have h1 := (A.res_v v _).mp hb
+    rw [map_natCast, map_natCast] at h1
+    exact h1
+
+theorem rank_zero_le_type_level : D.R.N 0 ≤ aOf D.R 0 := by
+  unfold aOf
+  rw [if_pos (by have := D.R.two_le_m; omega)]
+  simp [Ranks.N]
+
+theorem fixed_class_mem_level_general (K : ClsTied u 0 (Nat.zero_le _)) (G : GLoc D.host.F D.host.E (sigD D) D.host.g)
+    {a t nb skip fc : ℕ} {zl : Bool} (L : GLev K.lev G a t nb skip fc zl) (ha : D.R.N 0 ≤ a)
+    (hS : Formalism.MainNotions.product_first_zeroth_parts.admS D u) (c : (D.mem u).C.cls 0)
+    (δ : UPts (sigD D) (gramN D 0 (Nat.zero_le _)) (FiniteAdeleRing (𝓞 D.host.F) D.host.F))
+    (hbad : ∀ w ∈ badG D, bc (prV (E := D.host.E) w) δ.1 = 1) (N0 : ℕ) (hN0 : 0 < N0)
+    (hpow : ∀ κ ∈ K.lev.U, (δ.1 * κ) ^ N0 ∈ K.lev.U)
+    (hfix : (Quotient.mk'' (K.y c * δ) : Cls K.lev) = Quotient.mk'' (K.y c)) :
+    δ.1 ∈ K.lev.U := by
+  obtain ⟨hh, hhH, κ, hκK, e⟩ := (@DoubleCoset.eq _ _ _ _ (K.y c * δ) (K.y c)).1 hfix
+  have hκ : κ.1 ∈ K.lev.U := hκK
+  obtain ⟨g, hgU, hge⟩ := Subgroup.mem_map.1 (Subgroup.mem_subgroupOf.1 hhH)
+  have e1 : (K.y c).1 = hh.1 * ((K.y c).1 * δ.1) * κ.1 := by
+    have := congrArg Subtype.val e
+    simp only [Subgroup.coe_mul] at this
+    exact this
+  have hzp := conj_pow_rational_rel (bc (inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F))) g hh.1 (K.y c).1
+    δ.1 κ.1 hge e1
+  have hgi : g⁻¹ ∈ UJ (sigD D : D.host.E →+* D.host.E) (gramN D 0 (Nat.zero_le _)) := (UJ _ _).inv_mem hgU
+  have hN0one : g⁻¹ ^ N0 = 1 := by
+    have hmem : (⟨g⁻¹ ^ N0, (UJ _ _).pow_mem hgi N0⟩ : UJ (sigD D : D.host.E →+* D.host.E) (gramN D 0 (Nat.zero_le _))) ∈
+        (K.stabI c).range := by
+      rw [K.stabI_range c]
+      refine Subgroup.mem_map.2 ⟨(δ.1 * κ.1) ^ N0, hpow κ.1 hκ, ?_⟩
+      show (K.y c).1 * (δ.1 * κ.1) ^ N0 * (K.y c).1⁻¹ =
+        bc (inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) (g⁻¹ ^ N0)
+      rw [hzp N0]; group
+    obtain ⟨s, hs⟩ := hmem
+    haveI := hS c
+    rw [Subsingleton.elim s 1, map_one] at hs
+    exact (congrArg Subtype.val hs).symm
+  have hcop : ∀ (i : Fin 2) (j N : ℕ), Nat.Coprime N (D.host.g i) → (g⁻¹ ^ j) ^ N = 1 → g⁻¹ ^ j = 1 := by
+    intro i j N hc hjN
+    obtain ⟨w, hw⟩ := Formalism.L2.G.Triv.exists_place (F := D.host.F) (D.host.g i) (D.host.g_prime i)
+    have hwb : w ∈ badG D := by
+      fin_cases i
+      · exact Or.inl hw
+      · exact Or.inr hw
+    have hxU : bc (prV (E := D.host.E) w) ((δ.1 * κ.1) ^ j) ∈ K.lev.Uloc w := by
+      rw [map_mul_pow_of_map_eq_one _ δ.1 κ.1 (hbad w hwb) j]
+      exact (K.lev.Uloc w).pow_mem (((K.lev.U_eq κ.1).1 hκ).2 w) j
+    have hxN := pow_image_eq_one (bc (prV (E := D.host.E) w)) _ _ _ g⁻¹ hzp j N hjN
+    have h1 := torsion_reduction_trivial K.lev G L ha i (D.host.g_prime i) w hw _ hxU N hc hxN
+    have hinj := base_change_GL_comp_injective (m := D.R.N 0) (inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F))
+      (prV (E := D.host.E) w) (G.phi i w hw) (RingHom.injective _)
+    exact pow_eq_one_of_comp_eq_one (bc (inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)))
+      (bc (prV (E := D.host.E) w)) (bc (G.phi i w hw)) hinj _ _ g⁻¹ hzp j h1
+  have hg1 : g⁻¹ = 1 := eq_one_of_coprime_torsion_two_primes g⁻¹ (D.host.g 0) (D.host.g 1) N0 (D.host.g_prime 0) (D.host.g_prime 1) D.host.g_ne hN0
+    hN0one (hcop 0) (hcop 1)
+  rw [eq_inv_of_conj_trivial _ g⁻¹ _ δ.1 κ.1 (hzp 1) hg1]
+  exact K.lev.U.inv_mem hκ
+
+theorem fixed_class_mem_level (Tf : FormsTied D u) (hS : Formalism.MainNotions.product_first_zeroth_parts.admS D u) (c : (D.mem u).C.cls 0)
+    (δ : UPts (sigD D) (gramN D 0 (Nat.zero_le _)) (FiniteAdeleRing (𝓞 D.host.F) D.host.F))
+    (hbad : ∀ w ∈ badG D, bc (prV (E := D.host.E) w) δ.1 = 1) (N0 : ℕ) (hN0 : 0 < N0)
+    (hpow : ∀ κ ∈ (Tf.cls 0 (Nat.zero_le _)).lev.U, (δ.1 * κ) ^ N0 ∈ (Tf.cls 0 (Nat.zero_le _)).lev.U)
+    (hfix : (Quotient.mk'' ((Tf.cls 0 (Nat.zero_le _)).y c * δ) : Cls (Tf.cls 0 (Nat.zero_le _)).lev) =
+      Quotient.mk'' ((Tf.cls 0 (Nat.zero_le _)).y c)) :
+    δ.1 ∈ (Tf.cls 0 (Nat.zero_le _)).lev.U := by
+  exact fixed_class_mem_level_general (Tf.cls 0 (Nat.zero_le _)) Tf.gl (Tf.glev 0 (Nat.zero_le _)) rank_zero_le_type_level hS c δ hbad N0 hN0
+    hpow hfix
+
+theorem diamond_free_on_classes (Tf : FormsTied D u) (hS : Formalism.MainNotions.product_first_zeroth_parts.admS D u) (k : (D.mem u).A.vT → ℤ)
+    (hk0 : ∀ v, (k v : (D.mem u).A.Fv v) ≠ 0)
+    (δ : UPts (sigD D) (gramN D 0 (Nat.zero_le _)) (FiniteAdeleRing (𝓞 D.host.F) D.host.F))
+    (hδ : MultiPlaceDiamond (Tf.cls 0 (Nat.zero_le _)).lev (fun v => (Tf.atT.eV v).1) (fun v => (Tf.atT.eV v).2) k δ)
+    (c : (D.mem u).C.cls 0)
+    (hfix : (Quotient.mk'' ((Tf.cls 0 (Nat.zero_le _)).y c * δ) : Cls (Tf.cls 0 (Nat.zero_le _)).lev) =
+      Quotient.mk'' ((Tf.cls 0 (Nat.zero_le _)).y c)) :
+    ∀ v, (k v : (D.mem u).A.Fv v) = 1 := by
+  have hTp : (D.mem u).A.T.Prime := (D.mem u).A.T_prime
+  have hchar : ∀ v : (D.mem u).A.vT, ((D.mem u).A.T : (D.mem u).A.Fv v) = 0 := by
+    intro v
+    have h1 := (Tf.atT.res_v v _).mp (Tf.atT.eV v).2
+    rw [map_natCast, map_natCast] at h1
+    exact h1
+  have hN0 : 0 < (D.mem u).A.T - 1 := by have := hTp.two_le; omega
+  have hkpow : ∀ v, ((D.mem u).A.T : ℤ) ∣ k v ^ ((D.mem u).A.T - 1) - 1 := by
+    intro v
+    have hnd : ¬ ((D.mem u).A.T : ℤ) ∣ k v := by
+      rintro ⟨m, hm⟩
+      apply hk0 v
+      rw [hm]
+      push_cast
+      rw [hchar v, zero_mul]
+    have hcop : IsCoprime (k v) ((D.mem u).A.T : ℤ) :=
+      ((Irreducible.coprime_iff_not_dvd (Nat.prime_iff_prime_int.mp hTp).irreducible).mpr hnd).symm
+    exact (Int.ModEq.pow_card_sub_one_eq_one hTp hcop).symm.dvd
+  have hall := multi_diamond_pow _ _ _ hδ ((D.mem u).A.T - 1)
+  have hmem := multi_diamond_mem_level _ _ _ hall (fun v => hkpow v)
+  have hN : δ.1 ^ ((D.mem u).A.T - 1) ∈ (Tf.cls 0 (Nat.zero_le _)).lev.U := by simpa using hmem
+  have hbad : ∀ w ∈ badG D, bc (prV (E := D.host.E) w) δ.1 = 1 := by
+    intro w hw
+    have hδ1 := hδ
+    unfold MultiPlaceDiamond at hδ1
+    refine hδ1.1 w (fun v e => ?_)
+    have e' : w = (Tf.atT.eV v).1 := e
+    exact level_places_prime_to_type Tf.atT v (by rw [← e']; exact hw)
+  have hU := fixed_class_mem_level Tf hS c δ hbad ((D.mem u).A.T - 1) hN0
+    (fun κ hκ => pow_mul_mem_of_normalises _ δ.1 (fun κ' hκ' => multi_diamond_conj_mem _ _ _ hδ κ' hκ') _ hN κ hκ) hfix
+  intro v
+  obtain ⟨m, hm⟩ := multi_diamond_multiplier_congr _ hTp _ _ hδ hU v
+  have hkv : k v = 1 + ((D.mem u).A.T : ℤ) * m := by linarith
+  rw [hkv]
+  push_cast
+  rw [hchar v, zero_mul, add_zero]
+
+theorem dilation_commute_distinct (Tf : FormsTied D u) (v v' : (D.mem u).A.vT) (hvv : v ≠ v') (a : ((D.mem u).A.Fv v)ˣ)
+    (b : ((D.mem u).A.Fv v')ˣ) (ka kb : ℤ) (hka : (ka : (D.mem u).A.Fv v) = a) (hkb : (kb : (D.mem u).A.Fv v') = b)
+    (δa δb : UPts (sigD D) (gramN D 0 (Nat.zero_le _)) (FiniteAdeleRing (𝓞 D.host.F) D.host.F))
+    (ha : IsDia (Tf.cls 0 (Nat.zero_le _)).lev (Tf.atT.eV v).1 (Tf.atT.eV v).2 ka δa)
+    (hb : IsDia (Tf.cls 0 (Nat.zero_le _)).lev (Tf.atT.eV v').1 (Tf.atT.eV v').2 kb δb) (c : (D.mem u).C.cls 0) :
+    (D.fm u).dil 0 v a ((D.fm u).dil 0 v' b c) = (D.fm u).dil 0 v' b ((D.fm u).dil 0 v a c) := by
+  have W := Tf.val 0 (Nat.zero_le _)
+  have hne : (Tf.atT.eV v).1 ≠ (Tf.atT.eV v').1 := fun e => hvv (Tf.atT.eV.injective (Subtype.ext e))
+  have h1 := class_mul_right_of_normalises _ _ _ _ δa (fun κ hκ => diamond_conj_mem_level' _ _ _ ha ⟨κ, hκ⟩) (W.dil v' b kb hkb c δb hb)
+  have h2 := class_mul_right_of_normalises _ _ _ _ δb (fun κ hκ => diamond_conj_mem_level' _ _ _ hb ⟨κ, hκ⟩) (W.dil v a ka hka c δa ha)
+
+  have hU : ((δb * δa)⁻¹ * (δa * δb)).1 ∈ (Tf.cls 0 (Nat.zero_le _)).lev.U := by
+    rw [(Tf.cls 0 (Nat.zero_le _)).lev.U_eq]
+    refine ⟨((δb * δa)⁻¹ * (δa * δb)).2, fun w => ?_⟩
+    have hcomp : bc (prV (E := D.host.E) w) ((δb * δa)⁻¹ * (δa * δb)).1 = 1 := by
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, map_mul, map_inv]
+      by_cases hw : w = (Tf.atT.eV v).1
+      · rw [hb.1 w (by rw [hw]; exact hne)]; group
+      · rw [ha.1 w hw]; group
+    rw [hcomp]
+    exact (Subgroup.one_mem _)
+  have hmid : (Quotient.mk'' ((Tf.cls 0 (Nat.zero_le _)).y c * δb * δa) : Cls (Tf.cls 0 (Nat.zero_le _)).lev) =
+      Quotient.mk'' ((Tf.cls 0 (Nat.zero_le _)).y c * δa * δb) :=
+    (@DoubleCoset.eq _ _ _ _ _ _).2 ⟨1, Subgroup.one_mem _, (δb * δa)⁻¹ * (δa * δb), hU, by group⟩
+  exact (Tf.cls 0 (Nat.zero_le _)).y_bij.1 ((W.dil v a ka hka _ δa ha).trans (h1.trans (hmid.trans
+    (h2.symm.trans (W.dil v' b kb hkb _ δb hb).symm))))
+
+end Formalism.L2.GlobalTheoryTheory.LocalLatticeBases
+
+end
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Formalism.LocalToGlobal.GlobalTheory.GL6.EqOneOfCoprimeTorsionTwoPrimes =====
+
+-- ===== clump member: Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedLatticeOfRankSlopeLength =====
+-- clump-header: {"m": "Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedLatticeOfRankSlopeLength", "h": "module\n\npublic import Formalism.LocalToGlobal.GlobalTheory.GL6.AdmissibleOfSplitAndRoundTrips\npublic import Formalism.LocalToGlobal.GlobalTheory.GL6.EqOneOfCoprimeTorsionTwoPrimes\npublic import Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedRankEqFinrank\npublic import Formalism.LocalToGlobal.Columns.PolyFnLemmas\npublic import Formalism.LocalToGlobal.GlobalTheory.GL6.CoordMapInjective\npublic import Formalism.LocalToGlobal.GlobalTheory.GL6.DiamondCommDistinctPlaces\npublic import Formalism.LocalToGlobal.GlobalTheory.GL6.ValuationClassTranslateMem\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Etale.Weakly\nimport Mathlib.RingTheory.Finiteness.ModuleFinitePresentation\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.TotallySplit\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Topology.Sheaves.Init\npublic import Formalism.LocalToGlobal.Columns.PolyFn\npublic import Formalism.LocalToGlobal.GlobalTheory.GL6.FrobeniusNoKernelOfFrobeniusSimilitude\n\n"}
+section -- clump:auto
+@[expose] public section
+
+noncomputable section
+
+namespace Formalism.L2.GlobalTheoryTheory.LocalLatticeBases
+
+open Formalism.BasicNotions Formalism.L2.Forms NumberField IsDedekindDomain Matrix Formalism.UG Classical
+
+variable {D : D7} {u : D.what₂.Word}
+
+def levelZeroValues (Tf : FormsTied D u) : Submodule ℂ ((D.mem u).C.Y 0 → ℂ) :=
+  (ValC (gramC (gramN D 0 (Nat.zero_le _)) (embT D)) ((D.fm u).lam 0)).comap
+    (LinearMap.funLeft ℂ ℂ (Tf.val 0 (Nat.zero_le _)).eY.symm)
+
+theorem rational_stabiliser_trivial (Tf : FormsTied D u) (hS : Formalism.MainNotions.product_first_zeroth_parts.admS D u) (c : (D.mem u).C.cls 0)
+    (γ : GL (Fin (D.R.N 0)) D.host.E) (hγ : γ ∈ UJ (sigD D : D.host.E →+* D.host.E) (gramN D 0 (Nat.zero_le _)))
+    (hm : bc (inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) γ ∈
+      (Tf.cls 0 (Nat.zero_le _)).lev.U.map (MulAut.conj ((Tf.cls 0 (Nat.zero_le _)).y c).1).toMonoidHom) :
+    γ = 1 := by
+  have hr := ((Tf.cls 0 (Nat.zero_le _)).stabI_range c ⟨γ, hγ⟩).2 hm
+  obtain ⟨s, hs⟩ := hr
+  haveI := hS c
+  rw [Subsingleton.elim s 1, map_one] at hs
+  exact (congrArg Subtype.val hs).symm
+
+theorem mem_forms_level_zero_iff (Tf : FormsTied D u) (hS : Formalism.MainNotions.product_first_zeroth_parts.admS D u)
+    (φ : (D.mem u).C.cls 0 → (D.mem u).C.Y 0 → ℂ) :
+    φ ∈ (D.mem u).A.Mu0 ↔ ∀ c, φ c ∈ levelZeroValues Tf := by
+  rw [Mu0_iff (Tf.val 0 (Nat.zero_le _)) φ]
+  constructor
+  · intro h c
+    obtain ⟨g, hg, hgφ⟩ := Submodule.mem_map.1 h
+    have hv := Submodule.mem_pi.1 (Submodule.mem_inf.1 hg).2 ((Tf.cls 0 (Nat.zero_le _)).y c) (Set.mem_univ _)
+    have e : g ((Tf.cls 0 (Nat.zero_le _)).y c) = fun z => φ c ((Tf.val 0 (Nat.zero_le _)).eY.symm z) :=
+      congrFun hgφ c
+    show (fun z => φ c ((Tf.val 0 (Nat.zero_le _)).eY.symm z)) ∈
+      ValC (gramC (gramN D 0 (Nat.zero_le _)) (embT D)) ((D.fm u).lam 0)
+    rw [← e]
+    exact hv
+  · intro h
+    exact adelic_function_ext (Tf.cls 0 (Nat.zero_le _)).lev (embT D) (embedding_conj_compat D) ((D.fm u).lam 0)
+      (Tf.cls 0 (Nat.zero_le _)).y (Tf.cls 0 (Nat.zero_le _)).y_bij (rational_stabiliser_trivial Tf hS) _ (fun c => h c)
+
+theorem forms_level_zero_linear_equiv (Tf : FormsTied D u) (hS : Formalism.MainNotions.product_first_zeroth_parts.admS D u) :
+    ∃ (d : ℕ) (Φ : (D.mem u).A.Mu0 ≃ₗ[ℂ] ((D.mem u).C.cls 0 → Fin d → ℂ)),
+      ∀ (φ : (D.mem u).A.Mu0) c, Φ φ c = 0 ↔ (φ : (D.mem u).C.cls 0 → (D.mem u).C.Y 0 → ℂ) c = 0 := by
+  let Φ0 : (D.mem u).A.Mu0 ≃ₗ[ℂ] ((D.mem u).C.cls 0 → levelZeroValues Tf) :=
+    { toFun := fun φ c => ⟨φ.1 c, (mem_forms_level_zero_iff Tf hS φ.1).1 φ.2 c⟩
+      invFun := fun ψ => ⟨fun c => (ψ c).1, (mem_forms_level_zero_iff Tf hS _).2 fun c => (ψ c).2⟩
+      map_add' := fun φ ψ => rfl
+      map_smul' := fun a φ => rfl
+      left_inv := fun φ => rfl
+      right_inv := fun ψ => rfl }
+  have hΦ0 : ∀ (φ : (D.mem u).A.Mu0) c, Φ0 φ c = 0 ↔ (φ : (D.mem u).C.cls 0 → (D.mem u).C.Y 0 → ℂ) c = 0 := by
+    intro φ c
+    constructor
+    · intro h; exact congrArg Subtype.val h
+    · intro h; exact Subtype.ext h
+  by_cases hne : Nonempty ((D.mem u).C.cls 0)
+  · obtain ⟨c0⟩ := hne
+    haveI := (D.mem u).A.Mu0_fd
+    have hinj : Function.Injective ((Φ0.symm : ((D.mem u).C.cls 0 → levelZeroValues Tf) →ₗ[ℂ] (D.mem u).A.Mu0) ∘ₗ
+        LinearMap.single ℂ (fun _ => levelZeroValues Tf) c0) := by
+      rw [LinearMap.coe_comp]
+      refine Φ0.symm.injective.comp ?_
+      intro a b h
+      have := congrFun h c0
+      simpa using this
+    haveI : FiniteDimensional ℂ (levelZeroValues Tf) := FiniteDimensional.of_injective _ hinj
+    refine ⟨Module.finrank ℂ (levelZeroValues Tf),
+      Φ0.trans (LinearEquiv.piCongrRight fun _ => (Module.finBasis ℂ (levelZeroValues Tf)).equivFun), fun φ c => ?_⟩
+    rw [← hΦ0]
+    simp only [LinearEquiv.trans_apply, LinearEquiv.piCongrRight_apply]
+    exact (Module.finBasis ℂ (levelZeroValues Tf)).equivFun.map_eq_zero_iff
+  · haveI : IsEmpty ((D.mem u).C.cls 0) := not_nonempty_iff.1 hne
+    haveI : Subsingleton (D.mem u).A.Mu0 := ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
+    exact ⟨0, LinearEquiv.ofSubsingleton _ _, fun φ c => isEmptyElim c⟩
+
+def t2xR (v : (D.mem u).A.vT) : ((D.mem u).A.Fv v)ˣ →* Module.End ℂ (D.mem u).A.Mu0 where
+  toFun a := ((D.mem u).A.rhoT v a).restrict (fun φ hφ => (D.mem u).A.Mu0_stable v a (Submodule.mem_map_of_mem hφ))
+  map_one' := by
+    apply LinearMap.ext; intro φ; apply Subtype.ext
+    show (D.mem u).A.rhoT v 1 φ.1 = φ.1
+    rw [map_one]; rfl
+  map_mul' a b := by
+    apply LinearMap.ext; intro φ; apply Subtype.ext
+    show (D.mem u).A.rhoT v (a * b) φ.1 = (D.mem u).A.rhoT v a ((D.mem u).A.rhoT v b φ.1)
+    rw [map_mul]; rfl
+
+def t2xU (v : (D.mem u).A.vT) [Fact (D.mem u).A.T.Prime] : ((D.mem u).A.Fv v)ˣ ≃* (ZMod (D.mem u).A.T)ˣ :=
+  Units.mapEquiv (FiniteField.ringEquivOfCardEq (by rw [(D.mem u).A.card_Fv v, ZMod.card])).toMulEquiv
+
+theorem diamond_eq_rho (v : (D.mem u).A.vT) (a : ((D.mem u).A.Fv v)ˣ) (ψ : (D.mem u).C.cls 0 → (D.mem u).C.Y 0 → ℂ) :
+    Formalism.MainNotions.product_first_zeroth_parts.dia D u 0 v a ψ = (D.mem u).A.rhoT v a ψ :=
+  funext fun c => ((D.fm u).rhoT_dil v a ψ c).symm
+
+def t2xRv [Fact (D.mem u).A.T.Prime] (v : (D.mem u).A.vT) :
+    (ZMod (D.mem u).A.T)ˣ →* Module.End ℂ (D.mem u).A.Mu0 :=
+  (t2xR v).comp (t2xU v).symm.toMonoidHom
+
+theorem rho_ops_commute_distinct [Fact (D.mem u).A.T.Prime] (Tf : FormsTied D u) (hE : DiamondElementsExist Tf) :
+    Pairwise fun v v' => ∀ x y, Commute (t2xRv (D := D) (u := u) v x) (t2xRv v' y) := by
+  intro v v' hvv x y
+  apply LinearMap.ext; intro φ; apply Subtype.ext
+  show (D.mem u).A.rhoT v ((t2xU v).symm x) ((D.mem u).A.rhoT v' ((t2xU v').symm y) φ.1) =
+    (D.mem u).A.rhoT v' ((t2xU v').symm y) ((D.mem u).A.rhoT v ((t2xU v).symm x) φ.1)
+  have hφ : φ.1 ∈ (D.fm u).Fi 0 := by rw [(D.fm u).Fi_zero]; exact φ.2
+  have := diamond_comm_distinct_places Tf hE 0 (Nat.zero_le _) v' v (Ne.symm hvv) ((t2xU v).symm x) ((t2xU v').symm y) φ.1 hφ
+  rw [diamond_eq_rho, diamond_eq_rho, diamond_eq_rho, diamond_eq_rho] at this
+  exact this
+
+def t2xRho [Fact (D.mem u).A.T.Prime] (Tf : FormsTied D u) (hE : DiamondElementsExist Tf) :
+    ((D.mem u).A.vT → (ZMod (D.mem u).A.T)ˣ) →* Module.End ℂ (D.mem u).A.Mu0 :=
+  MonoidHom.noncommPiCoprod t2xRv (rho_ops_commute_distinct Tf hE)
+
+theorem group_rep_mulSingle_eq_rho [Fact (D.mem u).A.T.Prime] (Tf : FormsTied D u) (hE : DiamondElementsExist Tf) (v : (D.mem u).A.vT)
+    (h : (ZMod (D.mem u).A.T)ˣ) (φ : (D.mem u).A.Mu0) :
+    ((t2xRho Tf hE (Pi.mulSingle v h) φ : (D.mem u).A.Mu0) : (D.mem u).C.cls 0 → (D.mem u).C.Y 0 → ℂ) =
+      (D.mem u).A.rhoT v ((t2xU v).symm h) φ.1 := by
+  rw [t2xRho, MonoidHom.noncommPiCoprod_mulSingle]
+  rfl
+
+def t2xDv [Fact (D.mem u).A.T.Prime] (v : (D.mem u).A.vT) :
+    (ZMod (D.mem u).A.T)ˣ →* Function.End ((D.mem u).C.cls 0) where
+  toFun h := (D.fm u).dil 0 v ((t2xU v).symm h)
+  map_one' := by
+    funext c
+    show (D.fm u).dil 0 v ((t2xU v).symm 1) c = c
+    rw [map_one, (D.fm u).dil_one]
+  map_mul' a b := by
+    funext c
+    show (D.fm u).dil 0 v ((t2xU v).symm (a * b)) c =
+      (D.fm u).dil 0 v ((t2xU v).symm a) ((D.fm u).dil 0 v ((t2xU v).symm b) c)
+    rw [map_mul, (D.fm u).dil_mul]
+
+theorem diamond_ops_commute_distinct [Fact (D.mem u).A.T.Prime] (Tf : FormsTied D u) (hE : DiamondElementsExist Tf) :
+    Pairwise fun v v' => ∀ x y, Commute (t2xDv (D := D) (u := u) v x) (t2xDv v' y) := by
+  intro v v' hvv x y
+  funext c
+  obtain ⟨ka, hka, δa, ha⟩ := hE 0 (Nat.zero_le _) v ((t2xU v).symm x)
+  obtain ⟨kb, hkb, δb, hb⟩ := hE 0 (Nat.zero_le _) v' ((t2xU v').symm y)
+  exact dilation_commute_distinct Tf v v' hvv _ _ ka kb hka hkb δa δb ha hb c
+
+def t2xAc [Fact (D.mem u).A.T.Prime] (Tf : FormsTied D u) (hE : DiamondElementsExist Tf) :
+    ((D.mem u).A.vT → (ZMod (D.mem u).A.T)ˣ) →* Function.End ((D.mem u).C.cls 0) :=
+  MonoidHom.noncommPiCoprod t2xDv (diamond_ops_commute_distinct Tf hE)
+
+theorem group_action_mulSingle_eq_dilation [Fact (D.mem u).A.T.Prime] (Tf : FormsTied D u) (hE : DiamondElementsExist Tf) (v : (D.mem u).A.vT)
+    (h : (ZMod (D.mem u).A.T)ˣ) (c : (D.mem u).C.cls 0) :
+    t2xAc Tf hE (Pi.mulSingle v h) c = (D.fm u).dil 0 v ((t2xU v).symm h) c := by
+  rw [t2xAc, MonoidHom.noncommPiCoprod_mulSingle]
+  rfl
+
+theorem zero_of_group_action_zero [Fact (D.mem u).A.T.Prime] (Tf : FormsTied D u) (hE : DiamondElementsExist Tf)
+    (g : (D.mem u).A.vT → (ZMod (D.mem u).A.T)ˣ) : ∀ (c : (D.mem u).C.cls 0) (φ : (D.mem u).A.Mu0),
+    ((t2xRho Tf hE g φ : (D.mem u).A.Mu0) : (D.mem u).C.cls 0 → (D.mem u).C.Y 0 → ℂ) c = 0 →
+    (φ : (D.mem u).C.cls 0 → (D.mem u).C.Y 0 → ℂ) (t2xAc Tf hE g c) = 0 := by
+  rw [← Finset.univ_prod_mulSingle g]
+  refine Finset.prod_induction (fun i => Pi.mulSingle i (g i))
+    (fun g : (D.mem u).A.vT → (ZMod (D.mem u).A.T)ˣ => ∀ (c : (D.mem u).C.cls 0) (φ : (D.mem u).A.Mu0),
+      ((t2xRho Tf hE g φ : (D.mem u).A.Mu0) : (D.mem u).C.cls 0 → (D.mem u).C.Y 0 → ℂ) c = 0 →
+      (φ : (D.mem u).C.cls 0 → (D.mem u).C.Y 0 → ℂ) (t2xAc Tf hE g c) = 0) ?_ ?_ ?_
+  · intro a b ha hb c φ h
+    rw [map_mul] at h
+    have h1 := ha c (t2xRho Tf hE b φ) h
+    have h2 := hb (t2xAc Tf hE a c) φ h1
+    rw [mul_comm, map_mul]
+    exact h2
+  · intro c φ h
+    rw [map_one] at h
+    rw [map_one]
+    exact h
+  · intro v _ c φ h
+    rw [group_rep_mulSingle_eq_rho, (D.fm u).rhoT_dil] at h
+    rw [group_action_mulSingle_eq_dilation]
+    exact ((D.fm u).dilT 0 v _ c).map_eq_zero_iff.1 h
+
+
+
+theorem multi_diamond_of_group_elem [Fact (D.mem u).A.T.Prime] (Tf : FormsTied D u) (hE : DiamondElementsExist Tf)
+    (g : (D.mem u).A.vT → (ZMod (D.mem u).A.T)ˣ) : ∃ (k : (D.mem u).A.vT → ℤ)
+      (δ : UPts (sigD D) (gramN D 0 (Nat.zero_le _)) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)),
+      MultiPlaceDiamond (Tf.cls 0 (Nat.zero_le _)).lev (fun v => (Tf.atT.eV v).1) (fun v => (Tf.atT.eV v).2) k δ ∧
+      (∀ v, ((k v : ℤ) : (D.mem u).A.Fv v) = (((t2xU v).symm (g v) : ((D.mem u).A.Fv v)ˣ) : (D.mem u).A.Fv v)) ∧
+      ∀ c, (Quotient.mk'' ((Tf.cls 0 (Nat.zero_le _)).y (t2xAc Tf hE g c)) : Cls (Tf.cls 0 (Nat.zero_le _)).lev) =
+        Quotient.mk'' ((Tf.cls 0 (Nat.zero_le _)).y c * δ) := by
+  have hplinj : Function.Injective (fun v : (D.mem u).A.vT => (Tf.atT.eV v).1) :=
+    fun a b h => Tf.atT.eV.injective (Subtype.ext h)
+  rw [← Finset.univ_prod_mulSingle g]
+  refine Finset.prod_induction (fun i => Pi.mulSingle i (g i))
+    (fun g : (D.mem u).A.vT → (ZMod (D.mem u).A.T)ˣ => ∃ (k : (D.mem u).A.vT → ℤ)
+      (δ : UPts (sigD D) (gramN D 0 (Nat.zero_le _)) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)),
+      MultiPlaceDiamond (Tf.cls 0 (Nat.zero_le _)).lev (fun v => (Tf.atT.eV v).1) (fun v => (Tf.atT.eV v).2) k δ ∧
+      (∀ v, ((k v : ℤ) : (D.mem u).A.Fv v) = (((t2xU v).symm (g v) : ((D.mem u).A.Fv v)ˣ) : (D.mem u).A.Fv v)) ∧
+      ∀ c, (Quotient.mk'' ((Tf.cls 0 (Nat.zero_le _)).y (t2xAc Tf hE g c)) : Cls (Tf.cls 0 (Nat.zero_le _)).lev) =
+        Quotient.mk'' ((Tf.cls 0 (Nat.zero_le _)).y c * δ)) ?_ ?_ ?_
+  · rintro a b ⟨ka, δa, hda, hka, hca⟩ ⟨kb, δb, hdb, hkb, hcb⟩
+    refine ⟨kb * ka, δb * δa, multi_diamond_mul _ _ _ hdb hda, fun v => ?_, fun c => ?_⟩
+    · rw [Pi.mul_apply, Int.cast_mul, hka v, hkb v, Pi.mul_apply, map_mul, Units.val_mul, mul_comm]
+    · have h1 := hca (t2xAc Tf hE b c)
+      have h2 := class_mul_right_of_normalises (Tf.cls 0 (Nat.zero_le _)).lev ((Tf.cls 0 (Nat.zero_le _)).y c)
+        ((Tf.cls 0 (Nat.zero_le _)).y (t2xAc Tf hE b c)) δb δa (fun κ hκ => multi_diamond_conj_mem _ _ _ hda κ hκ) (hcb c)
+      have h3 : t2xAc Tf hE (a * b) c = t2xAc Tf hE a (t2xAc Tf hE b c) := by rw [map_mul]; rfl
+      exact (congrArg (fun z => (Quotient.mk'' ((Tf.cls 0 (Nat.zero_le _)).y z) : Cls (Tf.cls 0 (Nat.zero_le _)).lev)) h3).trans
+        (h1.trans (h2.trans (congrArg (fun z => (Quotient.mk'' z : Cls (Tf.cls 0 (Nat.zero_le _)).lev)) (mul_assoc _ _ _))))
+  · refine ⟨1, 1, multi_diamond_one _ _ _, fun v => ?_, fun c => ?_⟩
+    · simp
+    · rw [map_one, mul_one]
+      rfl
+  · intro v _
+    obtain ⟨k0, hk0, δ0, hδ0⟩ := hE 0 (Nat.zero_le _) v ((t2xU v).symm (g v))
+    refine ⟨Function.update 1 v k0, δ0, multi_diamond_of_is_diamond _ _ _ hplinj v hδ0, fun v' => ?_, fun c => ?_⟩
+    · by_cases hv : v' = v
+      · subst hv
+        rw [Function.update_self, hk0, Pi.mulSingle_eq_same]
+      · rw [Function.update_of_ne hv, Pi.mulSingle_eq_of_ne hv, map_one, Pi.one_apply, Int.cast_one, Units.val_one]
+    · rw [group_action_mulSingle_eq_dilation]
+      exact (Tf.val 0 (Nat.zero_le _)).dil v _ k0 hk0 c δ0 hδ0
+
+theorem group_acts_freely_classes [Fact (D.mem u).A.T.Prime] (Tf : FormsTied D u) (hS : Formalism.MainNotions.product_first_zeroth_parts.admS D u) (hE : DiamondElementsExist Tf)
+    (g : (D.mem u).A.vT → (ZMod (D.mem u).A.T)ˣ) (c : (D.mem u).C.cls 0) (hgc : t2xAc Tf hE g c = c) : g = 1 := by
+  obtain ⟨k, δ, hδ, hk, hcl⟩ := multi_diamond_of_group_elem Tf hE g
+  have hfix : (Quotient.mk'' ((Tf.cls 0 (Nat.zero_le _)).y c * δ) : Cls (Tf.cls 0 (Nat.zero_le _)).lev) =
+      Quotient.mk'' ((Tf.cls 0 (Nat.zero_le _)).y c) := by
+    rw [← hcl c, hgc]
+  have h1 := diamond_free_on_classes Tf hS k (fun v => by rw [hk v]; exact Units.ne_zero _) δ hδ c hfix
+  funext v
+  have h2 := h1 v
+  rw [hk v] at h2
+  have h3 : (t2xU v).symm (g v) = 1 := Units.ext h2
+  rw [Pi.one_apply]
+  exact (MulEquiv.map_eq_one_iff _).1 h3
+
+section ModelOf
+
+variable {R : Ranks} {ι : Type} [Fintype ι] {hc : ι → HCParam R} {C : ColumnChain R ι hc}
+
+theorem free_rank_model_of_free_action (A : ColumnsAtT R C) {H : Type} [CommGroup H] [Fintype H] (e : ∀ v, (A.Fv v)ˣ ≃* H) {d : ℕ}
+    (Φ : A.Mu0 ≃ₗ[ℂ] (C.cls 0 → Fin d → ℂ)) (ρ : (A.vT → H) →* Module.End ℂ A.Mu0)
+    [MulAction (A.vT → H) (C.cls 0)]
+    (hmono : ∀ (g : A.vT → H) (c : C.cls 0) (φ : A.Mu0), Φ (ρ g φ) c = 0 → Φ φ (g • c) = 0)
+    (hfree : ∀ (g : A.vT → H) (c : C.cls 0), g • c = c → g = 1)
+    (hρ : ∀ v a (φ : A.Mu0), ((ρ (Pi.mulSingle v (e v a)) φ : A.Mu0) : C.cls 0 → C.Y 0 → ℂ) = A.rhoT v a φ.1) :
+    Nonempty (FreeRankModel A) := by
+  letI := productMulActionFirstFactor (A.vT → H) (MulAction.orbitRel.Quotient (A.vT → H) (C.cls 0) × Fin d)
+  refine ⟨⟨H, (A.vT → H) × (MulAction.orbitRel.Quotient (A.vT → H) (C.cls 0) × Fin d), e,
+    orbitDecompositionLinearEquiv Φ ρ hmono hfree, ?_, ?_⟩⟩
+  · intro g x h
+    have h1 : g * x.1 = x.1 := congrArg Prod.fst h
+    exact mul_eq_right.1 h1
+  · intro v a φ h x
+    have h1 : (⟨A.rhoT v a (φ : C.cls 0 → C.Y 0 → ℂ), h⟩ : A.Mu0) = ρ (Pi.mulSingle v (e v a)) φ :=
+      Subtype.ext (hρ v a φ).symm
+    rw [t2xEquiv_apply, t2xEquiv_apply, h1, coordMap_intertwines]
+    rfl
+
+end ModelOf
+
+theorem free_rank_model_of_diamonds (Tf : FormsTied D u) (hS : Formalism.MainNotions.product_first_zeroth_parts.admS D u) (hE : DiamondElementsExist Tf) :
+    Nonempty (FreeRankModel (D.mem u).A) := by
+  haveI : Fact (D.mem u).A.T.Prime := ⟨(D.mem u).A.T_prime⟩
+  obtain ⟨d, Φ, hΦ⟩ := forms_level_zero_linear_equiv Tf hS
+  letI : MulAction ((D.mem u).A.vT → (ZMod (D.mem u).A.T)ˣ) ((D.mem u).C.cls 0) := MulAction.ofEndHom (t2xAc Tf hE)
+  refine free_rank_model_of_free_action (D.mem u).A (fun v => t2xU v) Φ (t2xRho Tf hE) ?_ ?_ ?_
+  · intro g c φ h
+    rw [hΦ] at h ⊢
+    exact zero_of_group_action_zero Tf hE g c φ h
+  · exact fun g c h => group_acts_freely_classes Tf hS hE g c h
+  · intro v a φ
+    rw [group_rep_mulSingle_eq_rho, MulEquiv.symm_apply_apply]
+
+theorem free_rank_model_of_split (Tf : FormsTied D u) (hS : Formalism.MainNotions.product_first_zeroth_parts.admS D u) (hs : SplitAtT Tf.atT) :
+    Nonempty (FreeRankModel (D.mem u).A) :=
+  free_rank_model_of_diamonds Tf hS (diamond_elements_of_split Tf hs)
+
+theorem level_zero_values_ne_bot (Tf : FormsTied D u) : ∃ w ∈ levelZeroValues Tf, w ≠ 0 := by
+  have hemb : Formalism.L2.Col.embAt (RingHom.id ℂ) (embT D) = embT D := funext fun τ => RingHom.id_comp _
+  let o : Frames (gramC (gramN D 0 (Nat.zero_le _)) (Formalism.L2.Col.embAt (RingHom.id ℂ) (embT D))) :=
+    ⟨fun _ => 1, fun τ => by simp⟩
+  have h1 := Formalism.L2.Col.evV_mem_ValC (embT D) (gramN D 0 (Nat.zero_le _)) ((D.fm u).lam 0) (RingHom.id ℂ)
+    (Formalism.L2.Col.extV ℂ ((D.fm u).lam 0))
+  have h2 := Formalism.L2.Col.evV_extV_ne_zero (embT D) (gramN D 0 (Nat.zero_le _)) ((D.fm u).lam 0) (RingHom.id ℂ) o
+  rw [hemb] at h1 h2
+  set F := Formalism.L2.Col.evV (embT D) (gramN D 0 (Nat.zero_le _)) ((D.fm u).lam 0) (RingHom.id ℂ)
+    (Formalism.L2.Col.extV ℂ ((D.fm u).lam 0)) with hF
+  refine ⟨fun z => F ((Tf.val 0 (Nat.zero_le _)).eY z), ?_, ?_⟩
+  · show (fun y => F ((Tf.val 0 (Nat.zero_le _)).eY ((Tf.val 0 (Nat.zero_le _)).eY.symm y))) ∈
+      ValC (gramC (gramN D 0 (Nat.zero_le _)) (embT D)) ((D.fm u).lam 0)
+    simp only [Equiv.apply_symm_apply]
+    exact h1
+  · intro h
+    apply h2
+    funext y
+    have := congrFun h ((Tf.val 0 (Nat.zero_le _)).eY.symm y)
+    simp only [Equiv.apply_symm_apply] at this
+    exact this
+
+end Formalism.L2.GlobalTheoryTheory.LocalLatticeBases
+
+end
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedLatticeOfRankSlopeLength =====
+
+-- ===== clump member: Formalism.LocalToGlobal.GlobalTheory.GL6.SlopeRamifiedInducedPrimeField =====
+-- clump-header: {"m": "Formalism.LocalToGlobal.GlobalTheory.GL6.SlopeRamifiedInducedPrimeField", "h": "module\n\npublic import Formalism.LocalToGlobal.Columns.SliceIntegralDeltaNeBot\npublic import Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedLatticePropsOfModel\npublic import Formalism.LocalToGlobal.GlobalTheory.GL6.RamifiedLatticeOfRankSlopeLength\nimport Formalism.LocalToGlobal.GlobalTheory.GL6.DiamondCommDistinctPlaces\nimport Formalism.LocalToGlobal.GlobalTheory.HLatOpsP\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Algebra.Order.Star.Int\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Sheaves.Init\n\n"}
+section -- clump:auto
 @[expose] public section
 
 noncomputable section
@@ -874,3 +1838,6 @@ end Final
 end Formalism.L2.GlobalTheoryTheory.LocalLatticeBases
 
 end
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Formalism.LocalToGlobal.GlobalTheory.GL6.SlopeRamifiedInducedPrimeField =====

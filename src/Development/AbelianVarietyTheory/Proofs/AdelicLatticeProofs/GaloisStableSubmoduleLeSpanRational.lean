@@ -3,7 +3,7 @@ module
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.LinearAlgebra.Basis.Defs
 public import Mathlib.LinearAlgebra.DFinsupp
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsRatOfForallComplexRingEquivFixedStatement
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsRatOfForallComplexRingEquivFixed
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -78,7 +78,7 @@ private theorem exists_rational_support_subset_of_galois_stable {V κ : Type} [A
   by_cases hfix : ∀ σ : ℂ ≃+* ℂ, ∀ k,
       σ (b.repr ((b.repr w k₀)⁻¹ • w) k) = b.repr ((b.repr w k₀)⁻¹ • w) k
   ·
-    refine ⟨_, hvW, ?_, fun k => GlobalTheory.T.exists_rat_of_forall_complex_ringEquiv_fixed _ (fun σ => hfix σ k), ?_⟩
+    refine ⟨_, hvW, ?_, fun k => _root_.GlobalTheory.ClassFin.exists_rat_of_forall_ringEquiv_fixed _ (fun σ => hfix σ k), ?_⟩
     · intro h0
       rw [h0, map_zero, Finsupp.zero_apply] at hv1
       exact zero_ne_one hv1

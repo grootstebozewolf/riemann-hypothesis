@@ -5,12 +5,13 @@ public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutDef
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.GoodLat
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FiniteRationalPointsCompletedLattice
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteDetSmulSubOne
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalLatticeSelfDualFgFullIndex
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexMapNsmulComapEqAbsNormDetStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFunctionHeisenbergInvariant
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.FinIdemSmulOfReal
-import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRepA
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalUnitaryOrbits.QInertHolds
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalLatticeSelfDualFgFullIndex
+import Mathlib.NumberTheory.NumberField.Basic
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexMapNsmulComapEqAbsNormDet
+import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRepA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -272,10 +273,10 @@ theorem data (C : Ctx σ B JS JT ξ₀ θ ι) (hG : GoodLat Λ) (hR : RatSD σ J
         rw [map_add, smul_add]
         exact add_mem hx hy
     exact hz ⟨x, hx⟩
-  have i1 := GlobalTheory.T.relIndex_map_nsmul_comap_eq_abs_norm_pow_mul_det _ _ A fg full (sandw b a - 1) N hN hd fun x hx => by
+  have i1 := _root_.GlobalTheory.relIndex_map_nsmul_comap_eq_abs_norm_det _ _ A fg full (sandw b a - 1) N hN hd fun x hx => by
     rw [LinearMap.sub_apply, smul_sub]
     exact sub_mem (hNA x hx) (nsmul_mem hx N)
-  have i2 := GlobalTheory.T.relIndex_map_nsmul_comap_eq_abs_norm_pow_mul_det _ _ A fg full (sandw b a) N hN hΔ hNA
+  have i2 := _root_.GlobalTheory.relIndex_map_nsmul_comap_eq_abs_norm_det _ _ A fg full (sandw b a) N hN hΔ hNA
   set B₁ := A.comap (sandw b a - 1).toAddMonoidHom with hB₁
   set B₂ := A.comap (sandw b a).toAddMonoidHom with hB₂
   set NA := A.map (N • AddMonoidHom.id _) with hNA'

@@ -3,9 +3,11 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Jets.SideFam
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DiscreteSeriesParameterUnique
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DiscreteSeriesUnitarySmoothBasicStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsFRepDualStandardUnitaryRepStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsFRepExteriorPowerStandardRepStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NumericalFamilyShapeGapsStatement
+public import Development.AbelianVarietyTheory.Definitions.Jets.SumIoPrAlt
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsFRepDualStandardUnitaryRep
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsFRepExteriorPowerStandardRep
+public import Development.AbelianVarietyTheory.Definitions.Jets.SumIoPr
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NumericalFamilyShapeGaps
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.SmoothMapsClosureStatement
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.TensorDecompositionParameters
 import Mathlib.Algebra.Order.Floor.Extended
@@ -282,7 +284,7 @@ theorem sub_single_inj {n : ℕ} (mu : Fin n → ℝ) :
 theorem tens_exists : Hyps → ∀ (k r : ℕ) (lam : Fin (2 * r + k + 1) → ℝ) (u : ℕ → ℝ) (b bv ga h : ℝ) (q0 : ℕ) (R : (Fin (2 * r + k + 1) → ℤ) → Rep k r), Num k r lam u b bv ga h q0 → IsFam lam q0 R → ∀ ν, (∀ l, n1 ν + l ≤ q0 → ∃ io pr ep, TensH (cmp l) (cmp l (Formalism.QuantumDeterminants.Hpk k r)) (R ν) (fun I : Sub (2 * r + k + 1) l => R (ν + eZ I.1)) io pr ep) ∧ (n1 ν + 1 ≤ q0 → ∃ io pr ep, TensH dualM (Formalism.QuantumDeterminants.Hpk k r) (R ν) (fun s => R (ν - Pi.single s 1)) io pr ep) := by
   intro hH k r lam u b bv ga h q0 R hN hF ν
   have hZ : Zuckerman := hH.2.2.2.2.1
-  have hnum := (GlobalTheory.T.numericalFamily_shape_gaps k r lam u b bv ga h q0 hN).2 ν
+  have hnum := (_root_.GlobalTheory.NumFam.num_fam k r lam u b bv ga h q0 hN).2 ν
   constructor
   · intro l hl
     have h0 : n1 ν ≤ q0 := by omega
@@ -301,7 +303,7 @@ theorem tens_exists : Hyps → ∀ (k r : ℕ) (lam : Fin (2 * r + k + 1) → �
         split_ifs <;> push_cast <;> ring
       rwa [e] at h2
     obtain ⟨io, pr, hT⟩ := (hZ k r _ _ (R ν) hR (hnum h0).2.2.2).1 l _ hI
-    exact GlobalTheory.TensExists.Orth.tensH_of_raw hH k r _ _ _ _ l _ _ io pr _ _ _ hR hI (addSet_inj _) (GlobalTheory.T.isFRep_exteriorPower_standardRep k r l) hT
+    exact GlobalTheory.TensExists.Orth.tensH_of_raw hH k r _ _ _ _ l _ _ io pr _ _ _ hR hI (addSet_inj _) (_root_.GlobalTheory.WedgeFRep.isFRep_cmp k r l) hT
   · intro hl
     have h0 : n1 ν ≤ q0 := by omega
     have hR := hF ν h0
@@ -320,6 +322,6 @@ theorem tens_exists : Hyps → ∀ (k r : ℕ) (lam : Fin (2 * r + k + 1) → �
         split_ifs <;> push_cast <;> ring
       rwa [e] at h2
     obtain ⟨io, pr, hT⟩ := (hZ k r _ _ (R ν) hR (hnum h0).2.2.2).2 _ hI
-    exact GlobalTheory.TensExists.Orth.tensH_of_raw hH k r _ _ _ _ 1 _ _ io pr _ _ _ hR hI (sub_single_inj _) (GlobalTheory.T.isFRep_dual_standard_unitaryRep k r) hT
+    exact GlobalTheory.TensExists.Orth.tensH_of_raw hH k r _ _ _ _ 1 _ _ io pr _ _ _ hR hI (sub_single_inj _) (_root_.GlobalTheory.isFRep_dualM k r) hT
 
 end GlobalTheory.TensExists

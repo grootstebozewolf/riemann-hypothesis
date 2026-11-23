@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.FourierMatch
 public import Mathlib.FieldTheory.Separable
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InvariantImageOpenClosedLocalSectionsStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.JacquetRallisOrbitalIntegralsInvariantLocallyConStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InvariantImageOpenClosedLocalSections
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.JacquetRallisOrbitalIntegralsInvariantLocallyCon
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -207,7 +207,7 @@ theorem match_of_frequently {F E : Type} [NontriviallyNormedField F] [Nontrivial
     (h : ∀ a : Inv r F, Delta a ≠ 0 → G a → MatchAt M f' f a) : Match M f' f := by
   intro a₀ hΔ
   have hcont : ∀ᶠ a in 𝓝 a₀, Delta a ≠ 0 := continuous_Delta.continuousAt.eventually_ne hΔ
-  have hL7 := GlobalTheory.T.jacquetRallisOrbitalIntegrals_invariant_locallyConstant F E r M
+  have hL7 := _root_.GlobalTheory.JR.OrbLC.orbital_integrals_invariant_locally_constant F E r M
   have hO := hL7.2.2.1 f' hf' a₀ hΔ
   constructor
   · intro X hX
@@ -215,7 +215,7 @@ theorem match_of_frequently {F E : Type} [NontriviallyNormedField F] [Nontrivial
     obtain ⟨a, ha1, ha2, ha3, ⟨X', hX'⟩, hUX⟩ := ((hG a₀).and_eventually (hcont.and (hO.and hU))).exists
     rw [← ha3, (h a ha2 ha1).1 X' hX', hUX X' hX']
   · intro hno
-    have h5 := (GlobalTheory.T.invariant_image_openClosed_local_sections F E r a₀ hΔ).1 hno
+    have h5 := (_root_.GlobalTheory.JR.image_openClosed_section F E r a₀ hΔ).1 hno
     obtain ⟨a, ha1, ha2, ha3, ha4⟩ := ((hG a₀).and_eventually (hcont.and (hO.and h5))).exists
     rw [← ha3]
     exact (h a ha2 ha1).2 ha4

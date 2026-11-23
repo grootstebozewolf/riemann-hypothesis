@@ -1,13 +1,15 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.BaseSt
-import Formalism.LocalRingCardinality.SpanPowerMembership.HaarDensityNeZero
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.FdomExistsAll
+public import Mathlib.MeasureTheory.Group.FundamentalDomain
+public import Lemmata.MiscLemmasB.Imports
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.HfinExistsMat
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.LevelA
-import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.MeasBrg
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.MeasFr
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.MeasUpq
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.InfFam
+import Formalism.LocalRingCardinality.SpanPowerMembership.HaarDensityNeZero
+import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.MeasBrg
 import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.NumFieldHosCountable
 import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.UnimodGA
 import Mathlib.Algebra.Order.Floor.Extended
@@ -49,7 +51,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.InfFam
 
 @[expose] public section
 
@@ -205,7 +206,7 @@ theorem measFDExists_holds : MeasFDExists D := fun V hS K hK => by
   obtain ⟨h1, h2, h3⟩ := G5.af_facts D.host.F
   obtain ⟨h1, -, -, h4, h5⟩ := G5.ha_facts (AF D.host.F) D.sp.cm.deg2 D.sp.cm.sig V.gram
   haveI : DiscreteTopology (GQ V) := G5.hfin_disc D.sp.cm.sig V.gram
-  obtain ⟨𝓕, -, h𝓕⟩ := G5.fdom_exists_all (GQ V)
+  obtain ⟨𝓕, -, h𝓕⟩ := _root_.Bl.SecondBlockLemmaC.goal1 (GQ V)
   exact ⟨μ, 𝓕, hμ, h𝓕 μ⟩
 
 end Formalism.IndefR.Eqv

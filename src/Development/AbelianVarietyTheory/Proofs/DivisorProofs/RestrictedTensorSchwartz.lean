@@ -2,7 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ActFromBlocks
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSchwartzFinitePureTensors
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralAdelicPureTensorEqProductLocalStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralAdelicPureTensorEqProductLocal
+public import ReciprocityTheory.GeneralLinearIntegers.AlgebraMapIntMemOint
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +45,6 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.GeneralLinearIntegers.AlgebraMapIntMemOint
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsUSplittingTrRep
 
@@ -216,7 +216,7 @@ theorem exists_const_tensor : ∀ (F : Type) [Field F] [NumberField F] (κ : Typ
     rw [e]
     exact Measure.addHaarMeasure_self
   haveI := hμv
-  obtain ⟨c₀, -, hpure⟩ := GlobalTheory.T.integral_adelic_pureTensor_eq_product_local F κ μ μi μv hμv1
+  obtain ⟨c₀, -, hpure⟩ := _root_.GlobalTheory.AdelicHaarPure.integral_pure_haar F κ μ μi μv hμv1
   obtain ⟨cI, hcI0, hcI⟩ := hinf
   choose C hC0 hC using hloc
   have hS : ∀ᶠ v in Filter.cofinite, vac v = GlobalTheory.RatWeilOp.ind κ v ∧ vac₁ v = GlobalTheory.RatWeilOp.ind κ v := hvac.and hvac₁

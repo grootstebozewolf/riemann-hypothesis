@@ -1,7 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.BconeDefs
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ChosenInjectiveResolutionEtaleSheafPropertiesStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
+public import Mathlib.Algebra.Homology.HomotopyCategory.KInjective
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ChosenInjectiveResolutionEtaleSheafProperties
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ChosenInjectiveResolutionEtaleSheafSectionsExactStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SubsingletonHypercohomologyOfLocallyExactOnSuppoStatement
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.SubsingletonHypercohomologyFreeOfSubsingletonCoh
@@ -53,7 +55,7 @@ theorem UpperTheory.subsingleton_hypercohomology_free_of_supp_of_sections_vanish
     ∀ (Q : Scheme.{0} → Prop) (G : Shv ℤ), (∀ U : Scheme.{0}, Q U → Subsingleton (Sec G U)) → ∀ P : PSh, Supp Q P → ∀ n : ℤ, Subsingleton (HK ℤ (sgl ((free ℤ).obj P)) G n) := by
   intro Q G hG P hP n
   apply UpperTheory.subsingleton_hypercohomology_free_of_subsingleton_cohomology
-  haveI : (res ℤ G).IsKInjective := (GlobalTheory.T.chosenInjectiveResolution_etaleSheaf_properties ℤ G).1
+  haveI : (res ℤ G).IsKInjective := (_root_.GlobalTheory.EtC.ResBasic.res_basic ℤ G).1
   refine GlobalTheory.T.subsingleton_hypercohomology_of_locallyExact_on_support ℤ (disc.obj P) (res ℤ G) ?_ n
   intro U hU m b hb
   have hQ : Q U := hP U hU

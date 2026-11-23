@@ -2,12 +2,19 @@ module
 
 public import Development.WeilBound.CoreStatements.FlagImmersions.FibSandwich
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.FlatDegree
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatFirstFromResolutionAndGagaStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatGenFrameComplexCompatStatement
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.CardComapMulFinsumEqFinsumFibres
+public import Development.AutomorphicSpectrum.PublishedTheorems.Geometry₂.GagaSections
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.BlowupProjections.BlowupProjStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatFirstFromResolutionAndGaga
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsConstMul
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatGenFrameComplexCompat
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatTheoremOfParts
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatTheoremOfResolutionGagaStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatZeroFromResolutionAndGagaStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.KroneckerCharacterPeriodFormulaStatement
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.ThmFlatA
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.UniformisationConclusion
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatTheoremOfResolutionGaga
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.KroneckerCharacterPeriodFormula
+import Development.AutomorphicSpectrum.Statements.GeometryStatements.FlatLineGenerator
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatZeroFromResolutionAndGaga
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -122,11 +129,11 @@ theorem exists_norms (hG : Top.Given) (hFD : FlatDegree) (hP : PeriodOf) (hχ : 
   obtain ⟨g, ty, FU, i, hty, hper⟩ := hP hG E H D l (Xo l) c Y U Z hp hq hU hUi hZ
   obtain ⟨⟨hI, -⟩, -, -, -, hRes, -, -, hGa, -⟩ := hG
   have hpq : 1 ≤ D.p + D.q := by omega
-  obtain ⟨φ, hl, hf, -⟩ := GlobalTheory.T.flat_zero_from_resolution_and_gaga hRes hGa E H D l (Xo l) c _ _ Y U Z τ.1 (int_frac c.F) hpq τ.2 hZ
-  obtain ⟨hinf, hfg⟩ := GlobalTheory.T.flat_first_from_resolution_and_gaga hRes hGa E H D l (Xo l) c _ _ Y U Z τ.1 φ (int_frac c.F) hpq τ.2 hZ hl hf
+  obtain ⟨φ, hl, hf, -⟩ := _root_.GlobalTheory.CompanionTheory.Ar.Flat.A0.flat_zero_of_resolution_gaga hRes hGa E H D l (Xo l) c _ _ Y U Z τ.1 (int_frac c.F) hpq τ.2 hZ
+  obtain ⟨hinf, hfg⟩ := _root_.GlobalTheory.CompanionTheory.Ar.Flat.FlatFirstTheorem.flat_first_of_resolution_gaga hRes hGa E H D l (Xo l) c _ _ Y U Z τ.1 φ (int_frac c.F) hpq τ.2 hZ hl hf
   have hφ : IsFlatGen U τ.1 φ FU i := hfg g ty FU i hty fun P y hPer hu hy => (hper y hy).2 ⟨P, hPer, hu⟩
-  obtain ⟨φ', N', hφ', hN', -⟩ := GlobalTheory.T.flat_theorem_of_resolution_gaga hRes hGa hI E H D Xo l c U τ.1 g ty FU i hpq τ.2 hg hty hU hUi hper
-  obtain ⟨a, ha, he⟩ := GlobalTheory.T.flat_gen_frame_complex_compat E H D l (Xo l) c U τ.1 φ' φ g ty FU i hty hφ' hφ fun y hy hr => (hper y hy).1 hr
+  obtain ⟨φ', N', hφ', hN', -⟩ := _root_.GlobalTheory.CompanionTheory.Ar.Flat.thmFlatA_of_resK_gaga_partI hRes hGa hI E H D Xo l c U τ.1 g ty FU i hpq τ.2 hg hty hU hUi hper
+  obtain ⟨a, ha, he⟩ := _root_.GlobalTheory.CompanionTheory.Ar.Flat.flatGen_unique E H D l (Xo l) c U τ.1 φ' φ g ty FU i hty hφ' hφ fun y hy hr => (hper y hy).1 hr
   have hfin : ∀ (p : Nat.Primes) (κ : c.F →+* ℂ_[p]), ∃ t, HasFinNorm U τ.1 φ p κ t := fun p κ =>
     ⟨_, TopA.hasFinNorm_of_eq hl ha he (hN'.2 p κ)⟩
   choose t ht ht' using hinf
@@ -143,7 +150,7 @@ theorem exists_norms (hG : Top.Given) (hFD : FlatDegree) (hP : PeriodOf) (hχ : 
       rwa [e] at this
   haveI : NeZero H.d := ⟨H.d_prime.ne_zero⟩
   obtain ⟨χ, hχ1, hχ2⟩ := hχ E H
-  obtain ⟨h1, h2⟩ := GlobalTheory.T.kronecker_character_period_formula hFD E H D l (Xo l) c g ty FU i U τ.1 φ N χ hχ1 hty τ.2 hφ hN htf
+  obtain ⟨h1, h2⟩ := _root_.GlobalTheory.CompanionTheory.Ar.Fl.TopLL.degree_frames hFD E H D l (Xo l) c g ty FU i U τ.1 φ N χ hχ1 hty τ.2 hφ hN htf
   refine ⟨φ, N, hf, hN, fun s => ?_, htf, h1, by rw [h2, hχ2]⟩
   show t _ = t _
   rw [InfinitePlace.mk_conjugate_eq]

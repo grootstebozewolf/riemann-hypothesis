@@ -3,7 +3,7 @@ module
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.FriedrichsKernels.Friedrichs
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CasimirOperatorFormula
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RdSkewEqConst
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SobolevIntegrationByPartsStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SobolevIntegrationByParts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -243,6 +243,6 @@ theorem secBound (hI : IbpSob) : SecBound := by
   rw [sum_inner, Complex.re_sum, Finset.sum_mul]
   exact Finset.sum_le_sum fun c _ => hterm a c
 
-theorem secBound_main : SecBound := secBound GlobalTheory.T.sobolev_integration_by_parts
+theorem secBound_main : SecBound := secBound _root_.GlobalTheory.CompanionTheory.FcCalc.Ibp.ibpSob
 
 end GlobalTheory.CompanionTheory.SecBd

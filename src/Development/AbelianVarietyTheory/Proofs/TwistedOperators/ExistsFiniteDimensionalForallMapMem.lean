@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.Divisibility.SchurIrreducible
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GlBlockFiniteDimModuleStructureStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GlBlockFiniteDimModuleStructure
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -115,7 +115,7 @@ theorem exists_finiteDimensional_forall_map_mem :
   refine Nat.strong_induction_on n ?_
   intro n ih U hUW hUK hn
   have hUfd : FiniteDimensional ℂ U := Submodule.finiteDimensional_of_le hUW
-  obtain ⟨hsplit, hhw, -, -⟩ := GlobalTheory.T.glBlock_finiteDim_module_structure p q V act hact U hUfd hUK
+  obtain ⟨hsplit, hhw, -, -⟩ := _root_.GlobalTheory.BlockReps.finite_module_structure p q V act hact U hUfd hUK
     (fun v hv => hWwt v (hUW hv))
   by_cases hU0 : U = ⊥
   · refine ⟨⊥, inferInstance, fun φ _ v hv => ?_⟩

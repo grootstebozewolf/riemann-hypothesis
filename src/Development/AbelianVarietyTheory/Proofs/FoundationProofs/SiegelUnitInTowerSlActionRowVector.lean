@@ -7,8 +7,9 @@ public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelFunctionTransformationStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelUnitInTowerAnEqSiegelUnitOnComplexStatement
+public import Mathlib.Analysis.Complex.UpperHalfPlane.MoebiusAction
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelFunctionTransformation
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelUnitInTowerAnEqSiegelUnitOnComplex
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -105,10 +106,10 @@ theorem sl_siegel : ∀ (Ω : Type) [Field Ω] [Algebra ℚ Ω] [IsAlgClosure �
   intro Ω _ _ _ ε T c x γ hx
   symm
   apply siegel_eq
-  rw [T.an_sl _ _ _ (GlobalTheory.T.siegelUnitInTower_an_eq_siegelUnitOnComplex Ω ε T c x hx)]
+  rw [T.an_sl _ _ _ (_root_.GlobalTheory.KZ.SiegelMem.an_siegel_eq Ω ε T c x hx)]
   apply germ_eq_of_eqOn
   intro z hz
   have hτ : ((⟨z, hz⟩ : ℍ) : ℂ) = z := rfl
-  rw [← hτ, mob_ofSL, sgC_coe, sgC_coe, GlobalTheory.T.siegel_function_transformation c x γ _ hx]
+  rw [← hτ, mob_ofSL, sgC_coe, sgC_coe, _root_.GlobalTheory.Sieg.sg_smul c x γ _ hx]
 
 end GlobalTheory.KZ.SiegelSL

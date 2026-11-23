@@ -3,7 +3,8 @@ module
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.NormalFormDualOrthogonalLast
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsIntegerAddStarEqOneOfIsCMUnram
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermFramePairCommonUnipotentStabiliserSummary
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermFramePairNormalFormGeometrySummaryStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermFramePairNormalFormGeometrySummary
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormalFormFlagLatticesNearUnderStabiliser
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -95,23 +96,7 @@ theorem pow_star (𝔡 : Ideal (𝓞 K)) (hs : ∀ x ∈ 𝔡, ∃ y ∈ 𝔡, (
 
 theorem ipow_star (𝔡 : Ideal (𝓞 K)) (h0 : 𝔡 ≠ ⊥) (hs : ∀ x ∈ 𝔡, ∃ y ∈ 𝔡, (y : K) = star (x : K)) (n : ℤ)
     {x : K} (hx : x ∈ ipow 𝔡 n) : star x ∈ ipow 𝔡 n := by
-  unfold ipow at hx ⊢
-  obtain ⟨m, rfl | rfl⟩ := Int.eq_nat_or_neg n
-  · rw [zpow_natCast] at hx ⊢
-    exact pow_star 𝔡 hs m x hx
-  · have hne : ((𝔡 : FractionalIdeal (𝓞 K)⁰ K) ^ m) ≠ 0 :=
-      pow_ne_zero _ (FractionalIdeal.coeIdeal_ne_zero.2 h0)
-    rw [zpow_neg, zpow_natCast] at hx ⊢
-    rw [FractionalIdeal.mem_coe, FractionalIdeal.mem_inv_iff hne] at hx ⊢
-    intro y hy
-    have h1 := hx (star y) (pow_star 𝔡 hs m y hy)
-    rw [FractionalIdeal.mem_one_iff] at h1 ⊢
-    obtain ⟨w, hw⟩ := h1
-    have h2 : star (algebraMap (𝓞 K) K w) ∈ (1 : Submodule (𝓞 K) K) :=
-      star_one_mem (Submodule.mem_one.2 ⟨w, rfl⟩)
-    obtain ⟨v, hv⟩ := Submodule.mem_one.1 h2
-    refine ⟨v, ?_⟩
-    rw [hv, hw, star_mul, star_star, mul_comm]
+  apply GlobalTheory.DegCnt.PosJ.star_mem_ipow <;> assumption
 
 omit [StarRing K] in
 theorem ipow_mul (𝔡 : Ideal (𝓞 K)) (h0 : 𝔡 ≠ ⊥) (n : ℤ) : ipow 𝔡 n * ipow 𝔡 (-n) = 1 := by
@@ -979,7 +964,7 @@ private theorem lift_congruence_lemma {K V : Type} [Field K] [NumberField K] [St
 
 theorem lift_congruence : ∀ (K V : Type) [Field K] [NumberField K] [StarRing K] [AddCommGroup V] [Module K V] [FiniteDimensional K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] (H : HermSpace K V), Formalism.HermitianLatticesTheory.IsCMUnram K → ∀ (r : ℕ) (N : NF H r), ∀ 𝔫 : Ideal (𝓞 K), (∀ x ∈ 𝔫, ∃ y ∈ 𝔫, (y : K) = star (x : K)) → ∀ s ∈ N.R, (∀ x ∈ N.P0 ⊓ rs (𝓞 K) (V0 N.F N.F'), s x - x ∈ (Ideal.span {(N.T : 𝓞 K)} * 𝔫) • (N.P0 ⊓ rs (𝓞 K) (V0 N.F N.F'))) → ∃ s' ∈ N.Rs, (∀ y ∈ V0 N.F N.F', s' y = s y) ∧ ∀ x ∈ N.P0, s' x - x ∈ 𝔫 • N.P0 := by
   intro K V _ _ _ _ _ _ _ _ H hK r N 𝔫 hn s hs hc
-  obtain ⟨hNF, -, hcompl, -, -, -, -, -, -, -, -, hPi⟩ := GlobalTheory.T.hermFramePairNormalForm_geometry_summary K V H hK r N
+  obtain ⟨hNF, -, hcompl, -, -, -, -, -, -, -, -, hPi⟩ := _root_.GlobalTheory.DegCnt.NF.geometry K V H hK r N
   obtain ⟨⟨-, -, -, -, h0, -⟩, -⟩ := hNF
   obtain ⟨τ, hτ⟩ := GlobalTheory.exists_integer_add_star_eq_one_of_isCMUnram K hK
   have hsR := (GlobalTheory.UnipStab.mem_R N s).1 hs

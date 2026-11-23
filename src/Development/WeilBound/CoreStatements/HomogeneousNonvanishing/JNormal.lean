@@ -8,7 +8,8 @@ public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeo
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.HodgeIPIffHodgeFormConj
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FiniteExtensionCoordsCompare
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsArithVarOfBlockAlgebraicStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsArithVarOfBlockAlgebraic
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.IsHomogeneousGrL
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +52,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.IsHomogeneousGrL
 import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ConjugateHermitianLineIsometries
 
 @[expose] public section
@@ -261,7 +261,7 @@ theorem j_normal_of (hjoin : ∀ (Ω₁ Ω₂ Ω : Type) [Field Ω₁] [Field Ω
     exact this
   refine ⟨K₁ ⊕ K₂ ⊕ Unit, inferInstance, ι, inst, Sum.inl, v₁, fun k => .inr (.inl k), v₂, y, Z, ξ, h₁, h₂, hv₁, hv₂,
     y1, y2, ?_, hb, hg, ht, hN, hd₁, hd₂, relfinrank_eq i₁ _ _ F₁ F, relfinrank_eq i₂ _ _ F₂ F⟩
-  refine GlobalTheory.T.isArithVar_of_block_algebraic K₁ ι₁ _ ι Sum.inl v₁ Ω y d hv₁
+  refine _root_.GlobalTheory.CompanionTheory.Ar.Cmp.isArithVar_of_isAlgebraic_image K₁ ι₁ _ ι Sum.inl v₁ Ω y d hv₁
     (fun k => ⟨c k, Finset.prod_ne_zero_iff.1 hc k (Finset.mem_univ k)⟩) ?_
     (fun t _ => Algebra.IsAlgebraic.isAlgebraic t)
   rw [y1, mCoordIdeal_map]

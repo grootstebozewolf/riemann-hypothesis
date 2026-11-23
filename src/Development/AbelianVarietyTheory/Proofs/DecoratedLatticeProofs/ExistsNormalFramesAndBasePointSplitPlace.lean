@@ -1,9 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsCombAt
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.BesselFourierJacobiNormalFramesExistSplitPlace
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitPlaceLocalGroupElementsJacobiBesselStatement
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ExistsUnitarySupportedAtPlaceOfMulEqIdem
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitPlaceLocalGroupElementsJacobiBessel
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -120,7 +121,7 @@ theorem Place.exists_movedTo (p : Place D k) (V : HSp D) (β : GL (Fin V.rank) (
   have hN' : (c₀.map p.π * (mt V g₀⁻¹).map p.π) * ((mt V g₀).map p.π * b₀.map p.π) = 1 :=
     (Matrix.mul_eq_one_comm_of_card_eq _ _ _ rfl).1 hN
   obtain ⟨gk, hgk⟩ := exists_GL_mul_of_mul_eq_one M _ _ hN
-  obtain ⟨g, hg, -⟩ := ((GlobalTheory.T.splitPlace_localGroupElements_jacobi_bessel D k p).1 V (Fin V.rank) (stdFrame k V.rank)).1 gk
+  obtain ⟨g, hg, -⟩ := ((_root_.GlobalTheory.LocGrp.local_groups D k p).1 V (Fin V.rank) (stdFrame k V.rank)).1 gk
   refine ⟨g, hg.1, fun b hb => ?_⟩
   have h2 : (mt V g).map p.π = gk.val := by
     rw [hg.2]

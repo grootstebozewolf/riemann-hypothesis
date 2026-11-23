@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StarDepthToFunNonneg
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CentreDepthLeStarDepthOfCellStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CentreDepthLeStarDepthOfCell
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EvalRStarDepthLeOfCentreBound
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFinRepsProjectiveFinrankLeNumberField
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IntBilinFormToRealMemBalancedPsdCone
@@ -125,7 +125,7 @@ theorem depth_eq_of_star {γ : Fin m → LinearMap.BilinForm ℤ X} (hγ : IsCel
   have hBγ : toReal β ∈ rcone γ := by
     rw [hβt]; exact rcone_add (rcone_smul hvR' (ht 0)) hface
   have hlow : t 0 ≤ evalR (starDepth bar ψ w) (toReal β) :=
-    GlobalTheory.T.centreDepth_le_starDepth_of_cell O bar ψ w X m γ (toReal β) v (t 0) hγ hBγ hvb hvp hvw hvc hv0 huniq (ht 0)
+    _root_.GlobalTheory.PolFan.depth_le_starDepth O bar ψ w X m γ (toReal β) v (t 0) hγ hBγ hvb hvp hvw hvc hv0 huniq (ht 0)
       (by rw [hβt, add_sub_cancel_left]; exact hface)
   have hup : evalR (starDepth bar ψ w) (toReal β) ≤ t 0 := by
     refine GlobalTheory.PolFan.evalR_starDepth_le O bar ψ w X m γ (toReal β) (t 0) hγ hBγ (ht 0) ?_

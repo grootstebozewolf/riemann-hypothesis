@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.AcrisKummerUnits.Splits
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AbsolutelyClosedPolynomialSplitsStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AbsolutelyClosedPolynomialSplits
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -61,7 +61,7 @@ theorem _root_.GlobalTheory.T.absolutely_closed_unit_coefficient_root :
   have hdeg : Q.reverse.natDegree = Q.natDegree := by
     rw [reverse_natDegree, htd, Nat.sub_zero]
   have hid : i ≤ Q.natDegree := le_natDegree_of_ne_zero hu.ne_zero
-  obtain ⟨s, hs⟩ := GlobalTheory.T.absolutely_closed_polynomial_splits hA _ hmon
+  obtain ⟨s, hs⟩ := _root_.GlobalTheory.CompanionTheory.MonicSplit.monic_splits hA _ hmon
   by_cases hex : ∃ b ∈ s, IsUnit b
   · obtain ⟨b, hbs, hb⟩ := hex
     have hroot : Q.reverse.eval b = 0 := by

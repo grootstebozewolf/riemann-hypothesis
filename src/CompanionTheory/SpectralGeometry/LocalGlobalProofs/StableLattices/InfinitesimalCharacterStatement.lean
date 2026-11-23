@@ -1,8 +1,8 @@
 module
 
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.HeckeAlgebraActions.BackStable
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.CayleyHamiltonStatementStatement
-import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.QuantumDeterminantTensorStatement
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.CayleyHamiltonStatement
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.QuantumDeterminantTensor
 import Formalism.RealPlaceAnalysis.ThirdArithmeticHolds
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -533,6 +533,6 @@ theorem stepChar_of (hT : QdetTens) (hC : CayleyHam) : StepChar := by
 
 end Main
 
-theorem stepChar : CompanionTheory.RgExh.StepChar := stepChar_of GlobalTheory.T.QuantumDeterminantTensor GlobalTheory.T.CayleyHamiltonHk
+theorem stepChar : CompanionTheory.RgExh.StepChar := stepChar_of _root_.GlobalTheory.CompanionTheory.RgExh.qdetTens _root_.GlobalTheory.CompanionTheory.RgExhHecke.CayleyOm.cayleyHam
 
 end GlobalTheory.CompanionTheory.RgExhHecke.StepCharPf

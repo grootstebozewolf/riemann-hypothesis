@@ -1,10 +1,12 @@
 module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.HodgeSurjectivity.HodgeKill
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAlexanderWhitneyDiagonalSwapHomotopyStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAlexanderWhitneyDiagonalSwapHomotopy
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.MapHComp
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.TotPairing
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.HodgeTateResidues.TfBaseField
+public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.HodgeTateResidues.KProps
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +45,6 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.HodgeTateResidues.KProps
 
 @[expose] public section
 
@@ -228,7 +229,7 @@ theorem phi_wa {n : ℕ} (h' : q + p = n) (s : ComposableArrows C n) :
 theorem key (P' : CH.Pairing F₂ F₁ F₃) (hP : ∀ T x y, P'.μ T y x = P.μ T x y) (hf : CH.d F₁ p f = 0)
     (hg : CH.d F₂ q g = 0) {n : ℕ} (h : p + q = n) (h' : q + p = n) :
     P.cupC h f g - (-1 : ℤ) ^ (p * q) • P'.cupC h' g f ∈ (CH.cx F₃).B n := by
-  obtain ⟨hh, -, hd0, hds⟩ := GlobalTheory.T.exists_alexanderWhitneyDiagonal_swap_homotopy
+  obtain ⟨hh, -, hd0, hds⟩ := _root_.GlobalTheory.EtC.pr_aw_wa_homotopy
   have ev : ∀ s : ComposableArrows C n,
       (P.cupC h f g - (-1 : ℤ) ^ (p * q) • P'.cupC h' g f) s = phi P f g s (Pr.aw n - Pr.wa n) := by
     intro s

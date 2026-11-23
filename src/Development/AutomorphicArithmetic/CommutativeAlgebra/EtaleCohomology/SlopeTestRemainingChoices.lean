@@ -1,8 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchClsCocycleSecStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DegreeZeroSectionClassPropertiesStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DegreeZeroSectionClassProperties
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistUnitClassRootClassSpecStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CupEqClassOfIsAWStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FreeHomSectionsStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.PullHlComp
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistResolutionPairingSpecAndCupUnique
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,9 +46,6 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CupEqClassOfIsAWStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FreeHomSectionsStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistResolutionPairingSpecAndCupUniqueStatement
 
 @[expose] public section
 
@@ -53,15 +55,14 @@ open CategoryTheory Limits AlgebraicGeometry Opposite CochainComplex CochainComp
 namespace UpperTheory.Et
 
 structure SlopeTestRemainingChoices : Prop where
-  sheaf : type_of% @GlobalTheory.T.etaleSheafSections_ext_and_glue
   resol : type_of% @GlobalTheory.T.chosenInjectiveResolutionEtaleSheaf_sections_exactness
   freeS : type_of% @GlobalTheory.T.free_sections_ext_res_map
   evs : type_of% @GlobalTheory.T.etaleCochainEvalOnSimplex_basic_properties
   rep : type_of% @GlobalTheory.T.cocycle_ev_d_eq_zero_and_mk_eq_zero_iff
-  sec : type_of% @GlobalTheory.T.degreeZeroSectionClass_properties
+  sec : type_of% @_root_.GlobalTheory.EtC.secClass_props
   aw : type_of% @GlobalTheory.T.cup_eq_class_of_isAW
   twist : type_of% @GlobalTheory.T.tateTwist_sections_locally_generated
-  pair : type_of% @GlobalTheory.T.tateTwistResolutionPairing_spec_and_cup_unique
+  pair : type_of% @_root_.GlobalTheory.EtC.TwPairUniq.main
   unit : type_of% @GlobalTheory.T.tateTwistUnitClass_rootClass_spec
 
 section Site

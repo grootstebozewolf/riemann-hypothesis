@@ -4,18 +4,18 @@ public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.OnePl
 public import Development.AbelianVarietyTheory.Definitions.Jets.SideFam
 public import Formalism.SharpRestriction.CuspSpanNormBounds.NormalizedLocalScale
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CapParamOfIsHCTypeW
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DiscreteSeriesBesselGapStatement
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsKFinNeZeroOfCwCont
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DiscreteSeriesBesselGap
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUnitaryTorusScaleBesselCharacter
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HaarLieIsHaarOnUnipotentRadicalStatement
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TorusNormaliserBessel
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselFunctionalSideGrowth
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselGapDimensionFormula
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselGapExistsFunctional
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DiscreteSeriesUnitarySmoothBasic
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.GapCoefficientDerivativeBound
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.HaarEqSmul
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.QuotientMeasureAeMemAndMeasurableBesselModel
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsKFinNeZeroOfCwCont
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselGapDimensionFormula
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DiscreteSeriesUnitarySmoothBasic
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.HaarEqSmul
 import Formalism.FormalDegreeBessel.FinalG
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LowerSmoothStability.ExistsFinStableOfMemSSup
 import Mathlib.Algebra.Order.Floor.Extended
@@ -136,7 +136,7 @@ theorem one_side (hH : Hyps) {k r : ℕ} {ε : Fin (2 * r + k + 1) → Bool} {mu
       rw [hmul _ hti _ hx, e2]
     simp only [this]
   have hB₁ : IsBes R z π (fun v => B (R.σ t v)) := (hbes B).1 hB
-  obtain ⟨v, hv, hv0⟩ := GlobalTheory.T.discrete_series_bessel_gap hH k r ε mu h R Wp z π u μW _ μG _ (fun v => B (R.σ t v))
+  obtain ⟨v, hv, hv0⟩ := _root_.GlobalTheory.BesselPeriodNonzero.exists_kFin_period_ne_zero hH k r ε mu h R Wp z π u μW _ μG _ (fun v => B (R.σ t v))
     (fun v => l (R.σ t v)) w hds hgap hok hS' hB₁ hw
     (by rw [htr B, hmass]; exact (ENNReal.ofReal_pos.2 hm).ne') (by rw [htr B, hmass]; exact ENNReal.ofReal_ne_top) hl₂
   have hvs : v ∈ R.sm := hTKsm v (hKT v hv)

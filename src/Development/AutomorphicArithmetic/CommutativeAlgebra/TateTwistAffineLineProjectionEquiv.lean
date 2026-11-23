@@ -1,11 +1,14 @@
 module
 
 public import Development.AutomorphicArithmetic.CupPullbacks.ConstCompSingle
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ChosenInjectiveResolutionEtaleSheafPropertiesStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
+public import Mathlib.Algebra.Homology.HomotopyCategory.KInjective
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ChosenInjectiveResolutionEtaleSheafProperties
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCochainEvalOnSimplexBasicPropertiesStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchClsCocycleSecStatement
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.InjectiveComplexProductSectionMapQuasiIso
-public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.HomotopyInvarianceEtale
+public import Development.AbelianVarietyTheory.Definitions.Divisors.DivisorSupportCondition
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HomotopyInvarianceEtaleStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -209,7 +212,7 @@ open Polynomial in
 private theorem eqv_spec (q : ℕ) [NeZero q] (A : Type) [CommRing A] (hq : IsUnit (q : A)) (i : ℤ) :
     Eqv _ (sch.map (prod.snd : Pbf.A1 ⨯ Spec (CommRingCat.of A) ⟶ Spec (CommRingCat.of A))) (tw q i) := by
   obtain ⟨u, hu, hc⟩ := line_iso A
-  have h := UpperTheory.Cb.homotopy_invariance_etale_alt q A hq i
+  have h := _root_.GlobalTheory.T.homotopy_invariance_etale_alt q A hq i
   have h' : Eqv _ (sch.map u ≫ sch.map (prod.snd : Pbf.A1 ⨯ Spec (CommRingCat.of A) ⟶ Spec (CommRingCat.of A))) (tw q i) := by
     rw [← Functor.map_comp, hc]
     exact h
@@ -247,7 +250,7 @@ open UpperTheory.AffineEquivalences in
 theorem UpperTheory.tateTwist_affineLine_projection_equiv :
     ∀ (q : ℕ) [NeZero q] (E : Spc) (i : ℤ), Inv q E → Eqv _ (prod.snd : sch.obj A1 ⨯ E ⟶ E) (tw q i) := by
   intro q _ E i hE
-  obtain ⟨-, hinj, hge, -⟩ := GlobalTheory.T.chosenInjectiveResolution_etaleSheaf_properties (ZMod q) (tw q i)
+  obtain ⟨-, hinj, hge, -⟩ := _root_.GlobalTheory.EtC.ResBasic.res_basic (ZMod q) (tw q i)
   haveI := hge
   have hZ : ∀ {T' T : Scheme.{0}}, (T' ⟶ T) → IsUnit (q : Γ(T, ⊤)) → IsUnit (q : Γ(T', ⊤)) := fun g h => by
     simpa using h.map g.appTop.hom

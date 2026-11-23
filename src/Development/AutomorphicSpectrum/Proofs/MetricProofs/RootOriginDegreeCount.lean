@@ -3,8 +3,10 @@ module
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.TowerOrigin
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AlgebraicElementHomogRelation
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexPointsIffCentres
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtIffChartLocalizationStatement
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginCoordField
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsVBOneOfChartGenerators
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.CoordsAt
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtIffChartLocalization
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,7 +54,6 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.HasMultiplier
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsVBOneOfChartGenerators
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.SumFundCoMulSumIic
 
 @[expose] public section
@@ -262,7 +263,7 @@ theorem exists_forms_of_regAt (tie : CoordTie ℤ ξ fun c' : ∀ k, J k => ∏ 
   have hy : ∀ k, y ⟨k, c k⟩ ≠ 0 := fun k => (hw.2 k (c k) (hc k)).1
   have hM : ∏ k, y ⟨k, c k⟩ ≠ 0 := Finset.prod_ne_zero_iff.2 fun k _ => hy k
   have hW : ∏ k, w ⟨k, c k⟩ ≠ 0 := Finset.prod_ne_zero_iff.2 fun k _ => (hc k).ne_zero
-  obtain ⟨s, hs, hsu, hsρ⟩ := (GlobalTheory.T.regAt_iff_chart_localization X Ω ξ ℤ _ _ tie c ⟨centre z, hz⟩
+  obtain ⟨s, hs, hsu, hsρ⟩ := (_root_.GlobalTheory.CompanionTheory.Ar.regAt_iff_exists_chart_fraction X Ω ξ ℤ _ _ tie c ⟨centre z, hz⟩
     (inChart_of_coords hz hw c hc) _).1 hρ
   obtain ⟨r, d, S, hr, fS, yS, wS⟩ := exists_form_of_mem hz hw c hc hs
   obtain ⟨-, e, G₀, -, fG, yG, -⟩ := exists_form_of_mem hz hw c hc hsρ

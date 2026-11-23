@@ -3,8 +3,9 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Divisors.DiscreteSeriesHermitianUnique
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PairsOfSquareTriple
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqOfComponentTensorAdelicFunctionEq
+public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaActionExists
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFactorPureTensorComponentAtPlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaActionExistsStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,7 +58,7 @@ theorem pure_stab_one : GlobalTheory.FunPr.Hypotheses₂ → ∀ (F E : Type) [F
   intro hP F E _ _ _ _ _ σ B a a' G X om om' hT v g hg h hh f φ hSB hvac
   have hpair := GlobalTheory.ThK.Inhab.pairV' hT
   obtain ⟨φ₁, ⟨hφ₁SB, hAct⟩, -⟩ :=
-    ((GlobalTheory.T.theta_action_exists hP) F E σ B _ _ _ _ _ _ _ _ _ _ _ _ hpair v).1 g hg h hh (φ v) (hSB v)
+    ((_root_.GlobalTheory.ThK.LocalOps.actsEx hP) F E σ B _ _ _ _ _ _ _ _ _ _ _ _ hpair v).1 g hg h hh (φ v) (hSB v)
   have hstd : ∀ᶠ w in Filter.cofinite, φ w = Set.indicator {x | ∀ i, x i ∈ w.adicCompletionIntegers F} 1 := by
     filter_upwards [hvac, hT.geo.hM'.std] with w h1 h2
     rw [h1, h2]

@@ -2,7 +2,12 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsPosHermFormV
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsOrthonormalBasisEigenOfInnerMap
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntegralCexpGaussianPlaneStatement
+public import Mathlib.Analysis.CStarAlgebra.Classes
+public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
+public import Mathlib.MeasureTheory.Integral.Bochner.Basic
+public import Mathlib.MeasureTheory.Measure.Haar.OfBasis
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntegralCexpGaussianPlane
+public import Mathlib.MeasureTheory.Integral.Pi
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -14,7 +19,6 @@ import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
 import Mathlib.Data.Finsupp.Pointwise
 import Mathlib.Data.NNRat.Floor
 import Mathlib.Geometry.Euclidean.Volume.Basic
-public import Mathlib.MeasureTheory.Integral.Pi
 import Mathlib.NumberTheory.Chebyshev
 import Mathlib.NumberTheory.Height.NumberField
 import Mathlib.NumberTheory.Height.Projectivization
@@ -116,7 +120,7 @@ theorem integral_gaussian_unitary : ∀ (V : Type) [NormedAddCommGroup V] [Norme
   refine ⟨(c : ℝ), by exact_mod_cast hpos.ne', fun y v => ?_⟩
   let g : Fin n → ℂ → ℂ := fun i z => cexp (-(π : ℂ) * (1 - l i) * (z * conj z) +
     π * (((1 - l i) * e.repr y i) * conj z) + π * (z * conj (e.repr v i)))
-  have hg := fun i => GlobalTheory.T.integral_cexp_complex_gaussian_linear (1 - l i) ((1 - l i) * e.repr y i) (e.repr v i) (hre i)
+  have hg := fun i => _root_.GlobalTheory.UnitaryTheta.integral_cexp_gaussian_plane (1 - l i) ((1 - l i) * e.repr y i) (e.repr v i) (hre i)
   have hF : (fun z => cexp (-(π : ℂ) * H (z - a z) z + π * H (y - a y) z + π * H z v)) =
       (fun x : Fin n → ℂ => ∏ i, g i (x i)) ∘ Tm := by
     funext z

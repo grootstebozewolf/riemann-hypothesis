@@ -2,8 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CentralNilGL
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsSpanFormsNeBot
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CenterActsByScalarOnEigenformsStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteDimensionalMatrixCoefficientSpanStatement
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousConjFin
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CenterActsByScalarOnEigenforms
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HarishChandraFinite
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteDimensionalMatrixCoefficientSpan
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,7 +54,7 @@ namespace GlobalTheory.HCF
 theorem automorphicFormsFiniteGL_of_core (h : CoreFiniteGL) : GlobalTheory.Published.AutomorphicFormsFiniteGL := by
   intro E _ _ _ a L hL W _ _ _ ρ _ c
   classical
-  haveI hW' : FiniteDimensional ℂ (GlobalTheory.Published.AutFin.coeffSpan ρ) := GlobalTheory.T.finiteDimensional_matrixCoefficientSpan _ W ρ
+  haveI hW' : FiniteDimensional ℂ (GlobalTheory.Published.AutFin.coeffSpan ρ) := _root_.GlobalTheory.Proof.CoeffSpan.finiteDimensional_coeffSpan _ W ρ
   let χ : Module.End ℂ (Sm E a) → ℂ := fun z =>
     if hz : ∃ s : ℂ, ∀ φ : Sm E a, (∀ τ u, cap τ u φ = c τ u • φ) → z φ = s • φ then hz.choose else 0
   have hsub : GlobalTheory.Published.AutFinGL.forms L ρ c ⊆ formsGL E a L (GlobalTheory.Published.AutFin.coeffSpan ρ) {χ} 1 := by
@@ -62,7 +64,7 @@ theorem automorphicFormsFiniteGL_of_core (h : CoreFiniteGL) : GlobalTheory.Publi
     match zs, hlen with
     | [z], _ =>
       have hz : z ∈ Zalg E a := hzs z (List.mem_singleton_self z)
-      have hex := GlobalTheory.T.center_acts_by_scalar_on_eigenforms E a c z hz
+      have hex := _root_.GlobalTheory.CuspRep.Zalg_acts_by_scalar E a c z hz
       have hχ : χ z = hex.choose := dif_pos hex
       simp only [List.foldr_cons, List.foldr_nil]
       rw [hχ, hex.choose_spec φ h4, sub_self]

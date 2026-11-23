@@ -3,7 +3,9 @@ module
 public import Formalism.GaloisCohomology.LocalTateDualityK
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LevRepZApply
 public import Formalism.CharacterColumnKernels.Statement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteCardTorsionLevelFractionRingQuotStatement
+public import Mathlib.RingTheory.LocalRing.ResidueField.Defs
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteCardTorsionLevelFractionRingQuot
+public import Mathlib.Data.FunLike.Fintype
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +50,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Mathlib.Data.FunLike.Fintype
 
 @[expose] public section
 
@@ -78,7 +79,7 @@ theorem card_H2_level_rep_le :
   intro hT p _ K hK O _ _ _ _ ϖ hϖ M _ _ e ρ h
   letI := GlobalTheory.ShapeNeg.levZ (M := M) p 1 h
   intro hc
-  obtain ⟨hfin, hcard⟩ := GlobalTheory.T.finite_card_torsionLevel_fractionRingQuot hϖ e 1
+  obtain ⟨hfin, hcard⟩ := _root_.GlobalTheory.ShapeNeg.levKO_card hϖ e 1
   haveI : Finite (Lev M (ϖ ^ 1)) := hfin
   haveI : Fact (p ^ 1).Prime := ⟨by rw [pow_one]; exact Fact.out⟩
   obtain ⟨⟨eH⟩, -, -, -, hb⟩ := hT p K hK 1 (Lev M (ϖ ^ 1)) (levRepZ p 1 h ρ) one_pos hc

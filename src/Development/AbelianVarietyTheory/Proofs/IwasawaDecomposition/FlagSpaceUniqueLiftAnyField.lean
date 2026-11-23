@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TriIff
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CarriesFlagsIffAdaptedFrameAtImageStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CarriesFlagsIffAdaptedFrameAtImage
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EigenFrameBasePointLiftsUniqueFlagSpace
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LieEigenspaceFrameCoordinatesCompStatement
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LieEigenspaceFrameCoordinatesComp
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LieEigenspaceFrameCoordinatesUniqueInvertibleStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LieEigenspaceFrameStableOfIsLocalRingStatement
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LieEigenspaceFrameStableOfIsLocalRing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -177,8 +177,8 @@ theorem coord_iff_of_hom (hπ : C.π = f ≫ j) (hT : Tied e B j f₀ S A₀) (h
       rw [e3]
       exact φ.commutes (e.symm a)
     exact e1.trans e2.symm
-  have hSA : fA.Stable := GlobalTheory.T.lie_eigenspace_frame_stable_of_isLocalRing E H Dw l Xo c O β Z _ φA _ fA inferInstance
-  have hS₁ : f₁.Stable := GlobalTheory.T.lie_eigenspace_frame_stable_of_isLocalRing E H Dw l Xo c O β Z _ φ₁ _ f₁ inferInstance
+  have hSA : fA.Stable := _root_.GlobalTheory.ShFam.EigStable.stable_of_isLocalRing E H Dw l Xo c O β Z _ φA _ fA inferInstance
+  have hS₁ : f₁.Stable := _root_.GlobalTheory.ShFam.EigStable.stable_of_isLocalRing E H Dw l Xo c O β Z _ φ₁ _ f₁ inferInstance
   have e0 : stalkPt C.Y (p (IsLocalRing.closedPoint K)) ≫ f =
       spMap (f.stalkMap (p (IsLocalRing.closedPoint K))).hom ≫ stalkPt B (f (p (IsLocalRing.closedPoint K))) :=
     (Scheme.SpecMap_stalkMap_fromSpecStalk f).symm
@@ -196,10 +196,10 @@ theorem coord_iff_of_hom (hπ : C.π = f ≫ j) (hT : Tied e B j f₀ S A₀) (h
 
   have c1 : fA.Coord ((algebraMap _ C.Y.X.functionField).comp (f.stalkMap (p (IsLocalRing.closedPoint K))).hom) C.f0
       ((A₁ * A'⁻¹) * G.map (algebraMap _ C.Y.X.functionField)) :=
-    GlobalTheory.T.lie_eigenspace_frame_coordinates_comp E H Dw l Xo c O β Z _ _ _ fA _ _ _ f₁ _ _ _ C.f0 _ _ _ _ inferInstance hG hf₁
+    _root_.GlobalTheory.ShFam.CoordComp.coord_comp E H Dw l Xo c O β Z _ _ _ fA _ _ _ f₁ _ _ _ C.f0 _ _ _ _ inferInstance hG hf₁
   have c2 : fA.Coord ((φ : B.Fn →+* C.Y.Fn).comp (algebraMap _ B.X.functionField)) C.f0
       ((A₁ * (A₀.map (φ : B.Fn →+* C.Y.Fn))⁻¹) * (A₀ * A⁻¹).map (φ : B.Fn →+* C.Y.Fn)) :=
-    GlobalTheory.T.lie_eigenspace_frame_coordinates_comp E H Dw l Xo c O β Z _ _ _ fA _ _ _ f₀ _ _ _ C.f0 _ _ _ _ inferInstance hfA hC
+    _root_.GlobalTheory.ShFam.CoordComp.coord_comp E H Dw l Xo c O β Z _ _ _ fA _ _ _ f₀ _ _ _ C.f0 _ _ _ _ inferInstance hfA hC
   have hcomp : (algebraMap _ C.Y.X.functionField).comp (f.stalkMap (p (IsLocalRing.closedPoint K))).hom =
       (φ : B.Fn →+* C.Y.Fn).comp (algebraMap _ B.X.functionField) :=
     RingHom.ext fun a => (map_algebraMap_stalk hφ (p (IsLocalRing.closedPoint K)) a).symm
@@ -238,7 +238,7 @@ theorem coord_iff_of_hom (hπ : C.π = f ≫ j) (hT : Tied e B j f₀ S A₀) (h
     exact ((hGdet τ).map _).ne_zero
   have fwd : ∀ h', f₁.Coord (Scheme.stalkClosedPointTo (R := .of K) p).hom g h' →
       h = h' * G.map (Scheme.stalkClosedPointTo (R := .of K) p).hom := fun h' hh' => by
-    have c3 := GlobalTheory.T.lie_eigenspace_frame_coordinates_comp E H Dw l Xo c O β Z _ _ _ fA _ _ _ f₁ _ _ _ g _ _ _ _ inferInstance hG hh'
+    have c3 := _root_.GlobalTheory.ShFam.CoordComp.coord_comp E H Dw l Xo c O β Z _ _ _ fA _ _ _ f₁ _ _ _ g _ _ _ _ inferInstance hG hh'
     rw [← hxK] at c3
     exact ((GlobalTheory.T.lie_eigenspace_frame_coordinates_unique_invertible E H Dw l Xo c O β Z _ φA _ fA _ χ _ _ inferInstance hSA hh.1 hh.2.1).1 g).1.unique hh c3
   have hx₁ : x = spMap (Scheme.stalkClosedPointTo (R := .of K) p).hom ≫
@@ -281,7 +281,7 @@ theorem lifts_closed (hj : j ≫ genStr Z ≫ spMap e.toRingHom = B.str) (hπ : 
     simp only [Category.assoc]
     rw [hst]
     exact (Spec.map_comp _ _).symm
-  have hSA : fA.Stable := GlobalTheory.T.lie_eigenspace_frame_stable_of_isLocalRing E H Dw l Xo c O β Z _ φA _ fA inferInstance
+  have hSA : fA.Stable := _root_.GlobalTheory.ShFam.EigStable.stable_of_isLocalRing E H Dw l Xo c O β Z _ φA _ fA inferInstance
   have hxg : x ≫ j ≫ genι Z = spMap (Scheme.stalkClosedPointTo (R := .of K) x).hom ≫
       (stalkPt B (x (IsLocalRing.closedPoint K)) ≫ j ≫ genι Z) := by
     conv_lhs => rw [← hx'']
@@ -290,7 +290,7 @@ theorem lifts_closed (hj : j ≫ genStr Z ≫ spMap e.toRingHom = B.str) (hπ : 
     fun τ => (hh τ).2.1.isUnit
   refine (existsUnique_congr fun p => and_congr_right fun hp => ?_).2 (hL K χ x hχ g)
   subst hp
-  rw [GlobalTheory.T.carriesFlags_iff_adaptedFrame_at_image E H Dw l Xo c O β Z F e C S' A₁ K χ _ g p hT']
+  rw [_root_.GlobalTheory.ShFam.CarriesAt.carries_iff E H Dw l Xo c O β Z F e C S' A₁ K χ _ g p hT']
   constructor
   · rintro ⟨A', hA', hP⟩
     obtain ⟨φ₁, f₁, hf₁⟩ := hT'.2 _ A' hA'

@@ -2,7 +2,9 @@ module
 
 public import Mathlib.NumberTheory.NumberField.AdeleRing
 public import Formalism.LocalToGlobal.GlobalTheory.GL1.CompactFixesLattice.ExistsDenOfIsCompactAdele
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.IntAdCpctOpen
+public import Formalism.LocalToGlobal.AdelicCompactOpens.IntAdelesCompactOpen
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdicIntegersCompact.IsCompactAdicCompletionIntegers
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsCompactAdeleRingModNumberField
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -141,51 +143,13 @@ theorem adl_eq_zero_of_mem_nbhd (a : F) (ha : algebraMap F (AdeleRing (𝓞 F) F
 
 theorem adl_inf_cocompact : ∃ C : Set (InfiniteAdeleRing F), IsCompact C ∧
     ∀ y, ∃ r : 𝓞 F, y - algebraMap F _ (r : F) ∈ C := by
-  classical
-  let b := mixedEmbedding.latticeBasis F
-  let R : ℝ := ∑ i, ‖b i‖
-
-  have hcoord : ∀ (x : InfiniteAdeleRing F) (w : InfinitePlace F),
-      ‖x w‖ ≤ ‖InfiniteAdeleRing.ringEquiv_mixedSpace F x‖ := by
-    intro x w
-    rw [InfiniteAdeleRing.ringEquiv_mixedSpace_apply]
-    by_cases hw : w.IsReal
-    · refine le_trans ?_ (norm_fst_le _)
-      refine le_trans ?_ (norm_le_pi_norm _ ⟨w, hw⟩)
-      exact ((InfinitePlace.Completion.isometry_extensionEmbeddingOfIsReal hw).norm_map_of_map_zero
-        (map_zero _) (x w)).ge
-    · refine le_trans ?_ (norm_snd_le _)
-      refine le_trans ?_ (norm_le_pi_norm _ ⟨w, InfinitePlace.not_isReal_iff_isComplex.mp hw⟩)
-      exact ((InfinitePlace.Completion.isometry_extensionEmbedding w).norm_map_of_map_zero
-        (map_zero _) (x w)).ge
-  have hK : ∀ w : InfinitePlace F, IsCompact {z : w.Completion | ‖z‖ ≤ R} := by
-    intro w
-    have he : {z : w.Completion | ‖z‖ ≤ R} =
-        (InfinitePlace.Completion.extensionEmbedding w) ⁻¹' Metric.closedBall 0 R := by
-      ext z
-      simp only [Set.mem_setOf_eq, Set.mem_preimage, mem_closedBall_zero_iff,
-        (InfinitePlace.Completion.isometry_extensionEmbedding w).norm_map_of_map_zero (map_zero _)]
-    rw [he]
-    exact (InfinitePlace.Completion.isometry_extensionEmbedding w).isClosedEmbedding.isCompact_preimage
-      (isCompact_closedBall 0 R)
-  refine ⟨Set.pi Set.univ fun w => {z : w.Completion | ‖z‖ ≤ R}, isCompact_univ_pi hK, ?_⟩
-  intro y
-  obtain ⟨r, hr⟩ := RingHom.mem_range.mp ((mixedEmbedding.mem_span_latticeBasis (K := F)).mp
-    (ZSpan.floor b (InfiniteAdeleRing.ringEquiv_mixedSpace F y)).2)
-  refine ⟨r, fun w _ => ?_⟩
-  show ‖(y - algebraMap F _ (r : F)) w‖ ≤ R
-  refine (hcoord _ w).trans ?_
-  rw [map_sub, ← InfiniteAdeleRing.mixedEmbedding_eq_algebraMap_comp]
-  have h2 : mixedEmbedding F (r : F) =
-      (ZSpan.floor b (InfiniteAdeleRing.ringEquiv_mixedSpace F y) : mixedEmbedding.mixedSpace F) := hr
-  rw [h2, ← ZSpan.fract_apply]
-  exact ZSpan.norm_fract_le b _
+  apply GlobalTheory.AdeleCocompact.exists_compact_infinite <;> assumption
 
 theorem adl_cocompact : ∃ K : Set (AdeleRing (𝓞 F) F), IsCompact K ∧
     ∀ x, ∃ a : F, x - algebraMap F _ a ∈ K := by
   obtain ⟨C, hC, hCy⟩ := adl_inf_cocompact (F := F)
   refine ⟨C ×ˢ {x : FiniteAdeleRing (𝓞 F) F | ∀ v, x v ∈ v.adicCompletionIntegers F},
-    hC.prod (finiteAdeleIntegers_compactOpen F).2, fun x => ?_⟩
+    hC.prod (_root_.PI.IntAdCpctOpenWork.main F).2, fun x => ?_⟩
   obtain ⟨u, hu⟩ := Formalism.L2.GlobalTheoryTheory.FiltrationBoundaryCriterion.CompactFixesLatticeTheory.exists_sub_mem_intAd x.2
   obtain ⟨r, hr⟩ := hCy (x.1 - algebraMap F _ u)
   refine ⟨u + r, ?_, ?_⟩

@@ -2,11 +2,14 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverMorphismRestrictOfRelAmple
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsFinsetIsProjOverDescendsStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLineBundleDescentToSubfieldStatement
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsFinsetIsProjOverDescends
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsGrpPullback
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLineBundleDescentToSubfield
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsThetaObjOfDescendedData
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.GrpObjDescendsToLargeSubfield
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.MorphismsDescendToLargeSubfieldStatement
+import Mathlib.AlgebraicGeometry.Morphisms.FinitePresentation
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.MorphismsDescendToLargeSubfield
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -158,7 +161,7 @@ theorem descends_of
 
 theorem descends_to_fg_subfield :
     ∀ (o : Type) [CommRing o] (g k : ℕ) (J : Type) (b : TBase o k) [Finite J] (K : Type) [Field K] (β : o →+* K) (t : TObj g k J b (spMap β)), ∃ (K₀ : Subfield K) (β₀ : o →+* K₀) (t₀ : TObj g k J b (spMap β₀)), K₀.subtype.comp β₀ = β ∧ (Countable o → Countable K₀) ∧ (∃ s : Finset K, K₀ = Subfield.closure (Set.range β ∪ s)) ∧ TMap t t₀ (spMap K₀.subtype) :=
-  descends_of (@GlobalTheory.T.exists_finset_isProjOver_descends_to_subfield) (@GlobalTheory.T.exists_descent_of_morphisms_to_subfield) (@GlobalTheory.grpObj_descends_to_large_subfield) (@GlobalTheory.T.exists_lineBundle_descent_to_subfield) (@GlobalTheory.exists_thetaObj_of_descended_data)
+  descends_of (@_root_.GlobalTheory.exists_finset_isProjOver_descends) (@_root_.GlobalTheory.morphisms_descend_to_large_subfield) (@GlobalTheory.grpObj_descends_to_large_subfield) (@_root_.GlobalTheory.LBDescent.exists_lb_subfield) (@GlobalTheory.exists_thetaObj_of_descended_data)
 
 end GlobalTheory.ThetaDescent
 end

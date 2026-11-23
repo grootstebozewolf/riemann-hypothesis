@@ -1,7 +1,8 @@
 module
 
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AuxiliaryPrimeFunction
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAdelicSchwartzNeZeroAtOriginStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAdelicSchwartzNeZeroAtOrigin
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepresentationPreservesSchwartz
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.SchrodingerCommutation.Imports
 import Mathlib.Algebra.Order.Floor.Extended
@@ -99,7 +100,7 @@ theorem siegel_factor_ne {G H : Type} [Group G] [Group H] (χ : G →* Circle) (
   exact lt_of_le_of_ne (NNReal.coe_nonneg _) (by exact_mod_cast hv.symm)
 
 theorem exists_l_ne (hT : TBij) : ∃ φ ∈ schA F d.κ, d.l φ ≠ 0 := by
-  obtain ⟨φz, hφz, hφz0⟩ := GlobalTheory.T.exists_adelicSchwartz_ne_zero_at_origin F d.κ
+  obtain ⟨φz, hφz, hφz0⟩ := _root_.GlobalTheory.SchANonzero.exists_mem_schA_ne_zero F d.κ
   have hne : d.T φz ≠ 0 := fun h => hφz0 (by rw [(hT F E σ d).2.2 φz hφz h]; rfl)
   obtain ⟨X, hX⟩ : ∃ X, d.T φz X ≠ 0 := by
     by_contra h

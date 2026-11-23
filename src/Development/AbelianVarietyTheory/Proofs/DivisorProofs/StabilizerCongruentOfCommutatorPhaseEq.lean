@@ -1,13 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.FinitePrimesUnder
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SelfDualSkewIdealLatticeIsSelfDualStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SelfDualSkewIdealLatticeIsSelfDual
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IdealPeriodLatticeOfCurveDatum
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PtHomInjective
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaSpaceSelfDualPairAtMostLineStatement
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnitaryHeckeCharacterValues
+public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaSpaceSelfDualPairAtMostLine
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.VacuumUnderAdelicPairModulusOne
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnitaryHeckeCharacterValues
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -217,11 +218,11 @@ theorem cong_of_kap_eq : ∀ (D : D7) (δ : ℂ), Crv D ⊤ δ → ∀ (𝔪 : I
   intro D δ hc 𝔪 h𝔪 hcop hb a d had r r' hr hr' x x' _ _ hx hx' hk
   have h1 := (GlobalTheory.InducedType.induced_type D).1
   have kp : KLat D (tor0 D ⊤ δ) (La D (tor0 D ⊤ δ) (stdL D a) (skewLat D 𝔪 d)) :=
-    Or.inr ⟨_, _, VacMove.sd_of_moves (VacMove.moves_one D a), GlobalTheory.T.selfDualSkewIdealLattice_isSelfDual D 𝔪 d h𝔪, rfl⟩
+    Or.inr ⟨_, _, VacMove.sd_of_moves (VacMove.moves_one D a), _root_.GlobalTheory.SkewLatSD.skewLat_sd D 𝔪 d h𝔪, rfl⟩
   have hpt : pt D (tor0 D ⊤ δ) δ (x - x') = pt D (tor0 D ⊤ δ) δ x - pt D (tor0 D ⊤ δ) δ x' :=
     map_sub (GlobalTheory.ThetaLatticePoints.ptHom D ⊤ δ a d) x x'
   have hmem : pt D (tor0 D ⊤ δ) δ (x - x') ∈ La D (tor0 D ⊤ δ) (stdL D a) (skewLat D 𝔪 d) := by
-    refine (GlobalTheory.T.theta_space_selfDual_pair_at_most_line D h1 ⊤ δ hc a d _ kp).2.2.2.1 _ fun y hy => ?_
+    refine (_root_.GlobalTheory.ThetaLine.theta_line D h1 ⊤ δ hc a d _ kp).2.2.2.1 _ fun y hy => ?_
     rw [hpt]
     exact im_int_of_kap_eq _ _ _ y (hk y hy)
   have hz := entries_of_mem hc h𝔪 (x - x') hmem

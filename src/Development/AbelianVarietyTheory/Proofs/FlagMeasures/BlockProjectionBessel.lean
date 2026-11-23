@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.OnePlaceKF
 public import Development.AbelianVarietyTheory.Definitions.Jets.SideFam
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CellDataSupportStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CellDataSupport
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.KfinCoefMulSplit
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DiscreteSeriesUnitarySmoothBasic
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.HaarEqSmul
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DiscreteSeriesUnitarySmoothBasic
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselNeZeroOfCyclicOrbit
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContinuousMulMt
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LowerSmoothStability.ExistsFinStableOfMemSSup
@@ -112,7 +112,7 @@ theorem amp_eq_orb (hH : Hyps) (hA : AmpKF) (hC : CellConv) (L : LocBessel k r) 
       fun x hx y hy => hl x (hsm x (hle x hx)) y (hKT y hy),
       fun x hx y hy => hl' x (hsm x (hle x hx)) y (hKT y hy)⟩
   have h1 := hA hH.1 k r (withRep L R mu hR) h μG w l l' hOne γ μR νR ν hD' b hb0 hb1 hb2 v v' hv hv' ξ ξ'
-  have h2 := (GlobalTheory.T.cell_data_support hH k r (withRep L R mu hR) h μG γ μR νR ν hgap hok hκ hD').2 b hb0 (by linarith)
+  have h2 := (_root_.GlobalTheory.CellOrbInt.orbInt_integrable hH k r (withRep L R mu hR) h μG γ μR νR ν hgap hok hκ hD').2 b hb0 (by linarith)
     hb2 v v' hv hv' ξ ξ'
   refine ⟨h2, ?_⟩
   obtain ⟨c, hc0, hc1⟩ := GlobalTheory.BesselDegree.schur_fdeg hH k r L.ε μG hG
@@ -190,7 +190,7 @@ theorem amp_pieri : Hyps → AmpKF → CellConv → ∀ (k r : ℕ) (ι κ : Typ
     v v' hv hv' (l v) (l' v')
   have eI := fun I => amp_eq_orb hH hA hC L (RI I) (muI I) h μG (lI I) (lI' I) (wI I) (hRI I).1 (hRI I).2 hok hcell
     hc hκ hG (hlI I).1 (hlI I).2 (hwI I) γ μR νR ν hD _ _ (hK I).1 (hK I).2 (l v) (l' v')
-  have hae := (GlobalTheory.T.cell_data_support hH k r (withRep L R mu hR) h μG γ μR νR ν hgap hok hκ hD).1
+  have hae := (_root_.GlobalTheory.CellOrbInt.orbInt_integrable hH k r (withRep L R mu hR) h μG γ μR νR ν hgap hok hκ hD).1
   have hc0 : ⟪l v, l v⟫_ℂ * ⟪l' v', l' v'⟫_ℂ ≠ 0 :=
     mul_ne_zero (inner_self_ne_zero.mpr hv0) (inner_self_ne_zero.mpr hv0')
   have horb : herm Γ (ρ γ *ᵥ om') om • OrbInt L (coefR R v v' (l v) (l' v')) γ ν =

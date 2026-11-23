@@ -2,8 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNsmulFix
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
+public import Formalism.LocalToGlobal.IndefiniteReal.DatumF
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.ExistsCompactOfFinite
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFunctionHeisenbergInvariant
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.WeilOrthogonalFiniteCover
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -265,7 +266,7 @@ theorem exists_vac_split : ∀ (F E : Type) [Field F] [NumberField F] [Field E] 
   let Y := conjHalf σ e nS nT
   let X := conjHalf σ (cAF σ e) nS nT
   obtain ⟨U, hU, hUf⟩ := hf₀.level
-  obtain ⟨G, hGX, hGU⟩ := PositivityTheory.ThKW.exists_finite_lattice_cover_open F E σ B hB nS nT JS JT hS hT ξ₀ hξ hσξ e he U hU
+  obtain ⟨G, hGX, hGU⟩ := _root_.GlobalTheory.SplitLagrF.exists_finset_ann_le F E σ B hB nS nT JS JT hS hT ξ₀ hξ hσξ e he U hU
   have hGX' : ∀ g ∈ G, g ∈ X := fun g hg => mem_conjHalf_conj he (hGX g hg)
 
   let YK : AddSubgroup (WOF F E nS nT) :=

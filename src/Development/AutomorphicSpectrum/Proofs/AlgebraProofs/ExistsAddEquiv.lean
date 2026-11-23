@@ -4,7 +4,8 @@ public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsT
 public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.HodgeTateDatumStatement
 public import Mathlib.Data.ZMod.QuotientRing
 public import Mathlib.RingTheory.AdicCompletion.RingHom
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PolarisedAugmentationTheoremStatement
+public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.PolarisedAFStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PolarisedAugmentationTheorem
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -303,7 +304,7 @@ theorem gp_polAV : HodgeTateDatumStatement → ∀ (p : ℕ) [Fact p.Prime] (C :
   letI : Algebra ℤ_[p] R := (Av.zpLift p R hc).toAlgebra
   obtain ⟨-, cp, US, H, pt₀, h₀, hT⟩ := hHT p C v R hint hp hc P
   obtain ⟨e, he⟩ := Av.exists_addEquiv h₀ hpt
-  have key := GlobalTheory.T.polarised_augmentation_theorem p P.g C v R ℤ_[p] AlgEquiv.refl cp US H
+  have key := _root_.GlobalTheory.CompanionTheory.Ar.GR.polarisedAF p P.g C v R ℤ_[p] AlgEquiv.refl cp US H
   dsimp only at key
   obtain ⟨-, -, -, -, -, -, -, hG, hTi⟩ := key
   rw [hT T] at hG hTi

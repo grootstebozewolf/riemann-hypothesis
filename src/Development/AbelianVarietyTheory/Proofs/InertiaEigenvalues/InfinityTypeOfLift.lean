@@ -4,8 +4,9 @@ public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership
 public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsAut
 public import Mathlib.Data.Matrix.PEquiv
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsComp
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AlgWeightHighestWeightExistsUniqueAntitoneStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsPolynomialRepGLComplexAlgebraicWeightEvalPointStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AlgWeightHighestWeightExistsUniqueAntitone
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsPolyRep
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsPolynomialRepGLComplexAlgebraicWeightEvalPoint
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -133,7 +134,7 @@ theorem inv_diag {B : GL (Fin n) ℂ} (hB : B.val.BlockTriangular id) (k : Fin n
 theorem hwAt_of_conj {a : AlgWt L n} {τ : L →+* ℂ} {lam' : Fin n → ℤ}
     (h : a.HWAt (ComplexEmbedding.conjugate τ) lam') : a.HWAt τ (fun i => -lam' (Fin.rev i)) := by
   obtain ⟨ι, hι1, hι2, b, P, hP, v, hv0, hv⟩ := h
-  have hR := GlobalTheory.T.isPolynomialRepGLComplex_algebraicWeight_evalPoint L n a ι b P hP (ComplexEmbedding.conjugate τ)
+  have hR := _root_.GlobalTheory.AlgWtHW.isPolyRep_evPt L n a ι b P hP (ComplexEmbedding.conjugate τ)
   refine ⟨ι, hι1, hι2, b, P, hP, evM P (evPt (ComplexEmbedding.conjugate τ) (w0 n)) *ᵥ v, ?_, fun B hB => ?_⟩
   · intro h0
     apply hv0
@@ -175,7 +176,7 @@ variable {L : Type} [Field L] [NumberField L] [IsCMField L] {n : ℕ}
 
 theorem infOf_conj {a : AlgWt L n} {τ : L →+* ℂ} {lam lam' : Fin n → ℤ} (h : a.HWAt τ lam)
     (h' : a.HWAt (ComplexEmbedding.conjugate τ) lam') : infOf lam' = (infOf lam).map Neg.neg := by
-  have e := (GlobalTheory.T.algWeight_highestWeight_exists_unique_antitone L n a τ).1.unique h (hwAt_of_conj h')
+  have e := (_root_.GlobalTheory.AlgWtHW.hw_exists_unique_antitone L n a τ).1.unique h (hwAt_of_conj h')
   have hl : lam' = fun i => -lam (Fin.rev i) := by funext i; rw [e]; simp
   subst hl
   unfold infOf

@@ -1,8 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AdelicPointComponentsAtPlacesLatticesVacuaStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemHomLatticeCompletionIffSupportedMapsStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AdelicPointComponentsAtPlacesLatticesVacua
+public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.MarkSpec
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemHomLatticeCompletionIffSupportedMaps
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -97,7 +98,7 @@ theorem mulVec_latA_mem (T : HSp D) (LT MT : Lat T) (P : Pl D → Prop) (h : GA 
     rintro _ ⟨α, hα, hP, a, ha, x, hx, rfl⟩
     set y' : Fin T.rank → AE D := fun i => pairA D.host.F 0 α ⊗ₜ[D.host.F] ((1 : D.host.E) * x i) with hy'def
     have hy' : y' ∈ GlobalTheory.FinPl.latV T MT P := AddSubgroup.subset_closure ⟨α, hα, hP, 1, rfl, x, hx, rfl⟩
-    have hent : ∀ i, y' i ∈ idAt D P := (((GlobalTheory.T.adelicPoint_components_atPlaces_lattices_vacua D P).2 T).2.2.2 MT y' hMT.1).1 hy' |>.1
+    have hent : ∀ i, y' i ∈ idAt D P := (((_root_.GlobalTheory.FinPl.localComponents D P).2 T).2.2.2 MT y' hMT.1).1 hy' |>.1
     have hy'' : Formalism.L2.Theta.mt T h⁻¹ *ᵥ y' ∈ GlobalTheory.FinPl.latV T LT P := by
       rw [hmov _ (mem_ideal_mulVec _ _ _ hent), Matrix.mulVec_mulVec, mt_mul_inv', Matrix.one_mulVec]
       exact hy'
@@ -116,11 +117,11 @@ theorem vac_of_moves : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp 
   have hmem : ∀ u ∈ latO S T (MS : Set _) (MT : Set _) P,
       pull g h u ∈ latO S T (LS : Set _) (LT : Set _) P := by
     intro u hu
-    have hu' := (GlobalTheory.T.mem_homLatticeCompletion_iff_supported_maps D S T MS MT hMS hMT P u).1 hu
-    refine (GlobalTheory.T.mem_homLatticeCompletion_iff_supported_maps D S T LS LT hLS hLT P _).2 ⟨?_, ?_⟩
+    have hu' := (_root_.GlobalTheory.FinPl.LatMem.mem_latO_iff D S T MS MT hMS hMT P u).1 hu
+    refine (_root_.GlobalTheory.FinPl.LatMem.mem_latO_iff D S T LS LT hLS hLT P _).2 ⟨?_, ?_⟩
     · exact mem_ideal_mul_mul (idAt D P) _ _ _ hu'.1
     · intro y hy
-      have hent := ((((GlobalTheory.T.adelicPoint_components_atPlaces_lattices_vacua D P).2 S).2.2.2 LS y hLS.1).1 hy).1
+      have hent := ((((_root_.GlobalTheory.FinPl.localComponents D P).2 S).2.2.2 LS y hLS.1).1 hy).1
       have h1 : Formalism.L2.Theta.mt S g *ᵥ y ∈ GlobalTheory.FinPl.latV S MS P := (hmS y hent).1 hy
       have h2 := hu'.2 _ h1
       have h3 := mulVec_latA_mem T LT MT P h hMT hmT _ h2

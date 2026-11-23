@@ -1,7 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegersEqSumZetaPowStatement
+public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegersEqSumZetaPow
+public import Mathlib.Analysis.Normed.Module.FiniteDimension
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,7 +54,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Algebra.Nonarchimedean.Completion
 import Mathlib.Topology.Sheaves.Init
-public import Mathlib.Analysis.Normed.Module.FiniteDimension
 
 @[expose] public section
 
@@ -285,7 +286,7 @@ theorem Xlev_inter (K : FinExt l) {i : ℕ} (hi : 2 ≤ i) {x : PadicComplex l} 
   obtain ⟨y, h1, h2, h3⟩ := Xlev_form K (by omega) hζ hx
   obtain ⟨w, hw, rfl⟩ := hx'
   have h4 := (io l).injective h3
-  have h5 := (GlobalTheory.T.integers_eq_sum_zeta_pow_unique l K i hi ζ hζ).2 (y - Pi.single ⟨0, hp.pos⟩ w) (fun a => by
+  have h5 := (_root_.GlobalTheory.Cyc.integers_eq_sum_zeta_pow l K i hi ζ hζ).2 (y - Pi.single ⟨0, hp.pos⟩ w) (fun a => by
     refine sub_mem (h1 a) ?_
     rw [Pi.single_apply]
     split_ifs
@@ -307,7 +308,7 @@ theorem step (K : FinExt l) {i : ℕ} (hi : 2 ≤ i) {z : PadicComplex l} (hz : 
   obtain ⟨ζ, hζ⟩ := exists_prim (l := l) i
   obtain ⟨⟨w, hw, rfl⟩, hn⟩ := intC_iff.1 hz
   rw [norm_io] at hn
-  obtain ⟨y, h1, h2⟩ := (GlobalTheory.T.integers_eq_sum_zeta_pow_unique l K i hi ζ hζ).1 w hw hn
+  obtain ⟨y, h1, h2⟩ := (_root_.GlobalTheory.Cyc.integers_eq_sum_zeta_pow l K i hi ζ hζ).1 w hw hn
   have h3 : ∀ a, io l (y a) ∈ intC (Ks K (i - 1)) := fun a =>
     ⟨⟨y a, (h1 a).1, rfl⟩, (norm_io _).le.trans (h1 a).2⟩
   refine ⟨io l (y ⟨0, hp.pos⟩), h3 _, ?_⟩

@@ -1,17 +1,23 @@
 module
 
+public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
 public import Development.AbelianVarietyTheory.Definitions.Divisors.DiscreteSeriesHermitianUnique
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCompactOpenSubgroupsStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasCompactSupportFinprodSchwartzBruhatFiniteAdel
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocallyConstantFinprodSchwartzBruhatFiniteAdel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import Mathlib.Combinatorics.Enumerative.DyckWord
 import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
 import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
 import Mathlib.Geometry.Euclidean.Volume.Basic
 import Mathlib.NumberTheory.Chebyshev
 import Mathlib.NumberTheory.Height.NumberField
@@ -37,12 +43,136 @@ import Mathlib.Tactic.NormNum.NatFib
 import Mathlib.Tactic.NormNum.NatLog
 import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Topology.UniformSpace.Uniformizable
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
 
+-- This file was produced by scripts/clump.py from the modules listed below.
+-- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCompactOpenSubgroups, Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianAdaptedPlaneConstant
+
+-- ===== clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCompactOpenSubgroups =====
+-- clump-header: {"m": "Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCompactOpenSubgroups", "h": "module\n\npublic import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes\npublic import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Topology.Sheaves.Init\n\n"}
+section -- clump:auto
+@[expose] public section
+
+open NumberField IsDedekindDomain Filter Topology
+
+namespace GlobalTheory.FinAdeleNbhd
+
+theorem exists_prod_openCompact_subset :
+    ∀ (F : Type) [Field F] [NumberField F] (κ : Type) [Fintype κ] (V : Set (κ → FiniteAdeleRing (𝓞 F) F)),
+    V ∈ 𝓝 (0 : κ → FiniteAdeleRing (𝓞 F) F) →
+    ∃ N : ∀ v : IsDedekindDomain.HeightOneSpectrum (𝓞 F), AddSubgroup (v.adicCompletion F),
+      (∀ v, IsOpen (N v : Set (v.adicCompletion F))) ∧ (∀ v, IsCompact (N v : Set (v.adicCompletion F))) ∧
+      (∀ᶠ v in Filter.cofinite, (N v : Set (v.adicCompletion F)) = v.adicCompletionIntegers F) ∧
+      {y : κ → FiniteAdeleRing (𝓞 F) F | ∀ i v, Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.evalV F v (y i) ∈ N v} ∈ 𝓝 (0 : κ → FiniteAdeleRing (𝓞 F) F) ∧
+      {y : κ → FiniteAdeleRing (𝓞 F) F | ∀ i v, Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.evalV F v (y i) ∈ N v} ⊆ V := by
+  intro F _ _ κ _ V hV
+  classical
+
+  rw [nhds_pi, Filter.mem_pi'] at hV
+  obtain ⟨J, s, hs, hJs⟩ := hV
+  set W : Set (FiniteAdeleRing (𝓞 F) F) := ⋂ i, s i with hWdef
+  have hW : W ∈ 𝓝 (0 : FiniteAdeleRing (𝓞 F) F) := Filter.iInter_mem.2 hs
+  have hWV : ∀ y : κ → FiniteAdeleRing (𝓞 F) F, (∀ i, y i ∈ W) → y ∈ V := fun y hy =>
+    hJs fun i _ => Set.mem_iInter.1 (hy i) i
+
+  let R : IsDedekindDomain.HeightOneSpectrum (𝓞 F) → Type := fun v => v.adicCompletion F
+  let A : ∀ v, Set (R v) := fun v => (v.adicCompletionIntegers F : Set (v.adicCompletion F))
+  let e := RestrictedProduct.structureMap R A Filter.cofinite
+  have he : Continuous e := (RestrictedProduct.isEmbedding_structureMap).continuous
+  let p : ∀ v, A v := fun v => ⟨0, (v.adicCompletionIntegers F).zero_mem⟩
+  have hep : (e p : FiniteAdeleRing (𝓞 F) F) = 0 := rfl
+  have hpre : e ⁻¹' W ∈ 𝓝 p := he.continuousAt.preimage_mem_nhds (by rw [hep]; exact hW)
+  rw [nhds_pi, Filter.mem_pi'] at hpre
+  obtain ⟨I, t, ht, hIt⟩ := hpre
+  have hu : ∀ v, ∃ u ∈ 𝓝 (0 : R v), Subtype.val ⁻¹' u ⊆ t v := fun v =>
+    (mem_nhds_subtype (A v) (p v) (t v)).1 (ht v)
+  choose u hu0 hut using hu
+
+  have hG : ∀ v, ∃ G : OpenAddSubgroup (R v), (G : Set (R v)) ⊆ u v := fun v =>
+    NonarchimedeanAddGroup.is_nonarchimedean _ (hu0 v)
+  choose G hGu using hG
+  let O : ∀ v, AddSubgroup (R v) := fun v => (v.adicCompletionIntegers F).toSubring.toAddSubgroup
+  have hOset : ∀ v, ((O v : AddSubgroup (R v)) : Set (R v)) = A v := fun v => rfl
+  have hOopen : ∀ v, IsOpen (A v) := fun v => Valued.isOpen_valuationSubring _
+  have hOcpt : ∀ v, IsCompact (A v) := fun v =>
+    isCompact_iff_compactSpace.2 (GlobalTheory.AdelicUnitaryTop.compactSpace_adicCompletionIntegers F v)
+  let N : ∀ v, AddSubgroup (R v) := fun v => if v ∈ I then (G v).toAddSubgroup ⊓ O v else O v
+  have hNO : ∀ v, ∀ x ∈ N v, x ∈ A v := by
+    intro v x hx
+    by_cases hv : v ∈ I
+    · simp only [N, hv, if_true] at hx; exact hx.2
+    · simp only [N, hv, if_false] at hx; exact hx
+  have hNG : ∀ v ∈ I, ∀ x ∈ N v, x ∈ (G v : Set (R v)) := by
+    intro v hv x hx
+    simp only [N, hv, if_true] at hx; exact hx.1
+  have hNopen : ∀ v, IsOpen (N v : Set (R v)) := by
+    intro v
+    by_cases hv : v ∈ I
+    · simp only [N, hv, if_true, AddSubgroup.coe_inf]
+      exact (G v).isOpen.inter (hOopen v)
+    · simp only [N, hv, if_false]; exact hOopen v
+  have hNcpt : ∀ v, IsCompact (N v : Set (R v)) := by
+    intro v
+    by_cases hv : v ∈ I
+    · simp only [N, hv, if_true, AddSubgroup.coe_inf]
+      exact (hOcpt v).inter_left (G v).isClosed
+    · simp only [N, hv, if_false]; exact hOcpt v
+  refine ⟨N, hNopen, hNcpt, ?_, ?_, ?_⟩
+  · filter_upwards [I.eventually_cofinite_notMem] with v hv
+    simp only [N, hv, if_false]; rfl
+  ·
+    let P : Set (FiniteAdeleRing (𝓞 F) F) := {a | ∀ v, a v ∈ N v}
+    have hPeq : P = {a : FiniteAdeleRing (𝓞 F) F | ∀ v, v ∉ I → a v ∈ A v} ∩ ⋂ v ∈ I, (fun a : FiniteAdeleRing (𝓞 F) F => a v) ⁻¹' (N v : Set (R v)) := by
+      ext a
+      simp only [P, Set.mem_setOf_eq, Set.mem_inter_iff, Set.mem_iInter, Set.mem_preimage]
+      constructor
+      · intro h; exact ⟨fun v _ => hNO v _ (h v), fun v _ => h v⟩
+      · rintro ⟨h1, h2⟩ v
+        by_cases hv : v ∈ I
+        · exact h2 v hv
+        · have := h1 v hv
+          simp only [N, hv, if_false]; exact this
+    have hPopen : IsOpen P := by
+      rw [hPeq]
+      refine IsOpen.inter (RestrictedProduct.isOpen_forall_imp_mem hOopen) ?_
+      exact isOpen_biInter_finset fun v _ => (hNopen v).preimage (RestrictedProduct.continuous_eval v)
+    have hP0 : (0 : FiniteAdeleRing (𝓞 F) F) ∈ P := fun v => (N v).zero_mem
+    have : (Set.univ : Set κ).pi (fun _ => P) ∈ 𝓝 (0 : κ → FiniteAdeleRing (𝓞 F) F) :=
+      set_pi_mem_nhds Set.finite_univ fun i _ => hPopen.mem_nhds hP0
+    refine Filter.mem_of_superset this ?_
+    intro y hy i v
+    exact hy i (Set.mem_univ i) v
+  ·
+    intro y hy
+    apply hWV
+    intro i
+    have hyi : ∀ v, (y i) v ∈ N v := fun v => hy i v
+    let x : ∀ v, A v := fun v => ⟨(y i) v, hNO v _ (hyi v)⟩
+    have hex : (e x : FiniteAdeleRing (𝓞 F) F) = y i := rfl
+    have hxI : x ∈ (I : Set _).pi t := by
+      intro v hv
+      apply hut v
+      show (y i) v ∈ u v
+      exact hGu v (hNG v hv _ (hyi v))
+    have h := hIt hxI
+    have h' : (e x : FiniteAdeleRing (𝓞 F) F) ∈ W := h
+    rw [hex] at h'
+    exact h'
+
+end GlobalTheory.FinAdeleNbhd
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCompactOpenSubgroups =====
+
+-- ===== clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianAdaptedPlaneConstant =====
+-- clump-header: {"m": "Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianAdaptedPlaneConstant", "h": "module\n\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone\npublic import Development.AbelianVarietyTheory.Definitions.Divisors.DiscreteSeriesHermitianUnique\npublic import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCompactOpenSubgroups\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasCompactSupportFinprodSchwartzBruhatFiniteAdel\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocallyConstantFinprodSchwartzBruhatFiniteAdel\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Topology.UniformSpace.Uniformizable\nimport Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts\n\n"}
+section -- clump:auto
 @[expose] public section
 
 open scoped TensorProduct NNReal Matrix
@@ -138,7 +268,7 @@ theorem sb_decomp : ∀ (F : Type) [Field F] [NumberField F] (κ : Type) [Fintyp
     filter_upwards [h2.eventually_eq (0, z)] with q hq
     simp only [Prod.mk.injEq, add_zero] at hq
     rw [hq.1, hq.2]
-  obtain ⟨N, hNo, hNc, hNcof, hPn, hPV⟩ := GlobalTheory.T.exists_compact_open_subgroups F κ _ h1
+  obtain ⟨N, hNo, hNc, hNcof, hPn, hPV⟩ := _root_.GlobalTheory.FinAdeleNbhd.exists_prod_openCompact_subset F κ _ h1
   let U : AddSubgroup (κ → FiniteAdeleRing (𝓞 F) F) :=
     { carrier := {y | ∀ i v, Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.evalV F v (y i) ∈ N v}
       zero_mem' := fun i v => by simp
@@ -234,3 +364,7 @@ theorem pullback_adm : GlobalTheory.FunPr.Hypotheses₂ → ∀ (F E : Type) [Fi
   exact congrArg (c j • ·) (hTj j (ei f))
 
 end GlobalTheory.MixEvAdm
+end -- clump:auto
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianAdaptedPlaneConstant =====

@@ -1,8 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.EtaleEmpty
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleIsLocalHomeomorphStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalInverseStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleIsLocalHomeomorph
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalInverse
+public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventuallyEq
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FlatLocA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,9 +45,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventuallyEq
 import ReciprocityTheory.L2DbarEstimates.LeviForms.EventuallyDifferentiableAtOfContDiffAt
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FlatLocA
 import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.L2ExtensionLogCanonical
 
 @[expose] public section
@@ -59,13 +59,13 @@ theorem etale_leviNonneg : ∀ (n : ℕ) (Y : Type) [TopologicalSpace Y] [T2Spac
   intro n Y _ _ _ _ _ ι La _ A U z hE φ hφ
   unfold LeviNonneg
   intro x ξ
-  have hloc := GlobalTheory.T.etale_isLocalHomeomorph' n Y ι La A U z hE
+  have hloc := _root_.GlobalTheory.OTY.etale_isLocalHomeomorph n Y ι La A U z hE
   obtain ⟨e, he, hx⟩ := exists_chart n (fun y : U => z y) hloc x
   obtain ⟨i, hxi, hsm, hpos⟩ := hφ x.1 x.2
   have hzx : z x = e x := he hx
   have hv : e x ∈ e.target := e.map_source hx
   have hsx : e.symm (e x) = x := e.left_inv hx
-  obtain ⟨hG, hev, -⟩ := GlobalTheory.T.contDiffAt_chart_inverse_of_etale n Y ι La A U z hE e he (e x) hv i (by rw [hsx]; exact hxi)
+  obtain ⟨hG, hev, -⟩ := _root_.GlobalTheory.OTY.etale_local_inverse n Y ι La A U z hE e he (e x) hv i (by rw [hsx]; exact hxi)
   rw [levi_eq_leviV n _ e he _ x hx ξ]
   show 0 ≤ (leviV n (fun y => ((φ (e.symm y : Y) : ℝ) : ℂ)) (z x) ξ).re
   rw [hzx]

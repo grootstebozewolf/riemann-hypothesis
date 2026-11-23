@@ -5,7 +5,8 @@ public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.StableEig
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUniqueCmEmbeddingEigenvectorSum
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelEigenvectorsActionStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeGram
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelEigenvectorsAction
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueAct
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieOmegaLatticeVectorBundle
 import Mathlib.Algebra.Order.Floor.Extended
@@ -83,7 +84,7 @@ theorem frame_of_stableEig : ∀ (E : Type) [Field E] [NumberField E] [IsCMField
     hs _ (RingHom.id _) _ (by simp only [spMap, CommRingCat.ofHom_id, Spec.map_id]; exact Category.id_comp _) e (fun i => by rw [spMap_dualMap_id, Category.id_comp])
   choose f hf using fun i => MA.onto (e i) (h0.1 i).1
   have hfe : (fun k => MA.pt (f k)) = e := funext hf
-  have hfr := ((GlobalTheory.T.lie_model_eigenvectors_action Y.X (Y.X.presheaf.stalk p.1) Y.t.G (Y.X.fromSpecStalk p.1) F MA).2 (𝓞 E) Y.t.act ρA
+  have hfr := ((_root_.GlobalTheory.CompanionTheory.Ar.Fl.Bridge.comb_eig_frame Y.X (Y.X.presheaf.stalk p.1) Y.t.G (Y.X.fromSpecStalk p.1) F MA).2 (𝓞 E) Y.t.act ρA
     (((RingHom.id _).comp κ).comp (tauIn c σ)) hρA).2 r f
   rw [hfe] at hfr
   obtain ⟨-, hfs⟩ := hfr.1 h0
@@ -93,7 +94,7 @@ theorem frame_of_stableEig : ∀ (E : Type) [Field E] [NumberField E] [IsCMField
   have h1 : IsEigFrame Y.t.act (Z.ξ₀ ≫ Y.j) (((genMap (Z.ξ₀ ≫ Y.j) p).comp κ).comp (tauIn c σ))
       (fun i => Z.M.pt (j (f i))) := hs _ _ _ hg _ hb
   rw [hκ] at h1
-  obtain ⟨hbi, hbs⟩ := (((GlobalTheory.T.lie_model_eigenvectors_action Y.X Z.Ω Y.t.G (Z.ξ₀ ≫ Y.j) Z.V Z.M).2 (𝓞 E) Y.t.act Z.ρ
+  obtain ⟨hbi, hbs⟩ := (((_root_.GlobalTheory.CompanionTheory.Ar.Fl.Bridge.comb_eig_frame Y.X Z.Ω Y.t.G (Z.ξ₀ ≫ Y.j) Z.V Z.M).2 (𝓞 E) Y.t.act Z.ρ
     (Z.inc.comp (tauIn c σ)) Z.act).2 r fun i => j (f i)).1 h1
   refine ⟨fun i => j (f i), hext, hbi, le_antisymm ?_ (Submodule.span_le.2 ?_)⟩
   · intro e' he'

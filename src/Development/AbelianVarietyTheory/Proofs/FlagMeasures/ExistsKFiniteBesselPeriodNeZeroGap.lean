@@ -3,7 +3,8 @@ module
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UniqGapOfUniq
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.HaarEqSmul
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.SumNonneg
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BesselQuotientMassEqConstMulNormSqTranslatesStatement
+public import Development.AbelianVarietyTheory.Definitions.Jets.SumIoPrAlt
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BesselQuotientMassEqConstMulNormSqTranslates
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DiscreteSeriesBesselGap
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsKFinNeZeroOfCwCont
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselGapDimensionFormula
@@ -268,7 +269,7 @@ theorem exists_kFin_period_ne_zero : GlobalTheory.GapIn.Hyp → ∀ (k r : ℕ) 
   intro hy k r ε mu h R Wp _ _ _ _ z π u μW μN μG νq B l w hR hgap hok hS hB hwK h0 hfin hl
   have hK : PI.KFinSmooth := hy.1.1.2.2.1
   have hw : w ∈ R.sm := hK k r ε mu R.H R.σ hR.1 hR.2 w hwK
-  obtain ⟨c, hc, hiso⟩ := GlobalTheory.T.exists_l2SG_translates_eq_const_mul_norm_sq k r ε mu R Wp z π u μW μN μG νq B w hR hS hB hw hfin
+  obtain ⟨c, hc, hiso⟩ := _root_.GlobalTheory.BesselIsometry.besselQuotientMass_eq_const_mul_norm_sq_translates k r ε mu R Wp z π u μW μN μG νq B w hR hS hB hw hfin
   exact GlobalTheory.exists_kFin_ne_zero_of_cwCont hK k r ε mu R hR Wp l hl.1.1 hl.1.2.1 hl.1.2.2.2
     (nzOn_of_mass hy hR hgap hok hS hB hwK hc hiso h0 hl)
 

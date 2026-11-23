@@ -2,9 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.TypeOrthOfAvTied
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsWildInertiaCyclotomicElement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ClassSumEqConstMulPeterssonStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AlgWtExistsInvFormStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteDoubleCosetsDefiniteUnitaryMaximalLevelStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ClassSumEqConstMulPetersson
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AlgWtExistsInvForm
+public import Formalism.AlgebraicWeights.IsAlgWeight
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteDoubleCosetsDefiniteUnitaryMaximalLevel
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SmoothAdmissibleUnitaryMemSupIsotypicParts
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsFiniteClass
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FiniteDimensionalForms
@@ -254,7 +255,7 @@ theorem typeSp_decomp : ∀ (L : Type) [Field L] [NumberField L] [IsCMField L] (
   classical
   obtain ⟨N, hN, hNJ⟩ := hlev
   haveI hW : FiniteDimensional ℂ a.W := a.alg.1
-  have hT := GlobalTheory.T.finite_doubleCosets_definiteUnitary_maximalLevel L n
+  have hT := _root_.GlobalTheory.DefiniteClassFinite.exists_finset_double_cosets_Umax L n
   have hfin : ∀ N : ℕ, 0 < N → FiniteDimensional ℂ ↥(Submodule.span ℂ
       {f | f ∈ NG.AFall L n a.ρ ∧ ∀ κ, NG.Cong L n N κ → ∀ g, f (g * κ) = f g}) := by
     intro M hM
@@ -262,8 +263,8 @@ theorem typeSp_decomp : ∀ (L : Type) [Field L] [NumberField L] [IsCMField L] (
     refine Submodule.finiteDimensional_of_le (S₂ := GlobalTheory.AlgFormsFin.fixedForms L n a.ρ M) (Submodule.span_le.2 ?_)
     rintro f ⟨hf, hκ⟩
     exact ⟨hf.1, hκ⟩
-  obtain ⟨β, hβ⟩ := GlobalTheory.T.algWt_exists_invForm' L n a
-  obtain ⟨B, hB, -⟩ := GlobalTheory.T.class_sum_eq_const_mul_petersson L n a β hβ
+  obtain ⟨β, hβ⟩ := _root_.GlobalTheory.algWt_exists_invForm L n a
+  obtain ⟨B, hB, -⟩ := _root_.GlobalTheory.ClassPet.classSum_eq_pet L n a β hβ
   have hG : GlobalTheory.TypeOrthogonality.Good a.ρ B := hB
   set V := NG.TypeSp a.ρ J χ with hVdef
   have hVA : V ≤ NG.AFall L n a.ρ := fun f hf => hf.1

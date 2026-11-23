@@ -1,7 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.RepAlg
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.DeterminantRepresentations.IrrIffSpan
+public import Mathlib.FieldTheory.IsAlgClosed.Basic
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.IrrIffSpan
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BlochKatoSelmerVanishes
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebraHeight.DGmap
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebraHeight.DOfRep
@@ -95,7 +96,7 @@ private theorem gram_at {n : ℕ} {A G H K : Type} [CommRing A] [Group G] [Group
 private theorem isIrr_iff_span {Γ k : Type} [Group Γ] [Field k] [IsAlgClosed k] {n : ℕ} (hn : 1 ≤ n)
     (r : Γ →* GL (Fin n) k) : IsIrr r ↔ Submodule.span k (Set.range (mat r)) = ⊤ := by
   haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
-  rw [← UpperTheory.V.AlgebraTools.Det.irrIffSpan]
+  rw [← _root_.UpperTheory.Reformulated.B.Qe4.irrIffSpan]
   constructor
   · intro h N hN
     obtain ⟨-, -, h3⟩ := h

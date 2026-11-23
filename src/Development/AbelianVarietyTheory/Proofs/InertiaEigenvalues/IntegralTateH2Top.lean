@@ -5,7 +5,7 @@ public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.H2EquivOf
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicCoboundaryOfDivisible
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIntTwoCocycleEqPowSmulOfReductionCoboundary
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContinuousTwoCocycleMultipleOfFundamental
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFundamentalTwoCocycleOfLocalTateDualityStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFundamentalTwoCocycleOfLocalTateDuality
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -337,7 +337,7 @@ namespace GlobalTheory.IntTateTop
 theorem admH2_of_duality : Formalism.GaloisCohomology.LocalTateDualityK → ∀ (D : D7) (i : D.nd.Loc), TruncatedSeriesCountingIdentities.admH2 i := by
   intro hT D i w hw C
   obtain ⟨hcpt, χ, c, hχc, hχ, hgen, hfin⟩ :=
-    GlobalTheory.T.exists_fundamentalTwoCocycle_of_localTateDuality hT (D.nd.l i) (D.loc (D.nd.l i)) (D.nbr i w hw).Kw
+    _root_.GlobalTheory.TateTop.exists_fundamental_cocycle_loc hT (D.nd.l i) (D.loc (D.nd.l i)) (D.nbr i w hw).Kw
   exact tateH2OAt_of_fund (D.loc (D.nd.l i)) (D.nbr i w hw).Kw C.LL χ c hχc hχ hgen hfin
 
 end GlobalTheory.IntTateTop

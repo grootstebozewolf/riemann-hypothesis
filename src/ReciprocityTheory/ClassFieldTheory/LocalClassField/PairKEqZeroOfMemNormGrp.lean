@@ -1,7 +1,15 @@
 module
 
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.QZDefs
+public import Mathlib.GroupTheory.FiniteAbelian.Duality
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPairDefs
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecDefs
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.NormOpen
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecCyclic
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecFunct
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPair
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsE
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.GabLim
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -21,7 +29,8 @@ import Mathlib.NumberTheory.Height.Projectivization
 import Mathlib.NumberTheory.LucasLehmer
 import Mathlib.NumberTheory.SelbergSieve
 import Mathlib.RingTheory.Radical.NatInt
-import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Echelon.Zsqrtd
 import Mathlib.Tactic.Inclusion.Extension.Core.Core
 import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
@@ -29,7 +38,6 @@ import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
 import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
 import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
 import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.NormNum.Irrational
 import Mathlib.Tactic.NormNum.IsCoprime
 import Mathlib.Tactic.NormNum.IsSquare
@@ -42,20 +50,442 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
+import Mathlib.Tactic.Linter.Style
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.InflationH2InjectiveOfSameRamification
+import ReciprocityTheory.GroupCohomology.ComapZeroCoboundariesEqBot
+import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.ExistsDvdQKPowSubOne
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.GabLim
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.NormOpen
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecAbA
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecAbC
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecCyclic
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecFunct
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPair
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecUnr
 
+-- This file was produced by scripts/clump.py from the modules listed below.
+-- Members: ReciprocityTheory.ClassFieldTheory.LocalClassField.RecAbA, ReciprocityTheory.ClassFieldTheory.LocalClassField.RecAbC, ReciprocityTheory.ClassFieldTheory.LocalClassField.RecUnr, ReciprocityTheory.ClassFieldTheory.LocalClassField.PairKEqZeroOfMemNormGrp
+
+-- ===== clump member: ReciprocityTheory.ClassFieldTheory.LocalClassField.RecAbA =====
+-- clump-header: {"m": "ReciprocityTheory.ClassFieldTheory.LocalClassField.RecAbA", "h": "module\n\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.QZDefs\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\npublic import Mathlib.GroupTheory.FiniteAbelian.Duality\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Topology.Sheaves.Init\n\n"}
+section -- clump:auto
+@[expose] public section
+
+namespace ReciprocityTheory.DiscreteGroups.LocalClassField
+
+open _root_.Neutral.B1 Function
+
+noncomputable section
+
+theorem qz_mk_eq_zero_iff (q : ℚ) : (QuotientAddGroup.mk q : QZ) = 0 ↔ ∃ k : ℤ, (k : ℚ) = q := by
+  rw [QuotientAddGroup.eq_zero_iff]; rfl
+
+theorem qz_nsmul_mk (l : ℕ) (q : ℚ) : l • (QuotientAddGroup.mk q : QZ) = QuotientAddGroup.mk ((l : ℚ) * q) := by
+  rw [← nsmul_eq_mul]; rfl
+
+theorem qz_zsmul_mk (l : ℤ) (q : ℚ) : l • (QuotientAddGroup.mk q : QZ) = QuotientAddGroup.mk ((l : ℚ) * q) := by
+  rw [← zsmul_eq_mul]; rfl
+
+theorem qz_exists_zsmul (n : ℕ) (hn : n ≠ 0) (x : QZ) (hx : n • x = 0) :
+    ∃ k : ℤ, x = k • (QuotientAddGroup.mk ((1 : ℚ) / n) : QZ) := by
+  obtain ⟨q, rfl⟩ := QuotientAddGroup.mk_surjective x
+  rw [qz_nsmul_mk, qz_mk_eq_zero_iff] at hx
+  obtain ⟨k, hk⟩ := hx
+  refine ⟨k, ?_⟩
+  rw [qz_zsmul_mk, hk]
+  have : (n : ℚ) ≠ 0 := Nat.cast_ne_zero.2 hn
+  congr 1
+  field_simp
+
+theorem qz_nsmul_inv_eq_zero_iff (n : ℕ) (hn : n ≠ 0) (l : ℕ) :
+    l • (QuotientAddGroup.mk ((1 : ℚ) / n) : QZ) = 0 ↔ n ∣ l := by
+  have hn' : (n : ℚ) ≠ 0 := Nat.cast_ne_zero.2 hn
+  rw [qz_nsmul_mk, qz_mk_eq_zero_iff]
+  constructor
+  · rintro ⟨k, hk⟩
+    have h : ((k * n : ℤ) : ℚ) = ((l : ℤ) : ℚ) := by
+      push_cast
+      rw [hk]
+      field_simp
+    have h' : k * n = (l : ℤ) := Int.cast_injective h
+    exact Int.natCast_dvd_natCast.1 ⟨k, by rw [← h', mul_comm]⟩
+  · rintro ⟨k, rfl⟩
+    refine ⟨k, ?_⟩
+    push_cast
+    field_simp
+
+scoped instance hasEnoughRootsOfUnity_QZ (n : ℕ) [NeZero n] : HasEnoughRootsOfUnity (Multiplicative QZ) n where
+  prim := ⟨Multiplicative.ofAdd (QuotientAddGroup.mk ((1 : ℚ) / n)),
+    { pow_eq_one := by
+        rw [← ofAdd_nsmul, (qz_nsmul_inv_eq_zero_iff n (NeZero.ne n) n).2 dvd_rfl]; rfl
+      dvd_of_pow_eq_one := fun l hl => by
+        rw [← ofAdd_nsmul] at hl
+        exact (qz_nsmul_inv_eq_zero_iff n (NeZero.ne n) l).1 (Multiplicative.ofAdd.injective hl) }⟩
+  cyc := by
+    have h0 : (toUnits (Multiplicative.ofAdd (QuotientAddGroup.mk ((1 : ℚ) / n) : QZ))) ∈
+        rootsOfUnity n (Multiplicative QZ) := by
+      rw [mem_rootsOfUnity, ← map_pow, ← ofAdd_nsmul, (qz_nsmul_inv_eq_zero_iff n (NeZero.ne n) n).2 dvd_rfl]
+      exact map_one _
+    refine ⟨⟨⟨_, h0⟩, fun x => ?_⟩⟩
+    have hx : n • Multiplicative.toAdd (x.1 : Multiplicative QZ) = 0 := by
+      have := x.2
+      rw [mem_rootsOfUnity] at this
+      have h2 := congrArg (fun u : (Multiplicative QZ)ˣ => Multiplicative.toAdd (u : Multiplicative QZ)) this
+      simpa using h2
+    obtain ⟨k, hk⟩ := qz_exists_zsmul n (NeZero.ne n) _ hx
+    refine ⟨k, ?_⟩
+    apply Subtype.ext
+    apply Units.ext
+    apply Multiplicative.toAdd.injective
+    rw [hk]
+    simp
+
+section fin
+
+variable (A : Type) [AddCommGroup A] [Finite A]
+
+def homEquivUnits : (A →+ QZ) ≃ (Multiplicative A →* (Multiplicative QZ)ˣ) :=
+  AddMonoidHom.toMultiplicative.trans (toUnits (G := Multiplicative QZ)).monoidHomCongrRight.toEquiv
+
+theorem homEquivUnits_apply (χ : A →+ QZ) (a : A) :
+    Multiplicative.toAdd ((homEquivUnits A χ (Multiplicative.ofAdd a) : (Multiplicative QZ)ˣ) : Multiplicative QZ) = χ a := rfl
+
+scoped instance : NeZero (Monoid.exponent (Multiplicative A)) := ⟨Monoid.exponent_ne_zero_of_finite⟩
+
+theorem card_hom_QZ : Nat.card (A →+ QZ) = Nat.card A := by
+  rw [Nat.card_congr (homEquivUnits A),
+    CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (Multiplicative A) (Multiplicative QZ)]
+  rfl
+
+scoped instance finite_hom_QZ : Finite (A →+ QZ) :=
+  Nat.finite_of_card_ne_zero (by rw [card_hom_QZ]; exact Nat.card_pos.ne')
+
+variable {A}
+
+theorem exists_hom_QZ_ne_zero {a : A} (ha : a ≠ 0) : ∃ χ : A →+ QZ, χ a ≠ 0 := by
+  obtain ⟨φ, hφ⟩ := CommGroup.exists_apply_ne_one_of_hasEnoughRootsOfUnity (Multiplicative A) (Multiplicative QZ)
+    (a := Multiplicative.ofAdd a) (fun h => ha (Multiplicative.ofAdd.injective h))
+  refine ⟨(homEquivUnits A).symm φ, fun h => hφ ?_⟩
+  rw [← homEquivUnits_apply, Equiv.apply_symm_apply] at h
+  exact Units.ext (Multiplicative.toAdd.injective h)
+
+theorem exists_eval_QZ (f : (A →+ QZ) →+ QZ) : ∃ a : A, ∀ χ : A →+ QZ, χ a = f χ := by
+  let ev : A →+ ((A →+ QZ) →+ QZ) := AddMonoidHom.flip (AddMonoidHom.id (A →+ QZ))
+  have hinj : Injective ev := by
+    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+    intro a ha
+    by_contra h
+    obtain ⟨χ, hχ⟩ := exists_hom_QZ_ne_zero h
+    exact hχ (DFunLike.congr_fun ha χ)
+  have hbij : Bijective ev := hinj.bijective_of_nat_card_le (by rw [card_hom_QZ, card_hom_QZ])
+  obtain ⟨a, ha⟩ := hbij.2 f
+  exact ⟨a, fun χ => DFunLike.congr_fun ha χ⟩
+
+end fin
+
+section top
+
+variable {G : Type} [Group G] [TopologicalSpace G] {A : Type} [AddCommGroup A] (π : Additive G →+ A)
+  (hc : IsLocallyConstant fun g : G => π (Additive.ofMul g))
+
+def pullChar : (A →+ QZ) →+ charGrp G where
+  toFun ψ := ⟨ψ.comp π, hc.comp ψ⟩
+  map_zero' := rfl
+  map_add' _ _ := rfl
+
+theorem pullChar_apply (ψ : A →+ QZ) (g : G) : (pullChar π hc ψ).1 (Additive.ofMul g) = ψ (π (Additive.ofMul g)) := rfl
+
+variable {π}
+
+theorem pullChar_injective (hπ : Surjective π) : Injective (pullChar π hc) := by
+  intro ψ ψ' h
+  ext a
+  obtain ⟨g, rfl⟩ := hπ a
+  exact DFunLike.congr_fun (congrArg Subtype.val h) g
+
+theorem exists_pullChar_eq (hπ : Surjective π) (χ : charGrp G)
+    (h : ∀ g : G, π (Additive.ofMul g) = 0 → χ.1 (Additive.ofMul g) = 0) : ∃ ψ, pullChar π hc ψ = χ := by
+  refine ⟨π.liftOfSurjective hπ ⟨χ.1, fun g hg => h (Additive.toMul g) hg⟩, Subtype.ext ?_⟩
+  exact AddMonoidHom.liftOfRightInverse_comp _ _ _ _
+
+include hc
+
+theorem exists_character_ne_zero_of_quotient [Finite A] (g : G) (hg : π (Additive.ofMul g) ≠ 0) :
+    ∃ χ : charGrp G, (∀ g : G, π (Additive.ofMul g) = 0 → χ.1 (Additive.ofMul g) = 0) ∧ χ.1 (Additive.ofMul g) ≠ 0 := by
+  obtain ⟨ψ, hψ⟩ := exists_hom_QZ_ne_zero hg
+  exact ⟨pullChar π hc ψ, fun g hg => by rw [pullChar_apply, hg, map_zero], hψ⟩
+
+theorem card_characters_of_finite_quotient [Finite A] (hπ : Surjective π) :
+    Nat.card {χ : charGrp G // ∀ g : G, π (Additive.ofMul g) = 0 → χ.1 (Additive.ofMul g) = 0} = Nat.card A := by
+  rw [← card_hom_QZ A]
+  refine (Nat.card_congr (Equiv.ofBijective
+    (fun ψ : A →+ QZ => (⟨pullChar π hc ψ, fun g hg => by rw [pullChar_apply, hg, map_zero]⟩ :
+      {χ : charGrp G // ∀ g : G, π (Additive.ofMul g) = 0 → χ.1 (Additive.ofMul g) = 0})) ⟨?_, ?_⟩)).symm
+  · intro ψ ψ' h
+    exact pullChar_injective hc hπ (congrArg Subtype.val h)
+  · rintro ⟨χ, hχ⟩
+    obtain ⟨ψ, hψ⟩ := exists_pullChar_eq hc hπ χ hχ
+    exact ⟨ψ, Subtype.ext hψ⟩
+
+theorem exists_element_evaluating_characters [Finite A] (hπ : Surjective π) (f : charGrp G →+ QZ) :
+    ∃ g : G, ∀ χ : charGrp G, (∀ g : G, π (Additive.ofMul g) = 0 → χ.1 (Additive.ofMul g) = 0) →
+      χ.1 (Additive.ofMul g) = f χ := by
+  obtain ⟨a, ha⟩ := exists_eval_QZ (f.comp (pullChar π hc))
+  obtain ⟨g, rfl⟩ := hπ a
+  refine ⟨Additive.toMul g, fun χ hχ => ?_⟩
+  obtain ⟨ψ, rfl⟩ := exists_pullChar_eq hc hπ χ hχ
+  exact ha ψ
+
+end top
+
+section quot
+
+variable {G : Type} [Group G] (H : Subgroup G) [H.Normal]
+
+abbrev quotAddCommGroup (h : commutator G ≤ H) : AddCommGroup (Additive (G ⧸ H)) :=
+  { (inferInstance : AddGroup (Additive (G ⧸ H))) with
+    add_comm := fun a b => by
+      have := (Subgroup.Normal.quotient_commutative_iff_commutator_le (N := H)).2 h
+      exact congrArg Additive.ofMul (this.is_comm.comm (Additive.toMul a) (Additive.toMul b)) }
+
+end quot
+
+end
+
+end ReciprocityTheory.DiscreteGroups.LocalClassField
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: ReciprocityTheory.ClassFieldTheory.LocalClassField.RecAbA =====
+
+-- ===== clump member: ReciprocityTheory.ClassFieldTheory.LocalClassField.RecAbC =====
+-- clump-header: {"m": "ReciprocityTheory.ClassFieldTheory.LocalClassField.RecAbC", "h": "module\n\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPairDefs\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecDefs\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Topology.Sheaves.Init\nimport ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.NormOpen\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecCyclic\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecFunct\nimport ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPair\n\n"}
+section -- clump:auto
+@[expose] public section
+
+namespace ReciprocityTheory.DiscreteGroups.LocalClassField
+
+open _root_.Neutral.B1 ReciprocityTheory.Coh Function
+open scoped commutatorElement
+
+variable {p : ℕ} [Fact p.Prime] {K L : IntermediateField ℚ_[p] (PadicAlgCl p)}
+
+theorem ofK_injective : Injective (ofK p K) := by
+  intro a b hab
+  have h1 : (((Additive.toMul a : Kˣ) : K) : PadicAlgCl p) = (((Additive.toMul b : Kˣ) : K) : PadicAlgCl p) :=
+    congrArg (fun y : KbarMult p => ((Additive.toMul y : (PadicAlgCl p)ˣ) : PadicAlgCl p)) hab
+  exact Additive.toMul.injective (Units.ext (Subtype.ext h1))
+
+theorem exists_ofK_eq (y : KbarMult p) (hy : y ∈ multOf p K) : ∃ a : Kˣ, ofK p K (Additive.ofMul a) = y := by
+  have hne : (⟨((Additive.toMul y : (PadicAlgCl p)ˣ) : PadicAlgCl p), hy⟩ : K) ≠ 0 := fun h0 =>
+    (Additive.toMul y : (PadicAlgCl p)ˣ).ne_zero (congrArg Subtype.val h0)
+  exact ⟨Units.mk0 _ hne, Additive.toMul.injective (Units.ext rfl)⟩
+
+theorem exists_normUnits (hL : FiniteDimensional ℚ_[p] L) (h : K ≤ L) :
+    ∃ ν : Lˣ →* Kˣ, ∀ b, ofK p K (Additive.ofMul (ν b)) = normHom p K L (ofK p L (Additive.ofMul b)) := by
+  choose ν hν using fun b : Lˣ => exists_ofK_eq _ (normHom_mem hL h _ (ofK_mem p L (Additive.ofMul b)))
+  refine ⟨MonoidHom.mk' ν fun a b => ?_, hν⟩
+  apply Additive.ofMul.injective
+  apply ofK_injective (p := p) (K := K)
+  rw [hν, ofMul_mul, ofMul_mul, map_add (f := _), map_add (f := _), map_add (f := _), hν, hν]
+
+theorem mem_normGrp_iff_exists (a : Kˣ) :
+    a ∈ normGrp p K L ↔ ∃ b : Lˣ, ofK p K (Additive.ofMul a) = normHom p K L (ofK p L (Additive.ofMul b)) := by
+  rw [mem_normGrp_iff]
+  constructor
+  · rintro ⟨y, hy, hya⟩
+    obtain ⟨b, rfl⟩ := exists_ofK_eq y hy
+    exact ⟨b, hya.symm⟩
+  · rintro ⟨b, hb⟩
+    exact ⟨_, ofK_mem p L _, hb.symm⟩
+
+theorem normGrp_eq_range (ν : Lˣ →* Kˣ)
+    (hν : ∀ b, ofK p K (Additive.ofMul (ν b)) = normHom p K L (ofK p L (Additive.ofMul b))) :
+    normGrp p K L = ν.range := by
+  ext a
+  rw [mem_normGrp_iff_exists, MonoidHom.mem_range]
+  constructor
+  · rintro ⟨b, hb⟩
+    exact ⟨b, Additive.ofMul.injective (ofK_injective ((hν b).trans hb.symm))⟩
+  · rintro ⟨b, rfl⟩
+    exact ⟨b, hν b⟩
+
+theorem normGrp_eq_map {L' : IntermediateField ℚ_[p] (PadicAlgCl p)} (hL' : FiniteDimensional ℚ_[p] L') (h : K ≤ L) (h' : L ≤ L')
+    (ν : Lˣ →* Kˣ) (hν : ∀ b, ofK p K (Additive.ofMul (ν b)) = normHom p K L (ofK p L (Additive.ofMul b))) :
+    normGrp p K L' = (normGrp p L L').map ν := by
+  ext a
+  rw [mem_normGrp_iff_exists, Subgroup.mem_map]
+  constructor
+  · rintro ⟨c, hc⟩
+    obtain ⟨b, hb⟩ := exists_ofK_eq _ (normHom_mem (K := L) hL' h' _ (ofK_mem p L' (Additive.ofMul c)))
+    refine ⟨b, (mem_normGrp_iff_exists b).2 ⟨c, hb⟩, Additive.ofMul.injective (ofK_injective ?_)⟩
+    rw [hν, hb, normHom_trans hL' h h' _ (ofK_mem p L' _), hc]
+  · rintro ⟨b, hb, rfl⟩
+    obtain ⟨c, hc⟩ := (mem_normGrp_iff_exists b).1 hb
+    exact ⟨c, by rw [hν, hc, normHom_trans hL' h h' _ (ofK_mem p L' _)]⟩
+
+theorem index_normGrp_tower_le {L' : IntermediateField ℚ_[p] (PadicAlgCl p)} (hL : FiniteDimensional ℚ_[p] L) (hL' : FiniteDimensional ℚ_[p] L')
+    (h : K ≤ L) (h' : L ≤ L') :
+    (normGrp p K L').index ≤ (normGrp p L L').index * (normGrp p K L).index := by
+  obtain ⟨ν, hν⟩ := exists_normUnits hL h
+  rw [normGrp_eq_map hL' h h' ν hν, normGrp_eq_range ν hν, Subgroup.index_map]
+  have := finiteIndex_normGrp hL hL' h'
+  exact Nat.mul_le_mul_right _ (Nat.le_of_dvd (Nat.pos_of_ne_zero this.index_ne_zero)
+    (Subgroup.index_dvd_of_le le_sup_left))
+
+theorem IsAbLK.base {M : IntermediateField ℚ_[p] (PadicAlgCl p)} (hL : IsAbLK p K L) (h : K ≤ M) (h' : M ≤ L) : IsAbLK p M L := by
+  refine ⟨h', hL.fin, ?_⟩
+  rw [commutator_def, Subgroup.commutator_le]
+  intro g₁ _ g₂ _
+  have h1 : ⁅resGK h g₁, resGK h g₂⁆ ∈ subG p K L :=
+    hL.comm (Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _))
+  rw [← map_commutatorElement] at h1
+  exact h1
+
+theorem resChar_eq_zero (h : K ≤ L) (χ : charGrp (GK p K)) (hχ : TrivOn p K L χ) : resChar h χ = 0 := by
+  apply Subtype.ext
+  apply AddMonoidHom.ext
+  intro s
+  exact hχ (resGK h (Additive.toMul s)) ((range_resGK h).le ⟨_, rfl⟩)
+
+theorem local_pairing_eq_zero_of_mem_normGroup (hK : FiniteDimensional ℚ_[p] K) (hL : FiniteDimensional ℚ_[p] L) (h : K ≤ L) (a : Kˣ)
+    (ha : a ∈ normGrp p K L) (χ : charGrp (GK p K)) (hχ : TrivOn p K L χ) : pairK p K a χ = 0 := by
+  obtain ⟨b, hb⟩ := (mem_normGrp_iff_exists a).1 ha
+  rw [pairK_norm hK hL h b a hb χ, resChar_eq_zero h χ hχ, pairK_zero]
+
+theorem index_normGrp_le_step (hK : FiniteDimensional ℚ_[p] K) (hL : IsAbLK p K L) (g : GK p K) (χ : charGrp (GK p K))
+    (hχ : TrivOn p K L χ) (hg : χ.1 (Additive.ofMul g) ≠ 0) :
+    ∃ M : IntermediateField ℚ_[p] (PadicAlgCl p), FiniteDimensional ℚ_[p] M ∧ IsAbLK p M L ∧ degLK p M L < degLK p K L ∧
+      degLK p K L = degLK p K M * degLK p M L ∧ (normGrp p K L).index ≤ (normGrp p M L).index * degLK p K M := by
+  obtain ⟨M, hKM, hM, hMχ⟩ := exists_field_of_char hK χ
+  have hn := normal_of_char χ hMχ
+  obtain ⟨g₀, hg₀⟩ := cyclic_of_char hM χ hMχ
+  have hML : M ≤ L := by
+    have := (subG_le_iff (L' := L) hKM).1 fun s hs => (hMχ s).1 (hχ s hs)
+    rwa [sup_eq_right.2 hL.le] at this
+  have hdeg := degLK_mul hKM hML
+  have h1 : degLK p K M ≠ 1 := fun h1 => by
+    have : subG p K M = ⊤ := Subgroup.index_eq_one.1 h1
+    exact hg ((hMχ g).2 (this ▸ Subgroup.mem_top g))
+  have h2 : 1 < degLK p K M := lt_of_le_of_ne (degLK_pos hM) (Ne.symm h1)
+  refine ⟨M, hM, hL.base hKM hML, ?_, hdeg, ?_⟩
+  · rw [hdeg]
+    exact lt_mul_of_one_lt_left (degLK_pos hL.fin) h2
+  · rw [← index_normGrp_cyclic hK hM hKM g₀ hg₀]
+    exact index_normGrp_tower_le hM hL.fin hKM hML
+
+end ReciprocityTheory.DiscreteGroups.LocalClassField
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: ReciprocityTheory.ClassFieldTheory.LocalClassField.RecAbC =====
+
+-- ===== clump member: ReciprocityTheory.ClassFieldTheory.LocalClassField.RecUnr =====
+-- clump-header: {"m": "ReciprocityTheory.ClassFieldTheory.LocalClassField.RecUnr", "h": "module\n\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPairDefs\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsE\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Topology.Sheaves.Init\nimport ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic\nimport ReciprocityTheory.ClassFieldTheory.LocalClassField.InflationH2InjectiveOfSameRamification\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPair\nimport ReciprocityTheory.GroupCohomology.ComapZeroCoboundariesEqBot\n\n"}
+section -- clump:auto
+@[expose] public section
+
+namespace ReciprocityTheory.DiscreteGroups.LocalClassField
+
+open _root_.Neutral.B1 ReciprocityTheory.Coh Function
+
+variable (p : ℕ) [Fact p.Prime] (K L : IntermediateField ℚ_[p] (PadicAlgCl p))
+
+variable {p K L}
+
+theorem exists_ur_lift (χ : charGrp (GK p K)) (hχ : TrivOn p K (MaximalUnramifiedExtension p K) χ) :
+    ∃ t : GalLK p K (MaximalUnramifiedExtension p K) → ℚ, IsLocallyConstant t ∧
+      ∀ g : GK p K, (QuotientAddGroup.mk (t (QuotientGroup.mk g)) : QZ) = χ.1 (Additive.ofMul g) := by
+  let sec : QZ → ℚ := Function.surjInv (QuotientAddGroup.mk'_surjective (Int.castAddHom ℚ).range)
+  have hsec : ∀ q : QZ, (QuotientAddGroup.mk (sec q) : QZ) = q :=
+    Function.surjInv_eq (QuotientAddGroup.mk'_surjective (Int.castAddHom ℚ).range)
+  let f : GK p K → QZ := fun g => χ.1 (Additive.ofMul g)
+  have hf : IsLocallyConstant f := χ.2
+  have hfq : ∀ g : GK p K, f (QuotientGroup.mk g : GalLK p K (MaximalUnramifiedExtension p K)).out = f g := by
+    intro g
+    obtain ⟨n, hn⟩ := QuotientGroup.mk_out_eq_mul (subG p K (MaximalUnramifiedExtension p K)) g
+    rw [hn]
+    show χ.1 (Additive.ofMul g + Additive.ofMul n.1) = _
+    rw [map_add (f := _), hχ n.1 n.2, add_zero]
+  have hloc : IsLocallyConstant fun q : GalLK p K (MaximalUnramifiedExtension p K) => f q.out := by
+    intro s
+    rw [← QuotientGroup.isOpenQuotientMap_mk.isQuotientMap.isOpen_preimage]
+    have h0 : (QuotientGroup.mk : GK p K → GalLK p K (MaximalUnramifiedExtension p K)) ⁻¹'
+        ((fun q : GalLK p K (MaximalUnramifiedExtension p K) => f q.out) ⁻¹' s) = f ⁻¹' s := by
+      ext g
+      show f (QuotientGroup.mk g : GalLK p K (MaximalUnramifiedExtension p K)).out ∈ s ↔ f g ∈ s
+      rw [hfq]
+    rw [h0]
+    exact hf s
+  refine ⟨fun q => sec (f q.out), hloc.comp sec, fun g => ?_⟩
+  rw [hsec]
+  exact hfq g
+
+
+variable (p K) in
+noncomputable def urOfK (a : Kˣ) : (urT p K).V :=
+  toLayer p ⟨ofK p K (Additive.ofMul a), le_Kur (K := K) (ofK_mem p K _)⟩
+
+theorem exists_ur_cocycle (a : Kˣ) (χ : charGrp (GK p K)) (hχ : TrivOn p K (MaximalUnramifiedExtension p K) χ) :
+    ∃ (t : GalLK p K (MaximalUnramifiedExtension p K) → ℚ) (m : (Fin 2 → GalLK p K (MaximalUnramifiedExtension p K)) → ℤ) (z : (urT p K).coch.X 2)
+      (hz : (urT p K).coch.d 2 z = 0), IsLocallyConstant t ∧
+      (∀ g : GK p K, (QuotientAddGroup.mk (t (QuotientGroup.mk g)) : QZ) = χ.1 (Additive.ofMul g)) ∧
+      (∀ g, (m g : ℚ) = t (g 0) + t (g 1) - t (g 0 * g 1)) ∧ (∀ g, z.1 g = m g • urOfK p K a) ∧
+      pairBr p K a χ = (layerInf p K (MaximalUnramifiedExtension p K)).hom.H 2 ((urT p K).coch.cls 2 z hz) := by
+  obtain ⟨t, ht, htχ⟩ := exists_ur_lift χ hχ
+  have hex : ∀ g : Fin 2 → GalLK p K (MaximalUnramifiedExtension p K), ∃ k : ℤ, (k : ℚ) = t (g 0) + t (g 1) - t (g 0 * g 1) := by
+    intro g
+    obtain ⟨σ, hσ⟩ := QuotientGroup.mk_surjective (g 0)
+    obtain ⟨τ, hτ⟩ := QuotientGroup.mk_surjective (g 1)
+    have h0 : (QuotientAddGroup.mk (t (g 0) + t (g 1) - t (g 0 * g 1)) : QZ) = 0 := by
+      rw [← hσ, ← hτ, ← QuotientGroup.mk_mul, QuotientAddGroup.mk_sub, QuotientAddGroup.mk_add, htχ, htχ, htχ,
+        ofMul_mul, map_add, sub_self]
+    exact (QuotientAddGroup.eq_zero_iff _).1 h0
+  choose m hm using hex
+  have hmc : IsLocallyConstant m := by
+    apply IsLocallyConstant.desc m (Int.cast : ℤ → ℚ) _ Int.cast_injective
+    have h0 : ((Int.cast : ℤ → ℚ) ∘ m) = fun g => t (g 0) + t (g 1) - t (g 0 * g 1) := funext hm
+    rw [h0]
+    exact ((ht.comp_continuous (continuous_apply 0)).add (ht.comp_continuous (continuous_apply 1))).sub
+      (ht.comp_continuous ((continuous_apply 0).mul (continuous_apply 1)))
+  have hzc : Continuous fun g : Fin 2 → GalLK p K (MaximalUnramifiedExtension p K) => m g • urOfK p K a :=
+    (hmc.comp fun k : ℤ => k • urOfK p K a).continuous
+  let z : (urT p K).coch.X 2 := ⟨fun g => m g • urOfK p K a, hzc⟩
+  have hinv := (layer_invariant_iff (urOfK p K a)).2 (ofK_mem p K _)
+  have hz : (urT p K).coch.d 2 z = 0 := by
+    apply LowDeg.coch_d_eq_zero
+    funext g
+    have h1 : m ![g 1, g 2] - m ![g 0 * g 1, g 2] + m ![g 0, g 1 * g 2] - m ![g 0, g 1] = 0 := by
+      apply Int.cast_injective (α := ℚ)
+      push_cast
+      rw [hm, hm, hm, hm]
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, mul_assoc]
+      ring
+    rw [LowDeg.dn_two_apply]
+    show (urT p K).rho (g 0) (m ![g 1, g 2] • urOfK p K a) - m ![g 0 * g 1, g 2] • urOfK p K a +
+      m ![g 0, g 1 * g 2] • urOfK p K a - m ![g 0, g 1] • urOfK p K a = 0
+    rw [map_zsmul, hinv, ← sub_smul, ← add_smul, ← sub_smul, h1, zero_smul]
+  refine ⟨t, m, z, hz, ht, htχ, hm, fun _ => rfl, ?_⟩
+  refine IsPairClass.unique (isPairClass_pairBr a χ)
+    ⟨fun g => t (QuotientGroup.mk g), fun g => m fun i => QuotientGroup.mk (g i),
+      (layerInf p K (MaximalUnramifiedExtension p K)).hom.f 2 z, by rw [← (layerInf p K (MaximalUnramifiedExtension p K)).hom.comm, hz, map_zero],
+      ht.comp_continuous continuous_quot_mk, htχ, fun g => hm _, fun g => rfl, rfl⟩
+
+theorem pairK_uniformiser_unr (hK : FiniteDimensional ℚ_[p] K) (π : Kˣ) (hπ : vK p K π = 1) (χ : charGrp (GK p K))
+    (hχ : TrivOn p K (MaximalUnramifiedExtension p K) χ) : pairK p K π χ = χ.1 (Additive.ofMul (frobK p K)) := by
+  obtain ⟨t, m, z, hz, ht, htχ, hm, hzm, h⟩ := exists_ur_cocycle π χ hχ
+  have h1 : (eK p K : ℝ) * vbar p (urOfK p K π).1 = 1 := by
+    have h2 := vOn_spec p K ⟨ofK p K (Additive.ofMul π), ofK_mem p K _⟩
+    have h3 : vOn p K ⟨ofK p K (Additive.ofMul π), ofK_mem p K _⟩ = 1 := hπ
+    rw [h3, Int.cast_one] at h2
+    exact h2.symm
+  unfold pairK
+  rw [h, invBr_layerInf hK, isInv_invUr hK (urOfK p K π) t m z hz (ofK_mem p K _) h1 ht hm hzm]
+  exact htχ (frobK p K)
+
+end ReciprocityTheory.DiscreteGroups.LocalClassField
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: ReciprocityTheory.ClassFieldTheory.LocalClassField.RecUnr =====
+
+-- ===== clump member: ReciprocityTheory.ClassFieldTheory.LocalClassField.PairKEqZeroOfMemNormGrp =====
+-- clump-header: {"m": "ReciprocityTheory.ClassFieldTheory.LocalClassField.PairKEqZeroOfMemNormGrp", "h": "module\n\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPairDefs\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecDefs\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.WittVector.IsPoly\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Sheaves.Init\nimport ReciprocityTheory.ClassFieldTheory.LocalClassField.ExistsDvdQKPowSubOne\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.GabLim\nimport ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.NormOpen\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecAbA\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecAbC\nimport ReciprocityTheory.ClassFieldTheory.LocalClassField.RecCyclic\nimport ReciprocityTheory.ClassFieldTheory.LocalClassField.RecFunct\nimport ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPair\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecUnr\n\n"}
+section -- clump:auto
 @[expose] public section
 
 namespace ReciprocityTheory.DiscreteGroups.LocalClassField
@@ -326,3 +756,6 @@ theorem IsRecip.conj (hK : FiniteDimensional ℚ_[p] K) {M : IntermediateField �
   exact hχ g g' hg'
 
 end ReciprocityTheory.DiscreteGroups.LocalClassField
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: ReciprocityTheory.ClassFieldTheory.LocalClassField.PairKEqZeroOfMemNormGrp =====

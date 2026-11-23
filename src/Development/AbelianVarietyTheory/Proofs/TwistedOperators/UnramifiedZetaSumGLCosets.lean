@@ -4,7 +4,9 @@ public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConstMemB
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.PairwiseDisjointCell
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SphericalHeckeValuesSameParameters
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HasSatakeGLOfIsSatVecGL
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GradedSeriesContinuationDominatedStatement
+public import Mathlib.Analysis.CStarAlgebra.Classes
+public import Mathlib.Analysis.Calculus.FDeriv.Defs
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GradedSeriesContinuationDominated
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasSumCardCosetsDiagonalDoubleCosetGLStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SatakeVectorHeckeEigenvalueStatement
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FiniteCosetsInDoset
@@ -233,7 +235,7 @@ theorem zeta_sum_GL : GlobalTheory.Published.UnramifiedDoublingGL → ∀ (E : T
           simp only [a, deg]; ring]
       exact h1,
     hs₂ X hX (lt_of_lt_of_le h (min_le_right _ _))⟩
-  obtain ⟨hA, hBs⟩ := GlobalTheory.T.hasSum_and_summable_on_ball_of_hasSum_on_interval deg hdeg a b Cℓ (min δ₁ δ₂) ρ₀ P P' (lt_min hδ₁ hδ₂) (fun d => Nat.cast_nonneg _)
+  obtain ⟨hA, hBs⟩ := _root_.GlobalTheory.gradedSeries_continuation_dominated deg hdeg a b Cℓ (min δ₁ δ₂) ρ₀ P P' (lt_min hδ₁ hδ₂) (fun d => Nat.cast_nonneg _)
     hab hP hP' hser (X₀ : ℂ) (by rw [Complex.norm_real, Real.norm_of_nonneg hX₀pos.le]; exact hX₀ρ)
 
   have hφv : ∀ a : GL (Fin r) (w.adicCompletion E) ⧸ KGL w (n := r),

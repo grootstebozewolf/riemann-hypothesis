@@ -6,7 +6,8 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStab
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsPairOfIsTriple
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicHeisenbergActsByLocalSchrodingerStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicTraceSupportedAtSplitPlaceStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqSmulOfCommuteHeisenbergLinearModelSchwartzBruhStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqSmulOfCommuteHeisenbergLinearModelSchwartzBruh
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsComplementaryAdelicSchwartzRestFunction
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHomSuppSplit
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSplitPlaceAdelicMatrixGivenComponentsStatement
@@ -14,7 +15,8 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianSel
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianTensorSkewHermitianSplitSymplecticPairStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchrodingerPreservesSchwartzBruhat
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAdelicCharacterNontrivialAtPlaces
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaActionExistsStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaActionExists
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TraceSymplecticSelfZeroSplitSupported
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -96,7 +98,7 @@ theorem exists_localOp : GlobalTheory.FunPr.Hypotheses₂ → ∀ (F E : Type) [
             schr (GlobalTheory.LatVac.psiAt B.ψ v)
               (GlobalTheory.LatVac.locCo G.M.co v (actAB (cA σ) ((1 : UA σ G.V.J), h) γ)) (S φ)) := by
   intro hP F E _ _ _ _ _ σ B a a' G X om om' hTr v h hh
-  have hAE := GlobalTheory.T.theta_action_exists hP
+  have hAE := _root_.GlobalTheory.ThK.LocalOps.actsEx hP
   have hPair := (GlobalTheory.ThK.Check.isPair_of_isTriple hTr).1
   have h1 : (1 : UA σ G.V.J) ∈ UAt σ G.V (evFin F v) := by
     intro u _
@@ -381,7 +383,7 @@ theorem shape : GlobalTheory.FunPr.Hypotheses₂ → ∀ (F E : Type) [Field F] 
     funext Y
     simp only [hSM l x hx, Matrix.mul_assoc, ← Matrix.transpose_mul, Matrix.nonsing_inv_mul _ hdet, Matrix.transpose_one,
       Matrix.mul_one]
-  obtain ⟨c, hc⟩ := GlobalTheory.T.eq_smul_of_commute_heisenberg_linearModel_schwartzBruhat (SB (Fin a × Fin (a + a') → Fv F v)) (GlobalTheory.LatVac.psiAt B.ψ v) hψc hψ1 ι
+  obtain ⟨c, hc⟩ := _root_.GlobalTheory.LinSchur.eq_smul_of_commute (SB (Fin a × Fin (a + a') → Fv F v)) (GlobalTheory.LatVac.psiAt B.ψ v) hψc hψ1 ι
     (fun x Y => ι (S x) (Y * htᵀ)) hbij hL2
     (fun C => schr (GlobalTheory.LatVac.psiAt B.ψ v) (wT C)) (fun l => schr (GlobalTheory.LatVac.psiAt B.ψ v) (wM l)) hT2 hM2
   refine ⟨c, fun φ hφ φ₁ _ hAct Y => ?_⟩

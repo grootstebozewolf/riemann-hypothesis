@@ -2,8 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExistsOfLayers
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConstantCoeffTeichSub
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicPowerSeriesAlgHomActionLawsStatement
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MemEurOfTeichmullerSeries
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicPowerSeriesAlgHomActionLaws
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TiltWittEqZeroOfPrimeMulEqZero
+public import Mathlib.NumberTheory.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -16,7 +18,6 @@ import Mathlib.Combinatorics.Enumerative.DyckWord
 import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
 import Mathlib.Data.NNRat.Floor
 import Mathlib.Geometry.Euclidean.Volume.Basic
-public import Mathlib.NumberTheory.Basic
 import Mathlib.NumberTheory.Chebyshev
 import Mathlib.NumberTheory.Height.NumberField
 import Mathlib.NumberTheory.Height.Projectivization
@@ -332,7 +333,7 @@ theorem io_binomial (s : ℕ) (g : GQ l) (c : ℤ_[l]) (hc : (c : ℚ_[l]) = (P.
     (io : ℤ_[l]⟦X⟧ →ₐ[ℤ_[l]] Ainf l) (hio : GlobalTheory.Cyc.IsIo (AI.εroot s) io) :
     io (binomialSeries ℤ_[l] c) = WittVector.teichmuller l (AI.actT g (AI.εroot s)) := by
   have hφ := ((GlobalTheory.Cyc.IoMap.main l _ (εroot_sub_not_unit AI s)).2 io hio).1
-  obtain ⟨hX, hmul, -⟩ := GlobalTheory.T.cyclotomicPowerSeriesAlgHom_action_laws l ℤ_[l]
+  obtain ⟨hX, hmul, -⟩ := _root_.GlobalTheory.Cyc.act_laws l ℤ_[l]
   have hcyc : ∀ c, GlobalTheory.Cyc.cyc l ℤ_[l] c = binomialSeries ℤ_[l] c - 1 := fun c => by
     simp [GlobalTheory.Cyc.cyc]
   have h1 : GlobalTheory.Cyc.phi l ℤ_[l] (binomialSeries ℤ_[l] c) = binomialSeries ℤ_[l] c ^ l := by

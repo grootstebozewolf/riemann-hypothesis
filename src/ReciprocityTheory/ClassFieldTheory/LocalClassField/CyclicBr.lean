@@ -1,7 +1,16 @@
 module
 
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ExistsIntEKMulVbar
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.HerbrandB
+public import Mathlib.RepresentationTheory.Homological.GroupCohomology.Basic
+public import Mathlib.RepresentationTheory.Homological.GroupCohomology.FiniteCyclic
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ExistsIntEKMulVbar
+public import Mathlib.Topology.Connected.Separation
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.FinCoh
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RestrictedMultiplicativeH1Subsingleton
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnitsHerbrand
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsB
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsE
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -10,6 +19,8 @@ import Mathlib.Analysis.Normed.Algebra.GelfandRadius
 import Mathlib.Analysis.SpecialFunctions.Bernstein
 import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.CategoryTheory.EffectiveEpi.Comp
+import Mathlib.CategoryTheory.ExtremalEpi
 import Mathlib.Combinatorics.Enumerative.DyckWord
 import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
 import Mathlib.Data.NNRat.Floor
@@ -41,15 +52,63 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
-public import Mathlib.Topology.Connected.Separation
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.FinCoh
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Herbrand
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RestrictedMultiplicativeH1Subsingleton
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnitsHerbrand
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsB
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsE
+import Mathlib.Topology.Sheaves.Init
 
+-- This file was produced by scripts/clump.py from the modules listed below.
+-- Members: ReciprocityTheory.ClassFieldTheory.LocalClassField.Herbrand, ReciprocityTheory.ClassFieldTheory.LocalClassField.CyclicBr
+
+-- ===== clump member: ReciprocityTheory.ClassFieldTheory.LocalClassField.Herbrand =====
+-- clump-header: {"m": "ReciprocityTheory.ClassFieldTheory.LocalClassField.Herbrand", "h": "module\n\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.HerbrandB\npublic import Mathlib.RepresentationTheory.Homological.GroupCohomology.Basic\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.CategoryTheory.EffectiveEpi.Comp\nimport Mathlib.CategoryTheory.ExtremalEpi\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\npublic import Mathlib.RepresentationTheory.Homological.GroupCohomology.FiniteCyclic\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.TypeStar\nimport Mathlib.Topology.Sheaves.Init\n\n"}
+section -- clump:auto
+@[expose] public section
+
+namespace ReciprocityTheory.DiscreteGroups.LocalClassField.Herbrand
+
+open Function CategoryTheory
+
+universe u
+
+variable {k G : Type u} [CommRing k] [CommGroup G] [Fintype G] {M : Type u} [AddCommGroup M] [Module k M]
+
+theorem nonempty_of_surjective {X Y : Type*} [AddCommGroup X] [AddCommGroup Y] (H : AddSubgroup X)
+    (φ : X →+ Y) (hφ : Surjective φ) (hk : ∀ x, φ x = 0 ↔ x ∈ H) : Nonempty (Y ≃+ X ⧸ H) := by
+  have : φ.ker = H := by ext x; rw [AddMonoidHom.mem_ker, hk]
+  subst this
+  exact ⟨(QuotientAddGroup.quotientKerEquivOfSurjective φ hφ).symm⟩
+
+theorem nonempty_groupCohomology_even (ρ : Representation k G M) (g : G)
+    (hg : ∀ x, x ∈ Subgroup.zpowers g) (i : ℕ) (hi0 : i ≠ 0) (hi : Even i) :
+    Nonempty (groupCohomology (Rep.of ρ) i ≃+ TateZerothCohomology ρ g) := by
+  have : NeZero i := ⟨hi0⟩
+  let π := Rep.FiniteCyclicGroup.groupCohomologyπEven (Rep.of ρ) g hg i hi
+  have hπ : Surjective π.hom := by
+    rw [← ModuleCat.epi_iff_surjective]
+    dsimp only [π, Rep.FiniteCyclicGroup.groupCohomologyπEven]
+    exact epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv _)) (epi_comp' inferInstance inferInstance)
+  refine nonempty_of_surjective _ (π.hom.toAddMonoidHom) hπ ?_
+  intro x
+  exact Rep.FiniteCyclicGroup.groupCohomologyπEven_eq_zero_iff (Rep.of ρ) g hg i hi x
+
+theorem nonempty_groupCohomology_odd (ρ : Representation k G M) (g : G)
+    (hg : ∀ x, x ∈ Subgroup.zpowers g) (i : ℕ) (hi : Odd i) :
+    Nonempty (groupCohomology (Rep.of ρ) i ≃+ H1 ρ g) := by
+  let π := Rep.FiniteCyclicGroup.groupCohomologyπOdd (Rep.of ρ) g hg i hi
+  have hπ : Surjective π.hom := by
+    rw [← ModuleCat.epi_iff_surjective]
+    dsimp only [π, Rep.FiniteCyclicGroup.groupCohomologyπOdd]
+    exact epi_comp' (@IsIso.epi_of_iso _ _ _ _ _ (Iso.isIso_inv _)) (epi_comp' inferInstance inferInstance)
+  refine nonempty_of_surjective _ (π.hom.toAddMonoidHom) hπ ?_
+  intro x
+  exact Rep.FiniteCyclicGroup.groupCohomologyπOdd_eq_zero_iff (Rep.of ρ) g hg i hi x
+
+end ReciprocityTheory.DiscreteGroups.LocalClassField.Herbrand
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: ReciprocityTheory.ClassFieldTheory.LocalClassField.Herbrand =====
+
+-- ===== clump member: ReciprocityTheory.ClassFieldTheory.LocalClassField.CyclicBr =====
+-- clump-header: {"m": "ReciprocityTheory.ClassFieldTheory.LocalClassField.CyclicBr", "h": "module\n\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.ExistsIntEKMulVbar\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.HerbrandB\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.TypeStar\npublic import Mathlib.Topology.Connected.Separation\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.FinCoh\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.Herbrand\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.RestrictedMultiplicativeH1Subsingleton\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnitsHerbrand\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsB\npublic import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsE\n\n"}
+section -- clump:auto
 @[expose] public section
 
 namespace ReciprocityTheory.DiscreteGroups.LocalClassField
@@ -151,3 +210,6 @@ theorem card_h2_cyclic_layer (hK : FiniteDimensional ℚ_[p] K) (hL : FiniteDime
   rw [Nat.card_congr e.toEquiv, card_H0hat_layer hK hL h g₀ hg]
 
 end ReciprocityTheory.DiscreteGroups.LocalClassField
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: ReciprocityTheory.ClassFieldTheory.LocalClassField.CyclicBr =====

@@ -3,14 +3,15 @@ module
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsCrisP
 public import Development.AbelianVarietyTheory.CrystallinePeriods.CrisMapsLoc
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingIface
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AcrisFrobeniusEigenFilEqQlMulTPowStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AcrisFrobeniusFontaineTEqMulStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AcrisToBdRPlusInjectiveStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BcrisEqAcrisLocalizationPeriodTStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BdRFiltrationLawsStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BdRPlusIsDomainBdRIsFieldStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FontaineTIsUnitBcrisAndUniformizerBdRPlusStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalPeriodRingsDataUnramifiedLawsStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AcrisFrobeniusEigenFilEqQlMulTPow
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BcrisEqAcrisLocalizationPeriodT
+public import Formalism.LocalRingCardinality.AdicCompletionLocal.InstIsAdicCompleteOCSpanSingletonSetCast
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BdRFiltrationLaws
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalPeriodRingsDataUnramifiedLaws
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AcrisFrobeniusFontaineTEqMul
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AcrisToBdRPlusInjective
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BdRPlusIsDomainBdRIsField
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FontaineTIsUnitBcrisAndUniformizerBdRPlus
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -74,13 +75,13 @@ attribute [local irreducible] Per.Acris Per.Bcris
 theorem fundamental_exact (l : ℕ) [Fact l.Prime] (C : Core l) (b : Per.Bcris l)
     (hφ : Per.φB l b = b) (hF : C.ι b ∈ Per.FilD l 0) :
     ∃ c : ℚ_[l], C.u (algebraMap ℚ_[l] ↥(MaximalUnramifiedExtension l) c) = b := by
-  obtain ⟨r, x, hx⟩ := GlobalTheory.T.bcris_eq_acris_localization_periodT l C b
-  obtain ⟨-, hinj, -, -⟩ := GlobalTheory.T.bdRPlus_isDomain_bdR_isField l
-  obtain ⟨-, h1, hmul, -, -, -, hP⟩ := GlobalTheory.T.bdR_filtration_laws l
-  have hj := GlobalTheory.T.acrisToBdRPlus_injective l C.j C.j_cris
-  obtain ⟨htu, ht1, -, hlu⟩ := GlobalTheory.T.fontaine_t_isUnit_bcris_and_uniformizer_bdRPlus l C
-  have htφ := GlobalTheory.T.acrisFrobenius_fontaine_t_eq_mul l C
-  obtain ⟨-, -, huz, -, -, -⟩ := GlobalTheory.T.localPeriodRingsData_unramified_laws l C
+  obtain ⟨r, x, hx⟩ := _root_.GlobalTheory.MemLoc.bcris_eq_acris_localization_periodT_alt l C b
+  obtain ⟨-, hinj, -, -⟩ := _root_.GlobalTheory.MemLoc.BdRField.bdR_isField l
+  obtain ⟨-, h1, hmul, -, -, -, hP⟩ := _root_.GlobalTheory.MemLoc.filD_laws l
+  have hj := _root_.GlobalTheory.MemLoc.crisP_injective l C.j C.j_cris
+  obtain ⟨htu, ht1, -, hlu⟩ := _root_.GlobalTheory.MemLoc.core_t_unit_fil l C
+  have htφ := _root_.GlobalTheory.MemLoc.TPhi.t_phi l C
+  obtain ⟨-, -, huz, -, -, -⟩ := _root_.GlobalTheory.MemLoc.ULaws.u_laws l C
   have hA : Function.Injective (algebraMap (Per.Acris l) (Per.Bcris l)) := by
     intro y y' h
     apply hj
@@ -104,7 +105,7 @@ theorem fundamental_exact (l : ℕ) [Fact l.Prime] (C : Core l) (b : Per.Bcris l
     rw [← hP, ← C.ι_j, ← hx, map_mul, map_pow, C.ι_j]
     have := hmul _ _ _ _ hF (htr r)
     rwa [zero_add] at this
-  obtain ⟨z, k, hz⟩ := GlobalTheory.T.acris_frobenius_eigen_fil_eq_qlMul_tPow l C r x e1 e2
+  obtain ⟨z, k, hz⟩ := _root_.GlobalTheory.MemLoc.fix_pow l C r x e1 e2
   have e3 : (l : Per.Bcris l) ^ k * b = Per.zB l z := by
     apply (htu.pow r).mul_right_cancel
     have := congrArg (algebraMap (Per.Acris l) (Per.Bcris l)) hz

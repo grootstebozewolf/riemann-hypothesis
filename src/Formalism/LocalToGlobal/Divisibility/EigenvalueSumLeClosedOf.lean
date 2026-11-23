@@ -7,11 +7,12 @@ public import Formalism.LocalToGlobal.Divisibility.NumbersLemmas
 public import Formalism.LocalToGlobal.Divisibility.NumbersLink
 public import Formalism.SharpRestriction.Divisibility.SlopeExcess.ConstRankBaseLePolyFourth
 public import Formalism.LocalToGlobal.Divisibility.DivisibilityConstruction.RBLam
-import Formalism.LocalToGlobal.Divisibility.DivisionHeightBoundStatement
 public import Formalism.LocalToGlobal.GroupLattices.JointServices.VwResChar
-import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.GZeroLogBound
 public import Formalism.SharpRestriction.AdmissibleParameterJoins
 public import Formalism.SharpRestriction.Divisibility.HookProducts.LwPNonneg
+import Formalism.LocalToGlobal.Divisibility.DivisionHeightBoundStatement
+import Formalism.PeriodIntegrals.GZeroLogBound
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GeneralLinearCardBound.ZeroLogBound
 import Formalism.SharpRestriction.GrowthBounds.JointsLit
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.FrameFacts
 import Mathlib.Algebra.Order.Floor.Extended
@@ -768,7 +769,7 @@ theorem nf_lam (G : Type) [Group G] [Fintype G] (hS : SizesAt L) (hB : BigX L) (
   have hg0 : (0 : ℝ) < D.host.g 0 := by exact_mod_cast (D.host.g_prime 0).pos
   have hlam : Real.log (Fintype.card G : ℝ) ≤
       2 * (D.R.f : ℝ) * (D.R.r : ℝ) ^ 2 * Real.log (2 * (D.host.g 0 : ℝ)) := by
-    have h := GZeroLogBound D (D.host.g 0 : ℝ) (fun i => (hSG i 0).2.1)
+    have h := _root_.PI.GZeroLogBound.UnitaryGroupMassFormula.target D (D.host.g 0 : ℝ) (fun i => (hSG i 0).2.1)
     rw [hc]
     exact h
   have hL1 : 1 ≤ L.sc.L := le_of_lt (Formalism.L2.DIV.NumDatum.one_lt_L (ofRecord D L Del h0))

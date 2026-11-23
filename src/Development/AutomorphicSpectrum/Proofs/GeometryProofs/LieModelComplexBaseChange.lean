@@ -4,7 +4,9 @@ public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsCocha
 public import GroundTheory.HeightsAndTheta.Heights.HermitianLattice
 public import Mathlib.AlgebraicGeometry.Morphisms.Smooth
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelIsBaseChangeStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LieModel
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelIsBaseChange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -147,7 +149,7 @@ theorem lieModel_fibre : ∀ (S : Scheme.{0}) (G : Over S) [GrpObj G] [IsCommMon
     unfold GlobalTheory.CompanionTheory.Ar.LieModel.Lifts
     rw [hj e, Over.comp_left, Category.comp_id]
     rfl
-  have hb := GlobalTheory.T.lie_model_isBaseChange S G (𝓞 L) ℂ z V E₀ M M₀ j hl
+  have hb := _root_.GlobalTheory.CompanionTheory.Ar.lieModel_isBaseChange S G (𝓞 L) ℂ z V E₀ M M₀ j hl
   let f : GroundTheory.Heights₂.Heights.Fibre σ V ≃ₗ[ℂ] E₀ := hb.equiv
   refine ⟨transport M₀ f, fun e => ?_⟩
   have hf : f ((1 : GroundTheory.Heights₂.Heights.ComplexAt σ) ⊗ₜ[𝓞 L] e) = j e := by

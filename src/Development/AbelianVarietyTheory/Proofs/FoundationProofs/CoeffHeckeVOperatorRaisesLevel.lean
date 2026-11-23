@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.PetIPSmulRight
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CoeffHeckeVOperatorPolynomialGrowthQExpansionStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CoeffHeckeVOperatorPolynomialGrowthQExpansion
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -71,7 +71,7 @@ theorem Vo_level : ∀ (k L l : ℕ) (χ : ℤ → ℂ) (a : ℕ → ℂ), 0 < l
   intro k L l χ a hl
   have key : MF k L χ a → MF k (L * l) χ (Vo l a) := by
     rintro ⟨hP, hI⟩
-    obtain ⟨hP', hq⟩ := GlobalTheory.T.coeffHeckeVOperator_polynomialGrowth_qExpansion l a hl hP
+    obtain ⟨hP', hq⟩ := _root_.GlobalTheory.EisM.Vo_polyB_qs l a hl hP
     refine ⟨hP', ?_⟩
     intro γ hγ τ
     obtain ⟨m, hm⟩ := hγ
@@ -101,7 +101,7 @@ theorem Vo_level : ∀ (k L l : ℕ) (χ : ℤ → ℂ) (a : ℕ → ℂ), 0 < l
   refine ⟨key, ?_⟩
   rintro ⟨hM, C, hC⟩
   refine ⟨key hM, C, fun τ => ?_⟩
-  obtain ⟨_, hq⟩ := GlobalTheory.T.coeffHeckeVOperator_polynomialGrowth_qExpansion l a hl hM.1
+  obtain ⟨_, hq⟩ := _root_.GlobalTheory.EisM.Vo_polyB_qs l a hl hM.1
   rw [hq τ (scaleH l hl τ) rfl]
   have him : (scaleH l hl τ).im = l * τ.im := by
     change ((l:ℂ) * (τ:ℂ)).im = (l:ℝ) * (τ:ℂ).im

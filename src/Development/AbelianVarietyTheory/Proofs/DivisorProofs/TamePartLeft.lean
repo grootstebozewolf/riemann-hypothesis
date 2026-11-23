@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjMapApply
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TamePartRightStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TamePartRight
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -86,6 +86,6 @@ theorem isTame_partL : ∀ (F : Type) [Field F] [NumberField F] (κ κ₁ κ' : 
     simp only [LinearMap.comp_apply, reindexFun_apply, partR_apply, partL_apply]
     exact congrArg₂ (fun φ t => T φ t) (funext fun x => congrArg Φ (funext fun i => by cases i <;> rfl)) rfl
   rw [h]
-  exact ((isTame_reindexFun _).comp (GlobalTheory.T.tame_part_right F κ' κ κ₁ T hT)).comp (isTame_reindexFun _)
+  exact ((isTame_reindexFun _).comp (_root_.GlobalTheory.TamePartR.isTame_partR F κ' κ κ₁ T hT)).comp (isTame_reindexFun _)
 
 end GlobalTheory.DoublingEv.PartLTame

@@ -1,7 +1,8 @@
 module
 
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutEnCut
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CapelliDetAdInvariant
+public import Formalism.HermitianCurvature.StatementJF
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CapAdInv
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutEnCVLocal
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.InvariantOperatorUnderJacquet
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.OpApplyContinuousOn
@@ -188,7 +189,7 @@ theorem besselFoldBuilt_of (hC : CVInCC) : BesselFoldBuilt := by
       show ∫ p, JF.xiP Db p • B.rho Db p (Q.CV S.G.k S.G.r (x.2 : ℂ) H) g ∂Db.μSS = _
       refine integral_congr_ae ?_
       filter_upwards [Formalism.FourierDecayAlt.P.B7.ae_inSS Db] with p hp
-      rw [Formalism.FourierDecayAlt.P.capelli_rho_commute S.G.k S.G.r _ _ Db (x.2 : ℂ) H p hp hCkn g hg.1]
+      rw [_root_.Formalism.FourierDecayAlt.P.JFxE.cVRho S.G.k S.G.r _ _ Db (x.2 : ℂ) H p hp hCkn g hg.1]
 
     have hJHk : B.CkOn ((2 * S.G.r + S.G.k + 1 : ℕ) : ℕ∞) (Q.OmPlus S.G.k S.G.r Db.z Db.z' ∩ B.GV S.G.k S.G.r)
         (B.JF Db H) := by

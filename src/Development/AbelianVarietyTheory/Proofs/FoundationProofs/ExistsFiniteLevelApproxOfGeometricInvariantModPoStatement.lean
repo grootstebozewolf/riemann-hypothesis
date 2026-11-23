@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotCoboundaryConstantOne
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsFiniteLevelApproxOfGeometricInvariantModPo
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InvariantsFromFiniteLevel
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SmallTracesSubgroupGaloisTowerTopStatement
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SmallTracesSubgroupGaloisTowerTop
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +58,7 @@ theorem _root_.GlobalTheory.T.exists_finiteLevel_approx_of_geometric_invariant_m
     Cong (p := p) k ((T.ζ j - 1) * x) y := by
   intro p _ hp2 Ω _ _ hClo T k j hj x hx hfix
   obtain ⟨y₀, E, hy₀, hEH, huniq, hsum⟩ :=
-    GlobalTheory.T.smallTraces_subgroup_galois_towerTop p Ω hp2 hClo T
+    _root_.GlobalTheory.K5.small_traces_subgroup p Ω hp2 hClo T
       (Ggeo p Ω ⊓ ⨅ n, Gn T n) inf_le_right {x} j hj
   have hgi (g : Gal p Ω) (z : Ω) (hz : IsInt (p := p) z) : IsInt (p := p) (g z) :=
     hz.map (g : Ω →ₐ[O0 p] Ω)

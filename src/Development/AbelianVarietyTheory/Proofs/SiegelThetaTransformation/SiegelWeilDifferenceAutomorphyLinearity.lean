@@ -4,8 +4,8 @@ public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Firs
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.EisAutomorphyLinear
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.FiniteClsAndStab
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianThetaSummableAndDeterminesTestFn
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianWeilActionSiegelParabolicExplicitStatement
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianWeilActionUnitaryGroupTestFunctionsStatement
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianWeilActionSiegelParabolicExplicit
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianWeilActionUnitaryGroupTestFunctions
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -109,7 +109,7 @@ theorem GlobalTheory.SW.swd_automorphy_linear : ∀ (E : Type) [Field E] [Number
     unfold swd
     rw [← classSum_mul hM]
     refine Base.classSum_congr fun Λ hΛ => ?_
-    have ht := (GlobalTheory.T.hermitianWeilAction_unitaryGroup_testFunctions E Ψ hΨ n N hn γ hγ _ (hφ Λ hΛ)).2.1 Z hZ 0 0
+    have ht := (_root_.GlobalTheory.SW.weil_action E Ψ hΨ n N hn γ hγ _ (hφ Λ hΛ)).2.1 Z hZ 0 0
     rw [(eis_automorphy_linear E Ψ hΨ n N hn hN _ (hφ Λ hΛ) Z hZ).2.1 γ hγ, mul_sub, ← ht]
     congr 2
     · funext τ; ext k a
@@ -133,7 +133,7 @@ theorem GlobalTheory.SW.swd_automorphy_linear : ∀ (E : Type) [Field E] [Number
     simp only [hd, det_one, one_pow, Finset.prod_const_one, one_mul] at h
     rw [← h]
     refine h5 _ _ _ fun Λ hΛ => funext fun x => ?_
-    rw [(GlobalTheory.T.hermitianWeilAction_siegelParabolic_explicit E Ψ hΨ n N hn _ (hφ Λ hΛ)).1 _ hγ (toBlocks_fromBlocks₂₁ _ _ _ _) x]
+    rw [(_root_.GlobalTheory.SW.weil_parabolic E Ψ hΨ n N hn _ (hφ Λ hΛ)).1 _ hγ (toBlocks_fromBlocks₂₁ _ _ _ _) x]
     simp [Base.ccT_one]
   · unfold swd
     rw [← classSum_add hM]

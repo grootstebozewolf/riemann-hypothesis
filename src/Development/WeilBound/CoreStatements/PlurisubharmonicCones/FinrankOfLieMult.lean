@@ -3,11 +3,15 @@ module
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LieModel
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelEigenvectorsActionStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeGram
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelEigenvectorsAction
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueAct
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueSemilinearStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelIsBaseChangeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelPullbackEquivalenceStatement
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueSemilinear
+public import Mathlib.AlgebraicGeometry.Morphisms.Smooth
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelIsBaseChange
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsGrpPullback
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelPullbackEquivalence
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,7 +56,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeGram
 
 @[expose] public section
 
@@ -158,7 +161,7 @@ theorem push_model {S S' : Scheme.{0}} {t : SAB H S} {t' : SAB H S'} {f : S' ⟶
     (M' : LieModel t'.G x' W) (ρ : 𝓞 E →+* Module.End R W) (hρ : M'.IsActOf t'.act.act ρ) :
     ∃ M : LieModel t.G x W, M.IsActOf t.act.act ρ ∧ ∀ u, (M'.pt u).left ≫ m.φ = (M.pt u).left := by
   subst hx
-  obtain ⟨M, hM⟩ := (GlobalTheory.T.lie_model_pullback_equivalence S S' t.G t'.G f m.φ m.cart R x' W).2 M'
+  obtain ⟨M, hM⟩ := (_root_.GlobalTheory.CompanionTheory.Ar.LiePull.lieModel_pullback S S' t.G t'.G f m.φ m.cart R x' W).2 M'
   refine ⟨M, fun a e => Over.OverMorphism.ext ?_, hM⟩
   rw [← hM, hρ a e, Over.comp_left, Over.comp_left, ← hM, Category.assoc, Category.assoc, m.act a]
 
@@ -182,13 +185,13 @@ theorem exists_model (hρ : MB.IsActOf t'.act.act ρM) {S : Scheme.{0}} {t : SAB
   haveI : IsScalarTower (𝓞 L) R W := ⟨fun a b e => by
     show (g a * b) • e = g a • b • e
     rw [mul_smul]⟩
-  obtain ⟨j₀, hj₀, -⟩ := GlobalTheory.T.lie_model_existsUnique_semilinear _ t'.G (𝓞 L) R g (𝟙 _) M W MB M₁
+  obtain ⟨j₀, hj₀, -⟩ := _root_.GlobalTheory.CompanionTheory.Ar.LieBaseChange.existsUnique_semilinear_lifts _ t'.G (𝓞 L) R g (𝟙 _) M W MB M₁
   let j : M →ₗ[𝓞 L] W := { toFun := j₀, map_add' := map_add j₀, map_smul' := fun a e => j₀.map_smulₛₗ a e }
-  have hbc : IsBaseChange R j := GlobalTheory.T.lie_model_isBaseChange _ t'.G (𝓞 L) R (𝟙 _) M W MB M₁ j hj₀
+  have hbc : IsBaseChange R j := _root_.GlobalTheory.CompanionTheory.Ar.lieModel_isBaseChange _ t'.G (𝓞 L) R (𝟙 _) M W MB M₁ j hj₀
   have key : ∀ (x₀ : Sp R ⟶ Sp (𝓞 L)) (M₀ : LieModel t'.G x₀ W), x₀ = x ≫ f →
       ∃ M' : LieModel t.G x W, ∀ e, (M'.pt e).left ≫ m.φ = (M₀.pt e).left := by
     rintro _ M₀ rfl
-    exact (GlobalTheory.T.lie_model_pullback_equivalence _ S t'.G t.G f m.φ m.cart R x W).1 M₀
+    exact (_root_.GlobalTheory.CompanionTheory.Ar.LiePull.lieModel_pullback _ S t'.G t.G f m.φ m.cart R x W).1 M₀
   obtain ⟨MW, hMW⟩ := key _ M₁ (by rw [hx, Category.comp_id])
   have hl : ∀ z, (MW.pt (j z)).left ≫ m.φ = spMap (dualMap g) ≫ (MB.pt z).left := fun z =>
     (hMW _).trans ((Category.comp_id _).symm.trans (hj₀ z))
@@ -238,7 +241,7 @@ theorem finrank_of_lieMult {S : Scheme.{0}} {t : SAB H S} {k : Type} [Field k] {
   choose u hu using fun i => MW.onto (v i) (hv'.1 i).1
   have e : v = fun i => MW.pt (u i) := funext fun i => (hu i).symm
   rw [e] at hv'
-  obtain ⟨h1, h2⟩ := (((GlobalTheory.T.lie_model_eigenvectors_action S k t.G x W MW).2 _ t.act ρW τ hρ).2 n u).1 hv'
+  obtain ⟨h1, h2⟩ := (((_root_.GlobalTheory.CompanionTheory.Ar.Fl.Bridge.comb_eig_frame S k t.G x W MW).2 _ t.act ρW τ hρ).2 n u).1 hv'
   rw [← h2, finrank_span_eq_card h1, Fintype.card_fin]
 
 end LevelTowerAlt

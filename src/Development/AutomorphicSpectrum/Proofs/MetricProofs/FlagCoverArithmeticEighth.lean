@@ -2,9 +2,10 @@ module
 
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsImg
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.AevalNeZeroOfNotMem
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlockDiagonalMinorVanishingStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagCoverArithmeticThirdStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelBaseProjectionPointsStatement
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.GenericBlockMatrixIsBlockDiag
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlockDiagonalMinorVanishing
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagCoverArithmeticThird
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelBaseProjectionPoints
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.SameOrbitRefl
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
 import Mathlib.Algebra.Order.Floor.Extended
@@ -282,7 +283,7 @@ theorem flag_transfer (N j : ℕ) (i : Fin N) (hj : j ≤ N) {κ κ' : Type} [Fi
     (h1 : ∀ m, z₁ m = a' * ∑ I, uu m I * minorIJ h I (stepCols N j i)) :
     ∃ c : ℂ, c ≠ 0 ∧ ∀ m, z₁ m = c * ∑ I, uu m I * ∑ I', if IsStepRows N j i I' then
       minorIJ A I I' * ∑ m', u' I' m' * z₀ m' else 0 := by
-  obtain ⟨hCB, hvan', -, -⟩ := GlobalTheory.T.block_diagonal_minor_vanishing ℂ N j i hj
+  obtain ⟨hCB, hvan', -, -⟩ := _root_.GlobalTheory.CompanionTheory.Ar.PB.MinorCalc.minors_main ℂ N j i hj
   have hvan : ∀ I, ¬ IsStepRows N j i I → minorIJ (T * h) I (stepCols N j i) = 0 := fun I hI => by
     rcases hvan' (T * h) I hTh hI with e | e
     · exact e
@@ -329,11 +330,11 @@ end Geo
 
 theorem lift_inverse : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype (ι k)] (Φ : Type) [Field Φ] (y : (Σ k, ι k) → Φ) (Ψ : Type) [Fintype Ψ] [DecidableEq Ψ] (N j : ℕ) (M : FlagModel y Ψ N j) (K' : Type) [Fintype K'] (ι' : K' → Type) [∀ k, Fintype (ι' k)] (Φ' : Type) [Field Φ'] (y' : (Σ k, ι' k) → Φ') (M' : FlagModel y' Ψ N j) (Cv : FlagCover M' M) (d : ℕ), IsArithVar (mCoordIdeal y) (d + 2) → IsArithVar (mCoordIdeal y') (d + 2) → ∀ z ∈ mcPts (mCoordIdeal y'), ∀ w₀ ∈ mcPts (mCoordIdeal y), CovMap.IsImg Cv z w₀ → ∀ (V : Set ((Σ k, baseIdx ι M.blk k) → ℂ)) (V' : Set ((Σ k, baseIdx ι' M'.blk k) → ℂ)) (s : ((Σ k, baseIdx ι M.blk k) → ℂ) → (Σ k, baseIdx ι' M'.blk k) → ℂ), IsOpen V → basePart M.blk w₀ ∈ V → IsOpen V' → basePart M'.blk z ∈ V' → AnalyticOnNhd ℂ s V → (∀ b'' ∈ V' ∩ mcPts (mCoordIdeal M'.x), ∀ w' ∈ V, SameOrbit w' (b'' ∘ Cv.v) → SameOrbit (s w') b'') → ∃ (U : Set ((Σ k, ι k) → ℂ)) (U' : Set ((Σ k, ι' k) → ℂ)) (f : ((Σ k, ι k) → ℂ) → (Σ k, ι' k) → ℂ), IsOpen U ∧ w₀ ∈ U ∧ IsOpen U' ∧ z ∈ U' ∧ AnalyticOnNhd ℂ f U ∧ ∀ z'' ∈ U' ∩ mcPts (mCoordIdeal y'), ∀ w ∈ U ∩ mcPts (mCoordIdeal y), CovMap.IsImg Cv z'' w → SameOrbit (f w) z'' := by
   intro K _ ι _ Φ _ y Ψ _ _ N j M K' _ ι' _ Φ' _ y' M' Cv d hP hP' z hz w₀ hw₀ hImg V V' s hV hw₀V hV' hzV' hs hsO
-  obtain ⟨P1, P2, P3⟩ := GlobalTheory.T.flag_model_base_projection_points K ι Φ y Ψ N j M
-  obtain ⟨Q1, Q2, Q3⟩ := GlobalTheory.T.flag_model_base_projection_points K' ι' Φ' y' Ψ N j M'
+  obtain ⟨P1, P2, P3⟩ := _root_.GlobalTheory.CompanionTheory.Ar.PB.CPts.main K ι Φ y Ψ N j M
+  obtain ⟨Q1, Q2, Q3⟩ := _root_.GlobalTheory.CompanionTheory.Ar.PB.CPts.main K' ι' Φ' y' Ψ N j M'
   have hb := Q1 z hz
   have hwb₀ := P1 w₀ hw₀
-  have hbase := GlobalTheory.T.flag_cover_arithmetic_third K ι Φ y Ψ N j M K' ι' Φ' y' M' Cv d hP hP' z hz w₀ hImg
+  have hbase := _root_.GlobalTheory.CompanionTheory.Ar.PB.CovMap.ImgBase.img_lies_over K ι Φ y Ψ N j M K' ι' Φ' y' M' Cv d hP hP' z hz w₀ hImg
   obtain ⟨F', hF', hG'⟩ := Q2 _ hb
   obtain ⟨F, hF, hG⟩ := P2 _ hwb₀
   obtain ⟨W₁, hW₁o, hW₁m, hW₁s, hW₁g⟩ := good_open M F hwb₀ hG

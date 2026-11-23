@@ -3,7 +3,9 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsRapidInf
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RsIntegralEntireTheta
 public import GroundTheory.AutomorphicForms.ReductionMeasure
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegrableOnAbsDetRpowLeOneFundamentalDomainStatement
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.T2SpaceAdelicGeneralLinearGroupNumberField
+public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegrableOnAbsDetRpowLeOneFundamentalDomain
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LieModelFiniteBaseChange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -57,7 +59,7 @@ theorem _root_.GlobalTheory.T.lintegral_theta_below_det_one : ∀ (E : Type) [Fi
   obtain ⟨C, hC⟩ := hbound
   have hi : IntegrableOn (fun g : GA E (m + 1) => GlobalTheory.RSnm.detAbs g ^ (x - 1))
       (𝓕 ∩ {g | GlobalTheory.RSnm.detAbs g ≤ 1}) μ :=
-    GlobalTheory.T.integrableOn_absDet_rpow_le_one_fundamentalDomain
+    _root_.GlobalTheory.RSThetaLow.integrableOn_absDet_rpow_low
       E (m + 1) m.succ_pos μ 𝓕 h𝓕 (x - 1) (by linarith)
   refine ne_top_of_le_ne_top (hi.const_mul C).2.ne (lintegral_mono fun g => ?_)
   have hδ := GlobalTheory.RSnm.detAbs_pos g

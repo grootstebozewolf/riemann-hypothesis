@@ -3,8 +3,11 @@ module
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeLine
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Metric
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptInteriorFlagStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeInnerProductConjugateStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalRingPointsExistsUniqueStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.HodgeIPIffHodgeFormConj
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeInnerProductConjugate
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.CoordsAt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalRingPointsExistsUnique
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -245,7 +248,7 @@ theorem isGrNorm_conj {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Ho
   have hc := centre_cj z
   have h1' : genPt ξ ⤳ centre (cj z) := hc ▸ h1
   refine ⟨h1', b, Γ.map (starRingEnd ℂ), hs, ?_, hb, ⟨fun i => cjTan (v i), fun i => lieVal_conj M (hv i),
-    fun p q => GlobalTheory.T.hodge_inner_product_conjugate E H X T z (v p) (v q) _ _ _ rfl rfl (hΓ p q)⟩,
+    fun p q => _root_.GlobalTheory.CompanionTheory.Ar.HodgeConj.hodgeInnerProduct_conj_abelianScheme E H X T z (v p) (v q) _ _ _ rfl rfl (hΓ p q)⟩,
     (show Γ.transpose = Γ.map (starRingEnd ℂ) from Matrix.ext fun i j => (hpd.1.apply j i).symm) ▸ hpd.transpose, ?_⟩
   · have : (⟨centre (cj z), h1'⟩ : Cpt ξ) = ⟨centre z, h1⟩ := Subtype.ext hc
     rw [this]
@@ -464,7 +467,7 @@ theorem Good.smul {z : Spec (CommRingCat.of ℂ) ⟶ 𝔐.X} {w : (Σ k, J k) �
     (hG : Good Fl r a e₀ z w h) {κ : K → ℂ} (hκ : ∀ k, κ k ≠ 0) :
     Good Fl r a e₀ z (fun p => κ p.1 * w p) ((∏ k, ‖κ k‖ ^ a k) * h) := by
   obtain ⟨hw, hi, hp, hn⟩ := hG
-  obtain ⟨-, -, t3⟩ := GlobalTheory.T.local_ring_points_existsUnique 𝔐.X Ω 𝔐.ξ K J y 𝔐.tie ℂ
+  obtain ⟨-, -, t3⟩ := _root_.GlobalTheory.CompanionTheory.Ar.tie_points 𝔐.X Ω 𝔐.ξ K J y 𝔐.tie ℂ
   refine ⟨((t3 z w (𝔐.all _) hw).2 _).2 ⟨fun k => Units.mk0 (κ k) (hκ k), rfl⟩, hi,
     mul_pos (Finset.prod_pos fun k _ => zpow_pos (norm_pos_iff.2 (hκ k)) _) hp,
     fun t ν hgr => (hn t ν hgr).smul hκ⟩
@@ -495,7 +498,7 @@ theorem exists_hodgeLine : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E
   intro E _ _ _ H D l Xo c O _ β Y S Ω _ K _ J _ y 𝔐 Fl xdeg e hβ hR r
   have hu : ∀ z z' w h h', Good Fl r (xdeg r) (e r) z w h → Good Fl r (xdeg r) (e r) z' w h' → h = h' := by
     intro z z' w h h' hG hG'
-    obtain ⟨t1, -, t3⟩ := GlobalTheory.T.local_ring_points_existsUnique 𝔐.X Ω 𝔐.ξ K J y 𝔐.tie ℂ
+    obtain ⟨t1, -, t3⟩ := _root_.GlobalTheory.CompanionTheory.Ar.tie_points 𝔐.X Ω 𝔐.ξ K J y 𝔐.tie ℂ
     have hzz : z' = z := (t1 w hG.1.1 (t3 z w (𝔐.all _) hG.1).1).unique ⟨𝔐.all _, hG'.1⟩ ⟨𝔐.all _, hG.1⟩
     subst hzz
     obtain ⟨-, -, t, ν, hν, hgr⟩ := exists_metric hβ Fl hR r hG.1 hG.2.1

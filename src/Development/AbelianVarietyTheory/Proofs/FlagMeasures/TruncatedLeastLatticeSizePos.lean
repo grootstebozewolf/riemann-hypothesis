@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LayerProd
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LamXEquivariant
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AutPointLatticeIntersectionSelfDualPropertiesStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AutPointLatticeIntersectionSelfDualProperties
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FgOfHtNeZero
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NearTrivialPointwise
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OrthogonalCanonicalFiltrationStepsAutPointStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OrthogonalCanonicalFiltrationStepsAutPoint
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PackingGeometricMeanSeparated
 import Formalism.HarderNarasimhan.ShiftInvariance
 import Mathlib.Algebra.Order.Floor.Extended
@@ -156,7 +156,7 @@ theorem mulVec_mem (x y a : I.GA) (γ : GL (Fin I.n) I.E)
 
 theorem lamX_ne_bot (hn : 1 ≤ I.n) (x : I.GA) : lamX I x ≠ ⊥ := by
   intro h0
-  have h1 := (GlobalTheory.T.autPointLatticeIntersection_selfDual_properties I x).2.2.1
+  have h1 := (_root_.GlobalTheory.PointLattice.lamX_selfDual I x).2.2.1
   rw [h0] at h1
   have : Nonempty (Fin I.n) := ⟨⟨0, hn⟩⟩
   simp at h1
@@ -192,9 +192,9 @@ theorem separated (hn : 1 ≤ I.n) (x y a b : I.GA) (ha : a ∈ I.GFset) (hb : b
       apply hne
       apply Matrix.toLin'.injective
       rw [map_zero]
-      refine LinearMap.ext_on (GlobalTheory.T.autPointLatticeIntersection_selfDual_properties I y).2.2.1 fun z hz => ?_
+      refine LinearMap.ext_on (_root_.GlobalTheory.PointLattice.lamX_selfDual I y).2.2.1 fun z hz => ?_
       exact (Submodule.eq_bot_iff _).1 h0 _ ⟨z, hz, rfl⟩)
-  rw [(GlobalTheory.T.orthogonal_canonicalFiltration_steps_autPoint I y).2.1 hn, div_inv_eq_mul] at h
+  rw [(_root_.GlobalTheory.Count.PerpStep.main I y).2.1 hn, div_inv_eq_mul] at h
   have e1 : (nPl I.E : ℝ) = Fintype.card (InfinitePlace I.F) := by
     rw [nPl, Fintype.card_of_bijective (comap_bijective I)]
   have e2 : ∏ w, opNormAt (bas I) (frm I y) (bas I) (frm I x) w

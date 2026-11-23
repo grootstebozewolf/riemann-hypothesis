@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.KernelLattices.DeterminantCokernelCount.CokernelIndexFactors.StatementB
 public import Development.AbelianVarietyTheory.Definitions.Jets.CmLatticeCommutatorPairingPowEqOneOfGoodLift
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsDualBasisOfUnimodularLatticeAtPrimeStatement
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsDualBasisOfUnimodularLatticeAtPrime
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CmThetaOperatorInvariantOfLiftCongrOne
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ImagQuadraticMaximalOrderArithmeticAtSplitPrime
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.MkLeContinuumOfDenseRange
@@ -225,7 +225,7 @@ theorem goodLift_eq : ∀ (q : ℕ) [Fact q.Prime] (lam : Qbar →+* ℂ_[q]) (g
       rw [hf_smul_left, hf_smul_left, hf_smul_right, hN0r]; ring
     rw [this]; exact himI _ (GlobalTheory.MomOne.LiftChange.smul_mem S hS he0' (hb.1 i)) _ hNt
 
-  obtain ⟨s, c, hs, hc, hbc, hexp⟩ := GlobalTheory.T.exists_dualBasis_of_unimodular_lattice_at_prime q g S r b hS hb
+  obtain ⟨s, c, hs, hc, hbc, hexp⟩ := _root_.GlobalTheory.MomDual.dual_basis q g S r b hS hb
   choose a ha using fun j => (hZ _ (hbOK v hv (c j) (hc j))).1
   haveI : NeZero (q ^ n) := ⟨pow_ne_zero _ hqp.ne_zero⟩
   let A : Fin r → ZMod (q ^ n) := fun j =>

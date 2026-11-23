@@ -2,14 +2,15 @@ module
 
 public import Development.AbelianVarietyTheory.Statements.HeckeThetaIntegrals.StepUnfold
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsRepsOfOpenCompact
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicUnitaryTopology
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DefiniteThetaIntegralIntegrableContinuous
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FockPolynomialVectorsOfSmoothThetaStable
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DefiniteUnitaryCocompact
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GridFiniteDatumVectorThetaFockVacuum
+public import Development.AbelianVarietyTheory.Definitions.Divisors.BasePlaceNotMemChiGridBadPlaces
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaKernelGridRationalLeftInvariant
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicUnitaryTopology
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DefiniteUnitaryCocompact
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegrableOnFundamentalDomain
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaKOContinuousAndRatInvariant
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaKernelGridRationalLeftInvariantStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -147,7 +148,7 @@ theorem good_col {t : T} {j : ℕ} (hj : j < D.R.m) (f : Sch G (.col t j))
     {K : Subgroup (GL (Fin (G.V (.top j)).rank) (Lev.EAf D))} (hM : M.IsAt (.top j) K) : Good W M (.col t j) f := by
   have hr : (Pair.top t j : Pair T).InRange D.R.m := by show j + 1 ≤ D.R.m; omega
   obtain ⟨hc, -⟩ := GlobalTheory.thetaKO_continuous_and_rat_invariant W.ψ _ _ _ _ _ (W.om_is _ hr) f hf
-  exact ⟨hc, fun γ hγ γ' hγ' g h => GlobalTheory.T.thetaKernel_grid_rational_left_invariant W _ hr f hf γ hγ γ' hγ' g h, hpos, hM.haar_fund.1, hM.haar_fund.2⟩
+  exact ⟨hc, fun γ hγ γ' hγ' g h => _root_.GlobalTheory.RowReal.ker_rat_left W _ hr f hf γ hγ γ' hγ' g h, hpos, hM.haar_fund.1, hM.haar_fund.2⟩
 
 theorem good_row {i : ℕ} (hi : i < D.R.m) (f : Sch G (.right i D.R.m))
     (hf : IsThetaFunO W.ψ (G.pS (.chi i D.R.m)) (G.pT (.chi i D.R.m)) f)
@@ -156,7 +157,7 @@ theorem good_row {i : ℕ} (hi : i < D.R.m) (f : Sch G (.right i D.R.m))
     Good W M (.right i D.R.m) f := by
   have hr : (Pair.chi i D.R.m : Pair T).InRange D.R.m := by show i + 1 ≤ D.R.m ∧ D.R.m ≤ D.R.m; omega
   obtain ⟨hc, -⟩ := GlobalTheory.thetaKO_continuous_and_rat_invariant W.ψ _ _ _ _ _ (W.om_is _ hr) f hf
-  refine ⟨?_, fun γ hγ γ' hγ' g h => GlobalTheory.T.thetaKernel_grid_rational_left_invariant W _ hr f hf γ hγ γ' hγ' g h, hpos, hM.haar_fund.1, hM.haar_fund.2⟩
+  refine ⟨?_, fun γ hγ γ' hγ' g h => _root_.GlobalTheory.RowReal.ker_rat_left W _ hr f hf γ hγ γ' hγ' g h, hpos, hM.haar_fund.1, hM.haar_fund.2⟩
   exact hc.comp (((continuous_negGA _).comp continuous_snd).prodMk continuous_fst)
 
 end GlobalTheory.DefConv

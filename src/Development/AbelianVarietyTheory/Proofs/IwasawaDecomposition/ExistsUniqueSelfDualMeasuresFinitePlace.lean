@@ -6,7 +6,8 @@ public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Additi
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DisjointSpanPerpLat
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSelfDualOfDualSubgroups
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSmallDualLattices
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalComponentsNontrivialAdelicCharacterStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalComponentsNontrivialAdelicCharacter
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.FourierMatch
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.T2SpaceNumberFieldInfiniteAdeles
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,7 +55,6 @@ import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.FourierMatch
 
 @[expose] public section
 
@@ -380,7 +380,7 @@ theorem existsUnique_selfDual_finite : ∀ (F E : Type) [Field F] [NumberField F
     rfl
   have hne : ∃ t, χ t ≠ 1 := by
     rw [hχ]
-    exact (GlobalTheory.T.localComponents_nontrivial_adelic_character F ψ hψ).1 v
+    exact (_root_.GlobalTheory.GaugeEx.CharLoc.char_local F ψ hψ).1 v
   constructor
   · simpa only [SdR, ← hχ, LinearMap.mul_apply_apply] using
       (existsUnique_of_bilin v χ hc hu hne (Fv F v) (LinearMap.mul _ _) (fun x y => mul_comm x y)

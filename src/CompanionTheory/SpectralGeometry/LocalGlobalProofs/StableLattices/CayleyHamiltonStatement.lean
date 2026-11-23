@@ -1,7 +1,9 @@
 module
 
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.HeckeAlgebraActions.BackStable
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.QuantumDeterminantTensorStatement
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.QuantumDeterminantTensor
+public import Mathlib.LinearAlgebra.Dual.Lemmas
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.HermitianCharacters.CharacteristicIdentity
 import Formalism.RealPlaceAnalysis.ThirdArithmeticHolds
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,7 +52,6 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import Mathlib.LinearAlgebra.Dual.Lemmas
 
 @[expose] public section
 
@@ -86,33 +87,7 @@ theorem commute_coeff_X_add_C (a t : A) (h : Commute a t) (k : ℕ) :
   split_ifs <;> simp [h]
 
 theorem eq_zero_of_eval (R : A[X]) (h : ∀ y : ℂ, R.eval (algebraMap ℂ A y) = 0) : R = 0 := by
-  ext k
-  rw [coeff_zero]
-  refine (Module.forall_dual_apply_eq_zero_iff ℂ _).1 fun φ => ?_
-  let r : ℂ[X] := ∑ i ∈ R.support, monomial i (φ (R.coeff i))
-  have hr : ∀ y, r.eval y = 0 := by
-    intro y
-    have hy := congrArg φ (h y)
-
-    rw [eval_eq_sum, sum_def, map_sum, map_zero] at hy
-    rw [← hy]
-    simp only [r, eval_finsetSum, eval_monomial]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    rw [← map_pow, ← Algebra.commutes, ← Algebra.smul_def, map_smul, smul_eq_mul, mul_comm]
-  have h0 : r = 0 := Polynomial.funext (by simpa using hr)
-  have hc : r.coeff k = φ (R.coeff k) := by
-    classical
-    simp only [r, finsetSum_coeff]
-    rw [Finset.sum_eq_single k]
-    · simp [coeff_monomial]
-    · intro i hi hik
-      simp [coeff_monomial, hik]
-    · intro hk
-      have hk0 : R.coeff k = 0 := by
-        by_contra hne
-        exact hk (mem_support_iff.mpr hne)
-      simp [coeff_monomial, hk0]
-  rw [← hc, h0, coeff_zero]
+  apply GlobalTheory.CompanionTheory.Inh.CharId.eq_zero_of_eval <;> assumption
 
 def PolF (f : ℂ → A) : Prop := ∃ p : A[X], ∀ y : ℂ, p.eval (algebraMap ℂ A y) = f y
 
@@ -308,6 +283,6 @@ theorem cayleyHam_of (H : QdetTens) : CayleyHam := by
   exact ⟨k, (smul_eq_zero.1 hz).resolve_left
     (pow_ne_zero _ (neg_ne_zero.2 (pow_ne_zero _ (by norm_num))))⟩
 
-theorem cayleyHam : CayleyHam := cayleyHam_of GlobalTheory.T.QuantumDeterminantTensor
+theorem cayleyHam : CayleyHam := cayleyHam_of _root_.GlobalTheory.CompanionTheory.RgExh.qdetTens
 
 end GlobalTheory.CompanionTheory.RgExhHecke.CayleyOm

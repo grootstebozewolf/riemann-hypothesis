@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AdIPowLe
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsStablePrismHomComp
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PrismPushoutModAdicPowUniversalStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PrismPushoutModAdicPowUniversal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -104,7 +104,7 @@ theorem GlobalTheory.BSP.stable_cover_of_isPO : ∀ (l : ℕ) [Fact l.Prime] (R 
     refine ⟨flat_of_isPO H hs.flat, fun B'' k₂ => ?_⟩
     obtain ⟨C'', k₀, h'', H₂⟩ := hs.po B'' (k₂.comp k)
     have e : k₀.comp h = (h''.comp k₂).comp k := by rw [H₂.comm, comp_assoc]
-    obtain ⟨c, ⟨hc₁, hc₂⟩, -⟩ := GlobalTheory.T.prismPushoutModAdicPow_universal l R B C B' C' h k k' h' H C'' k₀ (h''.comp k₂) e
+    obtain ⟨c, ⟨hc₁, hc₂⟩, -⟩ := _root_.GlobalTheory.BSP.PoUniv.isPO_univ l R B C B' C' h k k' h' H C'' k₀ (h''.comp k₂) e
     refine ⟨C'', c, h'', ⟨hc₂, fun m => ?_⟩⟩
     have s := H₂.po m
     rw [← hc₁, qmap_comp, qmap_comp, CommRingCat.ofHom_comp, CommRingCat.ofHom_comp] at s

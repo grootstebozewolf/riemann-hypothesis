@@ -3,7 +3,7 @@ module
 public import Mathlib.RingTheory.Etale.Basic
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.Localization.AtPrime.Basic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BijectiveResidueCompEtaleHenselianStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BijectiveResidueCompEtaleHenselian
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -127,7 +127,7 @@ theorem bijective_residue_comp : ∀ (R S T : Type) [CommRing R] [CommRing S] [C
       (IsScalarTower.toAlgHom R T (ResidueField T)).comp φ) := by
     intro i
     obtain ⟨A, _, _, _, q, _, ⟨e⟩⟩ := hloc i
-    exact bijective_of_algEquiv e (bijective_localization q (GlobalTheory.T.bijective_residue_comp_etale_henselian R A T))
+    exact bijective_of_algEquiv e (bijective_localization q (_root_.GlobalTheory.EtaleHensel.bijective_residue_comp R A T))
   have dir : Directed (· ≤ ·) Si := hmono.directed_le
   have htop : (⊤ : Subalgebra R S) ≤ iSup Si := fun s _ => by
     obtain ⟨i, hi⟩ := hcov s

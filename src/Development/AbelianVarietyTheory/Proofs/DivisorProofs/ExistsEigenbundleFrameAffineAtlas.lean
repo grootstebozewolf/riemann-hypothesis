@@ -1,8 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlagCellFrameChangeTriangular
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsEigenChartAffineOpenWithinStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsFlagModelField
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsEigenChartAffineOpenWithin
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CocycleTrivialOnProjectiveCover
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LineModel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -39,7 +41,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LineModel
 
 @[expose] public section
 
@@ -154,7 +155,7 @@ theorem exists_atlas : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H
   have hcovL : ∀ x : Y.X, ∃ i, x ∈ L.U i := fun x => exists_chart L.isLB x
   have hk : ∀ x : Y.X, ∃ i, ∃ k : ECh Y p, k.M = σ i ∧ x ∈ k.V ∧ IsAffineOpen k.V ∧ k.V ≤ L.U i := fun x => by
     obtain ⟨i, hi⟩ := hcovL x
-    obtain ⟨k, h1, h2, h3, h4⟩ := GlobalTheory.T.exists_eigenChart_affineOpen_within E H Dw l Xo c Y p (σ i) x (hle i hi) (L.U i) hi
+    obtain ⟨k, h1, h2, h3, h4⟩ := _root_.GlobalTheory.FlagMod.FieldFlag.exists_eCh_le E H Dw l Xo c Y p (σ i) x (hle i hi) (L.U i) hi
     exact ⟨i, k, h1, h2, h3, h4⟩
   choose ix kx hkM hxk haffk hlek using hk
   have hc : IsCompact (Set.univ : Set Y.X) := by

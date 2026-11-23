@@ -1,9 +1,12 @@
 module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.HilbertSchurUnitaryIrreducibleScalarStatement
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
+public import Mathlib.Analysis.CStarAlgebra.Classes
+public import Mathlib.Analysis.InnerProductSpace.Defs
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.HilbertSchurUnitaryIrreducibleScalar
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ModularCharacterEqOneOnExpHermitian
+public import Mathlib.MeasureTheory.Function.L2Space
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -14,7 +17,6 @@ import Mathlib.Combinatorics.Enumerative.DyckWord
 import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
 import Mathlib.Data.NNRat.Floor
 import Mathlib.Geometry.Euclidean.Volume.Basic
-public import Mathlib.MeasureTheory.Function.L2Space
 import Mathlib.NumberTheory.Chebyshev
 import Mathlib.NumberTheory.Height.NumberField
 import Mathlib.NumberTheory.Height.Projectivization
@@ -126,7 +128,7 @@ theorem schur_orthogonality [Nontrivial H] [TopologicalSpace G] [MeasurableMul G
     exact integral_congr_ae (hae v w v' w')
   have hsc : ∀ w w', ∃ c : ℂ, ∀ v v', I v w v' w' = c * ⟪v', v⟫_ℂ := by
     intro w w'
-    obtain ⟨c, hc⟩ := GlobalTheory.T.hilbert_schur_unitary_irreducible_scalar H G π hπ hirr
+    obtain ⟨c, hc⟩ := _root_.GlobalTheory.hilbert_schur H G π hπ hirr
       ((ContinuousLinearMap.adjoint (T w')).comp (T w)) (by
         intro g
         ext v

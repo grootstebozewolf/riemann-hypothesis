@@ -37,7 +37,7 @@ public import Development.EtaleCohomology.TateTwists.EtaleSheafShortComplexExact
 public import Development.EtaleCohomology.TateTwists.EtaleSingleSheafHomotopicMapsEqualHolds
 public import Development.EtaleCohomology.TateTwists.Imports
 import Development.EtaleCohomology.TateTwists.PpEvBasicPf
-import Development.EtaleCohomology.TateTwists.PpEvDeltaPf
+import Development.EtaleCohomology.TateTwists.EtaleChainCochainEvalDifferentialFormulaHolds
 import Development.EtaleCohomology.TateTwists.PpEvMkPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -132,7 +132,7 @@ theorem etale_evaluation_map_basic_of_components : LateralTheory.EtaleFoundation
 theorem etale_cohomology_evaluation_mk : LateralTheory.EtaleFoundations.pp_ev_mk := by
   apply LateralTheory.EtaleFoundations.pp_ev_mk_of
 theorem etale_cohomology_evaluation_connecting_hom : LateralTheory.EtaleFoundations.pp_ev_delta := by
-  apply LateralTheory.EtaleFoundations.pp_ev_delta_of
+  apply _root_.LateralTheory.EtaleFoundations.etale_chain_cochain_eval_differential_formula_holds
 theorem etale_torsion_cohomology_operation_spec : LateralTheory.EtaleFoundations.EtaleCochainSemilinearMapOnClasses := by
   apply LateralTheory.EtaleFoundations.etale_semilinear_cohomology_operation_exists_of_evaluation <;> first | exact etale_evaluation_map_basic_of_components | exact etale_cohomology_evaluation_mk | exact etale_cohomology_evaluation_connecting_hom
 theorem etale_prime_power_twist_reduction_map_exists : LateralTheory.EtaleFoundations.EtaleRootsOfUnityReductionMapGenerator := by

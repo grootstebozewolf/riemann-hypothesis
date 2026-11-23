@@ -1,10 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsNormalFormStabilizerMeasure
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicLeviEmbeddingHomomorphismPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicStabilizerRadicalStructureStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormalFormFlagZeroMiddleInverseMinorOrthogonalStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnipotentLeviRadicalCoordsHomeomorphStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UpperOff
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicLeviEmbeddingHomomorphismProperties
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicStabilizerRadicalStructure
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormalFormFlagZeroMiddleInverseMinorOrthogonal
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnipotentLeviRadicalCoordsHomeomorph
 public import Formalism.FormalDegreeBessel.FinalG
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -190,7 +191,7 @@ theorem upper_tri (x : UT r → ℂ) : (upper x).BlockTriangular id := by
 theorem upper_diag (x : UT r → ℂ) (a : Fin r) : upper x a a = 1 := by simp [upper]
 
 theorem upper_unit (x : UT r → ℂ) : IsUnit (upper x).det := by
-  rw [((GlobalTheory.T.isotropicLeviEmbedding_homomorphism_properties 0 r).2.2.2 x).1]; exact isUnit_one
+  rw [((_root_.GlobalTheory.Amp.UEmb.uEmb_hom 0 r).2.2.2 x).1]; exact isUnit_one
 
 theorem inv_tri {α : Type} [LinearOrder α] {u : Matrix (Fin r) (Fin r) ℂ} (hu : IsUnit u.det) {β : Fin r → α}
     (h : u.BlockTriangular β) : u⁻¹.BlockTriangular β := by
@@ -218,10 +219,10 @@ theorem col_es {u : Matrix (Fin r) (Fin r) ℂ} (hu : IsUnit u.det) (B : Fin r �
     (uEmb k r u * pEl k r B S) *ᵥ bvec (esI k r b) = (∑ a, star (u⁻¹ b a) • bvec (esI k r a)) +
       (∑ i, B b i • bvec (wI k r i)) +
       ∑ a, (S a b - herm (Hb k) (B b) (B a) / 2) • ∑ a', u a' a • bvec (eI k r a') := by
-  obtain ⟨-, -, h1, h2, h3⟩ := (GlobalTheory.T.isotropicLeviEmbedding_homomorphism_properties k r).2.2.1 u hu
+  obtain ⟨-, -, h1, h2, h3⟩ := (_root_.GlobalTheory.Amp.UEmb.uEmb_hom k r).2.2.1 u hu
   have hw : ∀ i, uEmb k r u *ᵥ bvec (wI k r i) = bvec (wI k r i) := fun i => h3 _ fun p hp => bv_ne (by
     rintro rfl; simp only [wI] at hp; omega)
-  rw [← Matrix.mulVec_mulVec, ((GlobalTheory.T.isotropicStabilizerRadical_structure k r).1 B S).2.2.1 b]
+  rw [← Matrix.mulVec_mulVec, ((_root_.GlobalTheory.Amp.Rad.radical k r).1 B S).2.2.1 b]
   simp only [Matrix.mulVec_add, Matrix.mulVec_sum, Matrix.mulVec_smul, h1, h2, hw]
 
 theorem herm_zero_left {m : ℕ} (H : Matrix (Fin m) (Fin m) ℂ) (v : Fin m → ℂ) : herm H 0 v = 0 := by simp [herm]
@@ -231,7 +232,7 @@ theorem herm_zero_right {m : ℕ} (H : Matrix (Fin m) (Fin m) ℂ) (v : Fin m �
 theorem subset_range {hj : j ≤ r} {β : Fin r → ℕ} {c : ℂ} {z z' : Fin (2 * r + k + 1) → ℂ} {g : Mat k r}
     (hg : IsUnit g.det) (h : IsNormal0 k r hj β c z z' g⁻¹) : Rset k r g ⊆ Set.range (rEl k r j β) := by
   intro ρ hρ
-  obtain ⟨⟨x, B, s, t⟩, -, hq⟩ := (GlobalTheory.T.unipotent_levi_radical_coords_homeomorph k r).1.2.2 hρ.1
+  obtain ⟨⟨x, B, s, t⟩, -, hq⟩ := (_root_.GlobalTheory.Amp.NCoord.coord_homeo k r).1.2.2 hρ.1
   have hq : uEmb k r (upper x) * pEl k r B (skewM s t) = ρ := hq
   have hmon : Monotone β := h.2.2.2.1
   have hlast := h.2.2.2.2.1
@@ -321,10 +322,10 @@ theorem range_subset {hj : j ≤ r} {β : Fin r → ℕ} {c c' : ℂ} {z z' : Fi
   have hmon : Monotone β := h.2.2.2.1
   have hlast := h.2.2.2.2.1
   obtain ⟨h1, h2, h3, h4⟩ := nf h
-  obtain ⟨-, -, u1, -, u3⟩ := (GlobalTheory.T.isotropicLeviEmbedding_homomorphism_properties k r).2.2.1 _ hu
-  obtain ⟨p1, -, -, p4⟩ := (GlobalTheory.T.isotropicStabilizerRadical_structure k r).1 B (skewM s t)
+  obtain ⟨-, -, u1, -, u3⟩ := (_root_.GlobalTheory.Amp.UEmb.uEmb_hom k r).2.2.1 _ hu
+  obtain ⟨p1, -, -, p4⟩ := (_root_.GlobalTheory.Amp.Rad.radical k r).1 B (skewM s t)
   have hN : uEmb k r (upper y) * pEl k r B (skewM s t) ∈ Nset k r :=
-    (nSubgroup k r).2.1 _ ((GlobalTheory.T.isotropicLeviEmbedding_homomorphism_properties k r).2.2.2 y).2 _ (p4 ((GlobalTheory.T.isotropicStabilizerRadical_structure k r).2.1 s t)).1
+    (nSubgroup k r).2.1 _ ((_root_.GlobalTheory.Amp.UEmb.uEmb_hom k r).2.2.2 y).2 _ (p4 ((_root_.GlobalTheory.Amp.Rad.radical k r).2.1 s t)).1
   obtain ⟨-, g2, -⟩ := uHGroup _ (Hpk k r) (by
     have := congrArg Matrix.det (hpkFacts k r).2.1
     rw [Matrix.det_mul, Matrix.det_one] at this
@@ -414,8 +415,8 @@ namespace GlobalTheory.Amp
 open CommonStab in
 theorem rset_normal0 : ∀ (k r j : ℕ) (hj : j ≤ r) (z z' : (Fin (2 * r + k + 1) → ℂ)), ∀ (g₀ : Mat k r) (β : Fin r → ℕ) (c : ℂ), inWb k r z → inWb k r z' → 0 < Tz k r z → IsNormal0 k r hj β c z z' g₀ → Rset k r g₀ = Set.range (rEl k r j β) ∧ IsClosedSub k r (Rset k r g₀) := by
   intro k r j hj z z' g β c hz hz' hT h
-  obtain ⟨hT', -, h', -⟩ := GlobalTheory.T.normalFormFlagZero_middle_inverse_minor_orthogonal k r j hj z z' g β c hz hz' hT h
-  obtain ⟨-, ⟨m, -, hm⟩, -⟩ := GlobalTheory.T.normalFormFlagZero_middle_inverse_minor_orthogonal k r j hj z' z g⁻¹ β c⁻¹ hz' hz (hT' ▸ hT) h'
+  obtain ⟨hT', -, h', -⟩ := _root_.GlobalTheory.Amp.NfMid.normal0_middle k r j hj z z' g β c hz hz' hT h
+  obtain ⟨-, ⟨m, -, hm⟩, -⟩ := _root_.GlobalTheory.Amp.NfMid.normal0_middle k r j hj z' z g⁻¹ β c⁻¹ hz' hz (hT' ▸ hT) h'
   obtain ⟨-, -, g3⟩ := uHGroup _ (Hpk k r) (by
     have := congrArg Matrix.det (hpkFacts k r).2.1
     rw [Matrix.det_mul, Matrix.det_one] at this

@@ -5,16 +5,18 @@ public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Acri
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsComponentEquiv
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AntitoneFiltrationExistsAdaptedLinearIndepSet
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AssociatedPowOfUnits
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConcretePeriodDeRhamModuleFinrankLeStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamComparisonIsFilteredStatement
+public import Formalism.LocalRingCardinality.AdicCompletionLocal.LocTied
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConcretePeriodDeRhamModuleFinrankLe
+public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamComparisonIsFiltered
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFinBasisSubsetOfIsField
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFinExt
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankMulLeFinrankDdROfSpans
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IdemNotMemFilVOne
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IndepOfLinearIndependentDdRE
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InjectiveTensorBcrisToBdR
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemSpanDOfFixed
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NonemptyThetaOnBdRPlusPeriodData
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFinExt
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IdemNotMemFilVOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -214,16 +216,16 @@ variable (K LL : FinExt l) {V : Type} [AddCommGroup V] [Module ↥LL.1 V] [Modul
 theorem isDR_of_spans (h : Spans (P.PD K) ρ) : IsDR (P.PD K) ρ := by
   have := K.2
   have := LL.2
-  obtain ⟨h1, h2⟩ := GlobalTheory.T.concretePeriod_deRham_module_finrank_le l P AI T K LL V ρ
+  obtain ⟨h1, h2⟩ := _root_.GlobalTheory.Per.TiedDdR.ddR_finrank_le l P AI T K LL V ρ
   exact le_antisymm h2 (GlobalTheory.DRFil.finrank_mul_le_finrank_DdR_of_spans (P.PD K) ρ h1 h)
 
-theorem filSpans (h : IsDR (P.PD K) ρ) : FilSpans (P.PD K) ρ := GlobalTheory.T.deRham_comparison_isFiltered l P AI T K LL V ρ h
+theorem filSpans (h : IsDR (P.PD K) ρ) : FilSpans (P.PD K) ρ := _root_.GlobalTheory.DRFil.deRham_filtered l P AI T K LL V ρ h
 
 theorem crys (h : IsCrys (P.PD K) ρ) : IsDR (P.PD K) ρ ∧ ∀ y ∈ DdR (P.PD K) ρ,
     ∃ (m : ℕ) (c : Fin m → ↥K.1) (x : Fin m → V ⊗[ℚ_[l]] P.R.B), (∀ i, x i ∈ Dcris (P.PD K) ρ) ∧
       y = ∑ i, mulR ℚ_[l] P.R.BdR ↥LL.1 V (algebraMap ↥K.1 P.R.BdR (c i))
         (ιV (P.PD K) (LL := ↥LL.1) (V := V) (x i)) := by
-  obtain ⟨h1, h2⟩ := GlobalTheory.T.concretePeriod_deRham_module_finrank_le l P AI T K LL V ρ
+  obtain ⟨h1, h2⟩ := _root_.GlobalTheory.Per.TiedDdR.ddR_finrank_le l P AI T K LL V ρ
   exact isDR_of_isCrys (P.PD K) (tensInj T K) ρ h2 h
 
 end Rep
@@ -286,7 +288,7 @@ theorem strictAt : StrictAt P K LL := by
   rintro L₀ L₁ L₂ f g ⟨hf, hg, hi, hex, hs⟩ - h₁ - τ a
   have := K.2
   have := LL.2
-  have := (GlobalTheory.T.concretePeriod_deRham_module_finrank_le l P AI T K LL L₂.V L₂.ρ).1
+  have := (_root_.GlobalTheory.Per.TiedDdR.ddR_finrank_le l P AI T K LL L₂.V L₂.ρ).1
   refine ⟨fun x _ hx => ext_injective f hi (hx.trans (map_zero _).symm), fun y => ⟨?_, ?_⟩, fun z => ?_⟩
   · rintro ⟨x, hx, rfl⟩
     exact ⟨ext_mem_FildR _ _ _ f hf τ hx, (ext_exact f g hex hs _).2 ⟨x, rfl⟩⟩
@@ -301,7 +303,7 @@ theorem dualJumpsAt : DualJumpsAt P K LL := by
   rintro L L' β ⟨hβ, hβ'⟩ h
   have := K.2
   have := LL.2
-  have := (GlobalTheory.T.concretePeriod_deRham_module_finrank_le l P AI T K LL L.V L.ρ).1
+  have := (_root_.GlobalTheory.Per.TiedDdR.ddR_finrank_le l P AI T K LL L.V L.ρ).1
   have hs := filSpans T K LL L.ρ h
   refine ⟨isDR_of_spans T K LL L'.ρ
     (GlobalTheory.DRFil.spans_dual_of_spans (P.PD K) L.ρ L'.ρ β (isField_dR T) hβ hβ' (hs.spans _)), fun τ a => ?_⟩
@@ -314,8 +316,8 @@ theorem tensorJumpsAt : TensorJumpsAt P K LL := by
   intro L₁ L₂ L₃ e he h₁ h₂
   have := K.2
   have := LL.2
-  have := (GlobalTheory.T.concretePeriod_deRham_module_finrank_le l P AI T K LL L₁.V L₁.ρ).1
-  have := (GlobalTheory.T.concretePeriod_deRham_module_finrank_le l P AI T K LL L₂.V L₂.ρ).1
+  have := (_root_.GlobalTheory.Per.TiedDdR.ddR_finrank_le l P AI T K LL L₁.V L₁.ρ).1
+  have := (_root_.GlobalTheory.Per.TiedDdR.ddR_finrank_le l P AI T K LL L₂.V L₂.ρ).1
   have hs₁ := filSpans T K LL L₁.ρ h₁
   have hs₂ := filSpans T K LL L₂.ρ h₂
   refine ⟨isDR_of_spans T K LL L₃.ρ (Spans.tensor _ e he (hs₁.spans _) (hs₂.spans _)), fun τ c => ?_⟩

@@ -3,8 +3,9 @@ module
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.Generic
 public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.WeightedPrimeSumBound
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CardExponentsAndChooseRatioBoundsPair
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.GenericSectionsPolynomialDictionaryStatement
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.InBasisIffPointValuesLinearIndependentSpanStatement
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.GenericSectionsPolynomialDictionary
+public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.PublishedIntClosHolds
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.InBasisIffPointValuesLinearIndependentSpan
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -98,8 +99,8 @@ theorem shareRd_of_inBasis : ∀ (D : D7) (B : WeightFamilies.Prov D) (P : Modul
   intro D B P j X ka wL wF G R t T Mg δ xs hgen hfac hka hDT _ hlat hex
   obtain ⟨la, hla⟩ := hex
 
-  have hI := (GlobalTheory.T.inBasis_iff_pointValues_linearIndependent_span D B P j X ka wL wF G R t T Mg δ xs hgen hfac hka la).1 hla
-  obtain ⟨-, -, -, -, -, hmul, -, hfin⟩ := GlobalTheory.T.genericSections_polynomial_dictionary D B P j X R la G.N wL G.w t
+  have hI := (_root_.GlobalTheory.Shares.inBasis_iff_vals D B P j X ka wL wF G R t T Mg δ xs hgen hfac hka la).1 hla
+  obtain ⟨-, -, -, -, -, hmul, -, hfin⟩ := _root_.GlobalTheory.Shares.polyDictionary D B P j X R la G.N wL G.w t
   have hθ : ∀ i, R.ev (X.inc wF (G.th' i)) ∈ R.sp wF Set.univ := fun i =>
     Submodule.subset_span ⟨G.th' i, Set.mem_univ _, rfl⟩
 

@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.DiscreteSpectrumKFiniteDecomposition
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PsiComplexifiedKEquivarianceStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PsiHolomorphicNearPositiveMatricesAtOneStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PsiComplexifiedKEquivariance
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PsiHolomorphicNearPositiveMatricesAtOne
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.IndefiniteUnitaryPreservesForm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -114,4 +114,4 @@ theorem psiPolar_of (hB : PsBasic) (hE : PsEquiv) : PsiPolar := by
 end GlobalTheory.Dec.PsiPolarProof
 
 theorem GlobalTheory.Dec.psiPolar : GlobalTheory.Dec.PsiPolar :=
-  GlobalTheory.Dec.PsiPolarProof.psiPolar_of GlobalTheory.T.psi_holomorphic_near_positive_matrices_at_one GlobalTheory.T.psi_complexifiedK_equivariance
+  GlobalTheory.Dec.PsiPolarProof.psiPolar_of _root_.GlobalTheory.Dec.psBasic _root_.GlobalTheory.Dec.Equivar.psEquiv

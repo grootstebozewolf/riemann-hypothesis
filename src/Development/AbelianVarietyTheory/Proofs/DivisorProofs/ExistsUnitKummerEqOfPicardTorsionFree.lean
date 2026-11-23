@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
 public import Mathlib.RingTheory.PicardGroup
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BijectiveMultiplicativeGroupSectionsUnits
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DegreeZeroSectionClassPropertiesStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DegreeZeroSectionClassProperties
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleDescentPicardGroupStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsKummerBoundaryEtaleCohomologyStatement
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HypercohomologyCoefficientMapFunctorialAdditiveStatement
@@ -100,7 +100,7 @@ theorem GlobalTheory.EtC.kum_surjective : ∀ (q : ℕ) [NeZero q] (A : Type) [C
     rw [map_zero]
     exact congrArg Additive.ofMul this
   obtain ⟨g, hg⟩ := (h2 x).1 hy0
-  obtain ⟨-, hbij, hadd, -, -⟩ := GlobalTheory.T.degreeZeroSectionClass_properties ℤ Gm (Spec (CommRingCat.of A))
+  obtain ⟨-, hbij, hadd, -, -⟩ := _root_.GlobalTheory.EtC.secClass_props ℤ Gm (Spec (CommRingCat.of A))
   obtain ⟨b, rfl⟩ := hbij.2 g
   obtain ⟨u, rfl⟩ := unitSec_surj b
   have hsu := hs _ u hqX

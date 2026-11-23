@@ -4,7 +4,7 @@ public import Formalism.SharpRestriction.LevelLetterCocycles.DeltaInvariantLatti
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobeniusIntegralityTensorAinfCoefficients
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NBasisLoc
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachInclusionXQFrobenius
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachLatticeHeightsFromHodgeJumpsStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachLatticeHeightsFromHodgeJumps
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachLatticeSandwichAinf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -273,7 +273,7 @@ theorem main : ∀ (D : Formalism.BasicNotions.D7) (HW : HWOf D.loc) (F : FonOf 
   intro D HW F Cm l _ K s LL h T M hh hT hJ
   haveI := ((D.loc l).PD K).finK₀
   haveI : NeZero (Module.finrank ℚ_[l] ↥(K0 K)) := ⟨Module.finrank_pos.ne'⟩
-  have hp : p5 ((HW l).W K s LL h) T M hh := GlobalTheory.T.wachLattice_heights_from_hodgeJumps D HW F Cm l K s LL h T M hh hT hJ
+  have hp : p5 ((HW l).W K s LL h) T M hh := _root_.GlobalTheory.NL.Heights.heights_from_jumps D HW F Cm l K s LL h T M hh hT hJ
   obtain ⟨b⟩ := GlobalTheory.NL.N_basis D HW F l K s LL h T hT
   have hio := GlobalTheory.NL.IoXQ.main D HW F l K s LL h
   obtain ⟨-, -, -, -, hφ, -⟩ := hio

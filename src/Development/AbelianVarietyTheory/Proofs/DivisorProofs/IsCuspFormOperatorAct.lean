@@ -1,11 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsSpanFormsNeBot
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteDimensionalSpanCompactOrbitLieDerivativeStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsCuspidalLieActionOfIsCuspFormStatement
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExpoConjOfIsCsd
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteDimensionalSpanCompactOrbitLieDerivative
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsCuspidalLieActionOfIsCuspForm
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LieGrowthOfFinite
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemZalgCommuteCompactRepStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemZalgCommuteLieActionStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemZalgCommuteCompactRep
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousConjFin
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemZalgCommuteLieAction
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -167,7 +169,7 @@ theorem isCuspForm_act' (hP : GlobalTheory.Published.AutomorphicFormsFiniteGL) (
       refine Submodule.subset_span ⟨c' * c, ?_⟩
       change _ = (cptRep E a c' * cptRep E a c) φ
       rw [← map_mul]
-    · exact zfin_of_comm _ (fun z hz => GlobalTheory.T.mem_zalg_commute_compactRep E a c z hz) hA.zfin
+    · exact zfin_of_comm _ (fun z hz => _root_.GlobalTheory.ZalgCpt.zalg_comm_cptRep E a c z hz) hA.zfin
     · obtain ⟨C, N, h1⟩ := growth_mul_const (Unitary.toUnits c) (hA.growth g)
       refine ⟨C, N, fun y => ?_⟩
       change ‖φ.1 (g * infGL E a y * infGL E a (Unitary.toUnits c))‖ ≤ _
@@ -178,8 +180,8 @@ theorem isCuspForm_act' (hP : GlobalTheory.Published.AutomorphicFormsFiniteGL) (
       simp_rw [mul_assoc]
       exact hC r h0 h1 μ 𝓕 hμ hF (g * infGL E a (Unitary.toUnits c))
   | lie X =>
-    refine ⟨⟨fun γ g => ?_, ?_, GlobalTheory.T.finiteDimensional_span_compact_orbit_lieDerivative E a X φ hA.kfin, zfin_of_comm _ (fun z hz => GlobalTheory.T.mem_zalg_commute_lie_action E a X z hz) hA.zfin, GlobalTheory.AutGrowth.lie_growth_of_finite hP E a X φ hA⟩,
-      GlobalTheory.T.isCuspidal_lieAction_of_isCuspForm E a X φ ⟨hA, hC⟩⟩
+    refine ⟨⟨fun γ g => ?_, ?_, _root_.GlobalTheory.CuspRep.KFin.kfin_lie E a X φ hA.kfin, zfin_of_comm _ (fun z hz => _root_.GlobalTheory.CuspRep.Zalg_mul_lie E a X z hz) hA.zfin, GlobalTheory.AutGrowth.lie_growth_of_finite hP E a X φ hA⟩,
+      _root_.GlobalTheory.CuspRep.isCuspidal_lie_of_isCuspForm E a X φ ⟨hA, hC⟩⟩
     · change lieD X φ.1 (ratGL E a γ * g) = lieD X φ.1 g
       have e : chart φ.1 (ratGL E a γ * g) = chart φ.1 g := by
         funext x

@@ -7,7 +7,8 @@ public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.Unita
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.NilradicalLatticeZMemSpan
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedVolumeStatements.LevelSubgroupProperties
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.InHHFinal
-import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.FoldUnfold
+import Formalism.PeriodIntegrals.FoldUnfold
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnfoldingIdentity.FoldUnfoldMain
 import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.PoincareSeriesInner
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ComplexDoubleCosets.ComplexDoubleCoset
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FoldingUnfolding.DoubleCosetTranslation
@@ -121,7 +122,7 @@ theorem dcSingleE (Γ S S' : Subgroup G) [Countable Γ] (hS : S ≤ Γ) (hS' : S
         exact (Measurable.tsum fun t => (hφm (r : G)).comp (measurable_const_mul _)).aemeasurable
     _ = ∑' r : R, ∫⁻ x in Fs r, f x * h ((r : G)⁻¹ * x) ∂μ := by
         refine tsum_congr fun r => ?_
-        exact lintegralTransversalSum G μ S (stab S S' r) inf_le_left (Fs r) (hFs r r.2) F hF (E r) (hE r) _
+        exact _root_.PI.FoldUnfold.UnitaryGroupMassFormula.foldUnfold_main G μ S (stab S S' r) inf_le_left (Fs r) (hFs r r.2) F hF (E r) (hE r) _
           (hφm r) (hφi r)
 
 end DC
@@ -965,7 +966,7 @@ theorem termsLEC_of (hMaj : MajPtC) (hInv : RInvC) (hCnt : CountC) : TermsLEC :=
           (Formalism.L2.SG.ProjRows.muInf X.B.I) :=
         isFund_of_strict _ hS.1 hS.2.1 hS.2.2 _
       have hab : aB Y u t.1.lam = a := by rw [t.2]
-      refine (lintegralTransversalSum X.B.I.Ginf (Formalism.L2.SG.ProjRows.muInf X.B.I) (NOlam X u Λ) _ (hle t.1 t.2)
+      refine (_root_.PI.FoldUnfold.UnitaryGroupMassFormula.foldUnfold_main X.B.I.Ginf (Formalism.L2.SG.ProjRows.muInf X.B.I) (NOlam X u Λ) _ (hle t.1 t.2)
         (FundOf t.1) hFd (Ωs b) hFdΩ (E t.1) (hEt t.1 t.2) (F i j t.1) (hFm i j t.1) ?_).symm
       intro s hs y
       have h := hInv D X Y u u' (T i) (T' j) t.1 s hs y

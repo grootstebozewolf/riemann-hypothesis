@@ -1,10 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsCyclotomicTowerLevelGeneratorPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegersEqSumZetaPowStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsCyclotomicTowerLevelGeneratorProperties
+public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegersEqSumZetaPow
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateDecompositionCompletedCyclotomicIntegers
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormPrimitiveRootPrimePowSubOnePadicComplex
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateDecompositionCompletedCyclotomicIntegersStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -182,7 +183,7 @@ theorem int_decomp (K : FinExt l) {j : ℕ} (hj : 1 ≤ j) (c : ℕ) : ∀ x : O
     have hp : l.Prime := Fact.out
     haveI : NeZero l := ⟨hp.ne_zero⟩
     obtain ⟨z, hz⟩ := exists_prim (l := l) (l ^ (j + (c + 1))) (pow_ne_zero _ hp.ne_zero)
-    obtain ⟨y, hy, rfl⟩ := (GlobalTheory.T.integers_eq_sum_zeta_pow_unique l K (j + (c + 1)) (by omega) z hz).1 x hx hx1
+    obtain ⟨y, hy, rfl⟩ := (_root_.GlobalTheory.Cyc.integers_eq_sum_zeta_pow l K (j + (c + 1)) (by omega) z hz).1 x hx hx1
     obtain ⟨o, ho, d, hd, hod⟩ := ih (y 0) (hy 0).1 (hy 0).2
     refine ⟨o, ho, d + ∑ a ∈ Finset.univ.erase (0 : Fin l),
       algebraMap (Om l) (PadicComplex l) (z ^ (a : ℕ) * y a), add_mem hd (sum_mem fun a ha => ?_), ?_⟩
@@ -223,11 +224,11 @@ theorem fixed_alg_eq_zero (hact : IsActC act) (hχ : IsCyc χ) (K : FinExt l) {j
   have haj : a ∈ Ks K j := by
     rw [← InfiniteGalois.fixedField_fixingSubgroup (Ks K j), IntermediateField.mem_fixedField_iff]
     intro σ hσ
-    obtain ⟨k, hk⟩ := ((GlobalTheory.T.exists_cyclotomicTowerLevelGenerator_properties l act χ hact hχ K j hj).2 g hg).2.1 σ hσ m
+    obtain ⟨k, hk⟩ := ((_root_.GlobalTheory.Cyc.gen_dense l act χ hact hχ K j hj).2 g hg).2.1 σ hσ m
     have h1 := Gj_fix K hk ha
     have h2 : σ = σ * (g ^ k)⁻¹ * g ^ k := by group
     rw [h2, AlgEquiv.mul_apply, hpow, h1]
-  exact (GlobalTheory.T.tate_decomposition_completed_cyclotomic_integers l act χ hact hχ K j hj.1).2.1 _ (mem_inC.2 ⟨a, haj, rfl⟩) _ hx 0 (by simp)
+  exact (_root_.GlobalTheory.TateDecomp.tate_decomposition l act χ hact hχ K j hj.1).2.1 _ (mem_inC.2 ⟨a, haj, rfl⟩) _ hx 0 (by simp)
 
 theorem norm_prim_sub_one {η : Om l} (h : IsPrimitiveRoot η l) :
     ‖η - 1‖ = (l : ℝ) ^ (-(1 : ℝ) / ((l : ℝ) ^ (1 - 1) * ((l : ℝ) - 1))) := by
@@ -283,7 +284,7 @@ theorem solve_alg (hact : IsActC act) (hχ : IsCyc χ) (K : FinExt l) {j : ℕ} 
   refine Xalg_le_of K j B (fun i hi z y hz hy hy1 => ?_) hx
   obtain ⟨b, rfl⟩ : ∃ b, i = j + b + 1 := ⟨i - j - 1, by omega⟩
   rw [Nat.add_sub_cancel] at hy
-  have hg' := ((GlobalTheory.T.exists_cyclotomicTowerLevelGenerator_properties l act χ hact hχ K j hj).2 g hg).1 b
+  have hg' := ((_root_.GlobalTheory.Cyc.gen_dense l act χ hact hχ K j hj).2 g hg).1 b
   obtain ⟨η, hη, hgz⟩ := gen_root hχ K hg' hz
   obtain ⟨ζ₀, rfl, hζ₀⟩ := prim_lift hp.ne_zero hζ
   have hη1 : η - 1 ≠ 0 := sub_ne_zero.2 (hη.ne_one hp.one_lt)
@@ -301,7 +302,7 @@ theorem solve_alg (hact : IsActC act) (hχ : IsCyc χ) (K : FinExt l) {j : ℕ} 
   set u := algebraMap (Om l) (PadicComplex l) (z * w) with hu'
   have hgk : ∀ k : ℕ, g ^ k ∈ (K0 K).fixingSubgroup := fun k => pow_mem (Gj_le K j hg.1) k
   refine ⟨∑ k ∈ Finset.range (l ^ b), act (g ^ k) u, sum_mem fun k _ =>
-    (GlobalTheory.T.tate_decomposition_completed_cyclotomic_integers l act χ hact hχ K j hj.1).2.2.2.2.1 _ (hgk k) _ (Xalg_le K j hu),
+    (_root_.GlobalTheory.TateDecomp.tate_decomposition l act χ hact hχ K j hj.1).2.2.2.2.1 _ (hgk k) _ (Xalg_le K j hu),
     sum_mem fun k _ => act_algC hact K (hgk k) (Xalg_alg K j hu), ?_⟩
   have hs : act g (∑ k ∈ Finset.range (l ^ b), act (g ^ k) u) -
       ∑ k ∈ Finset.range (l ^ b), act (g ^ k) u = act (g ^ l ^ b) u - act (g ^ 0) u := by
@@ -325,7 +326,7 @@ theorem norm_le_one (hact : IsActC act) (hχ : IsCyc χ) (K : FinExt l) {j : ℕ
     {x : PadicComplex l} (hx : x ∈ Xj K j) : ‖x‖ ≤ 1 :=
   closure_minimal (s := intC (Kinf K)) (t := {y : PadicComplex l | ‖y‖ ≤ 1}) (fun _ hy => hy.2)
     (isClosed_le continuous_norm continuous_const)
-    ((GlobalTheory.T.tate_decomposition_completed_cyclotomic_integers l act χ hact hχ K j hj).2.2.1 x hx)
+    ((_root_.GlobalTheory.TateDecomp.tate_decomposition l act χ hact hχ K j hj).2.2.1 x hx)
 
 theorem act_fix (hact : IsActC act) (K : FinExt l) {j : ℕ} {g : GQ l} (hg : g ∈ Gj K j)
     {y : PadicComplex l} (hy : y ∈ inC (Ks K j)) : act g y = y := by
@@ -352,7 +353,7 @@ theorem est_pow (hact : IsActC act) (hχ : IsCyc χ) (K : FinExt l) {j : ℕ} (h
     {d : PadicComplex l} (hd : d ∈ Xalg K j) (n : ℕ) (hn : ‖act g d - d‖ ≤ (l : ℝ)⁻¹ ^ n) :
     ‖(ζ - 1) * d‖ ≤ (l : ℝ)⁻¹ ^ n := by
   have hp : l.Prime := Fact.out
-  have T1 := GlobalTheory.T.tate_decomposition_completed_cyclotomic_integers l act χ hact hχ K j hj.1
+  have T1 := _root_.GlobalTheory.TateDecomp.tate_decomposition l act χ hact hχ K j hj.1
   have hg0 := Gj_le K j hg.1
   have hdX := Xalg_le K j hd
   have hdA := Xalg_alg K j hd
@@ -413,7 +414,7 @@ theorem est (hact : IsActC act) (hχ : IsCyc χ) (K : FinExt l) {j : ℕ} (hj : 
     exact ge_of_tendsto' (tendsto_pow_atTop_nhds_zero_of_lt_one hl0.le hl1) fun n =>
       est_pow hact hχ K hj hg hζ hd n (by rw [← h]; positivity)
   · have h1 : ‖act g d - d‖ ≤ 1 := norm_le_one hact hχ K hj.1
-      (sub_mem ((GlobalTheory.T.tate_decomposition_completed_cyclotomic_integers l act χ hact hχ K j hj.1).2.2.2.2.1 g (Gj_le K j hg.1) d hdX) hdX)
+      (sub_mem ((_root_.GlobalTheory.TateDecomp.tate_decomposition l act χ hact hχ K j hj.1).2.2.2.2.1 g (Gj_le K j hg.1) d hdX) hdX)
     obtain ⟨n, hn, hn'⟩ := exists_nat_pow_near_of_lt_one h h1 hl0 hl1
     refine (est_pow hact hχ K hj hg hζ hd n hn').trans ?_
     have : (l : ℝ)⁻¹ ^ n = l * (l : ℝ)⁻¹ ^ (n + 1) := by
@@ -460,7 +461,7 @@ theorem exists_tate_operator_bound : ∀ (l : ℕ) [Fact l.Prime] (act : GQ l �
   classical
   intro l _ act χ hact hχ K j hj g hg ζ hζ
   have hp : l.Prime := Fact.out
-  have T1 := GlobalTheory.T.tate_decomposition_completed_cyclotomic_integers l act χ hact hχ K j hj.1
+  have T1 := _root_.GlobalTheory.TateDecomp.tate_decomposition l act χ hact hχ K j hj.1
   have hζ1 : 0 < ‖ζ - 1‖ := norm_pos_iff.2 (sub_ne_zero.2 (hζ.ne_one hp.one_lt))
   have hz := zeta_sub_one_mem K hj.1 hζ
   have hex : ∀ x, ∃ y, x ∈ Xj K j → y ∈ Xj K j ∧ act g y - y = (ζ - 1) * x := by

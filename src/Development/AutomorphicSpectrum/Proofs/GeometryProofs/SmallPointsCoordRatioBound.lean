@@ -2,7 +2,9 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.EmbedsGeneric
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.HasMultiplier
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalRingPointsExistsUniqueStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.CoordsAt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalRingPointsExistsUnique
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -186,7 +188,7 @@ theorem ratios_quotients_of_forms : ∀ (X : Scheme.{0}) (Ω : Type) [Field Ω] 
   intro X Ω _ _ ξ K _ J _ y k₀ hT hE L _ _ z hz i k c hzi hzc
   classical
   obtain ⟨hblk, hvan⟩ := hz
-  obtain ⟨zz, ⟨hsp, hco⟩, -⟩ := (GlobalTheory.T.local_ring_points_existsUnique X Ω ξ K J y hT L).1 z
+  obtain ⟨zz, ⟨hsp, hco⟩, -⟩ := (_root_.GlobalTheory.CompanionTheory.Ar.tie_points X Ω ξ K J y hT L).1 z
     (fun k' => (hblk k').imp fun _ h => IsUnit.mk0 _ h) hvan
   let p : Cpt ξ := ⟨centre zz, hsp⟩
   have hinj : Function.Injective (genMap ξ p) := hT.gen.inj p

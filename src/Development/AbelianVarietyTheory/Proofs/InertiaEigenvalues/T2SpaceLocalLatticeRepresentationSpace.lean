@@ -4,7 +4,7 @@ public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsCyclotomicTowerLevelGeneratorProperties
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PadicNormZpowSubOnePadicValIntStatement
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PadicNormZpowSubOnePadicValInt
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -474,7 +474,7 @@ theorem eq_one_of_pow {j₀ : ℕ} (hj : Lev l j₀) {u : ℚ_[l]} (hu : ‖u - 
     {k : ℕ} (hk : k ≠ 0) (h : u ^ k = 1) : u = 1 := by
   by_contra hne
   obtain ⟨j, hjj, e⟩ := exists_norm_eq (sub_ne_zero.2 hne) hu
-  have h1 := GlobalTheory.T.padic_norm_zpow_sub_one_padicValInt l j (lev_mono hj hjj) u e k (by exact_mod_cast hk)
+  have h1 := _root_.GlobalTheory.Cyc.LiftExp.norm_zpow_sub_one l j (lev_mono hj hjj) u e k (by exact_mod_cast hk)
   rw [zpow_natCast, h, sub_self, norm_zero] at h1
   have hl0 : (0 : ℝ) < l := by exact_mod_cast (Fact.out : l.Prime).pos
   exact absurd h1 (zpow_pos hl0 _).ne
@@ -485,7 +485,7 @@ theorem norm_pow_sub_one {j₀ : ℕ} (hj : Lev l j₀) {u : ℚ_[l]}
   · simp [hne]
   obtain ⟨j, hjj, e⟩ := exists_norm_eq (sub_ne_zero.2 hne) hu
   have hk0 : k ≠ 0 := by rintro rfl; exact hk (dvd_zero _)
-  have h1 := GlobalTheory.T.padic_norm_zpow_sub_one_padicValInt l j (lev_mono hj hjj) u e k (by exact_mod_cast hk0)
+  have h1 := _root_.GlobalTheory.Cyc.LiftExp.norm_zpow_sub_one l j (lev_mono hj hjj) u e k (by exact_mod_cast hk0)
   rw [zpow_natCast, padicValInt.of_nat, padicValNat.eq_zero_of_not_dvd hk] at h1
   rw [h1, e]; simp
 

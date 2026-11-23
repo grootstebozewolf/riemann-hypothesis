@@ -3,8 +3,9 @@ module
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousMapPFin
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIsOpenIsCompact
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsNormalisedThetaSub
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DefiniteUnitaryAdmissibleFiniteMultiplicityStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsContinuousRetractionOntoUnitaryLocalPointsStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DefiniteUnitaryAdmissibleFiniteMultiplicity
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsContinuousRetractionOntoUnitaryLocalPoints
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsLocCompAndIsLocLoc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -132,8 +133,8 @@ theorem exists_admissible_comp : ∀ (E : Type) [Field E] [NumberField E] [IsCMF
     (w : HeightOneSpectrum (𝓞 E)), ∃ σ : SmIrr (locU n w), IsAdmissible σ.ρ ∧
       IsCompAlong π.V (locU n w) (MonoidHom.id _) σ.ρ := by
   intro E _ _ _ n π w
-  obtain ⟨r, hr, hrx, hrc⟩ := GlobalTheory.T.exists_continuous_retraction_onto_unitaryLocalPoints E n w
-  have hadm := (GlobalTheory.T.definiteUnitary_admissible_finiteMultiplicity E n π).1
+  obtain ⟨r, hr, hrx, hrc⟩ := _root_.GlobalTheory.DefU.LocRet.exists_ret E n w
+  have hadm := (_root_.GlobalTheory.DefU.admitted.admissible_finiteMult E n π).1
   let ρ : Representation ℂ (locU n w) π.V := π.rep.comp (locU n w).subtype
   let ρf : Representation ℂ (finU (E := E) (n := n)) π.V := π.rep.comp (finU (E := E) (n := n)).subtype
   have hρ : IsSmooth ρ := isSmooth_loc π w

@@ -3,7 +3,7 @@ module
 public import Mathlib.FieldTheory.IsSepClosed
 public import Mathlib.RingTheory.Etale.Basic
 public import Mathlib.RingTheory.Henselian
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BijectiveResidueCompEtaleHenselianStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BijectiveResidueCompEtaleHenselian
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -147,7 +147,7 @@ theorem sections_of_henselian_sepClosed {R : Type} [CommRing R] [IsLocalRing R]
     AlgEquiv.ofBijective (Algebra.ofId _ _) ⟨fun a b h => (algebraMap (ResidueField R) (ResidueField S)).injective h, hsurj⟩
   let φ : A →ₐ[R] ResidueField R := ((e.symm.restrictScalars R).toAlgHom).comp
     ((IsScalarTower.toAlgHom R S (ResidueField S)).comp (IsScalarTower.toAlgHom R A S))
-  obtain ⟨s, hs⟩ := (GlobalTheory.T.bijective_residue_comp_etale_henselian R A R).2 φ
+  obtain ⟨s, hs⟩ := (_root_.GlobalTheory.EtaleHensel.bijective_residue_comp R A R).2 φ
   refine ⟨s, ?_⟩
   ext x
   have hx := congrArg (fun ψ : A →ₐ[R] ResidueField R => ψ x) hs

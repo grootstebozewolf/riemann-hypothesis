@@ -6,18 +6,19 @@ public import Formalism.HermitianCurvature.HermitianCurvatureProofs.OperatorRepr
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LiftOfFunctions
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.JdPolyOKPolynomialOperators
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.QuantumMinorSumPolynomialOperator
-import Formalism.FormalDegreeBessel.FormalDegreeRatio.IOLeft
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ActualAlgebraFacts
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutFpmDecay
+import Formalism.FormalDegreeBessel.FormalDegreeRatio.IOLeft
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BigCellValues
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BigCellZetaMinors
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CommuteAvrBvrOfCommuteSiteOps
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutFpmDecay
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.HomogeneityNaturalDegree
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.LemmaDDeterminantIdentity
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.LiftClosedUnderOperations
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.QxChain
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RestrictionIrrelevantDoubleLevelOperator
-import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.QnCovLin
+import Formalism.PeriodIntegrals.ContractionsCovariantIff
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CovariantLinearProduct.OfFnProdSmul
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ConjugateTransposeLeibniz.YOperatorLeibnizRule
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HermitianHaarMeasure.SumFourCommVersion
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CartanInvolutionConjTransposeMul
@@ -353,7 +354,7 @@ theorem lead_conj_qdet {n p t : ℕ} (hn : n = p + t) (μ : R →ₐ[ℂ] A) (E 
   · rw [hs, (Formalism.FourierDecayAlt.P.contractions_covariant A _ E _ _ hE h1 h2 u 0 0 0 0).1]
   · refine Submodule.span_le.2 ?_ hc
     rintro x ⟨e', a, b, rfl⟩
-    rw [covariant_linear A _ _ E _ _ h1]
+    rw [_root_.PI.QnCovLinW.qnCovLin A _ _ E _ _ h1]
     simp only [Finset.mul_sum, mul_smul_comm]
     exact Submodule.sum_mem _ fun a' _ => Submodule.sum_mem _ fun b' _ => Submodule.smul_mem _ _
       (Submodule.subset_span ⟨fun j => Q (e' j), a', b', rfl⟩)

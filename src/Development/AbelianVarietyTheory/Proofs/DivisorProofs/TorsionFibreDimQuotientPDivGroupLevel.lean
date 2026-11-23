@@ -2,7 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ToSpanSingletonConstGenInjective
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMulPowFibreRankEqPDivGroup
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LinearMapFibreRankSplitCompSurjectiveStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.FibreRankCompOfSurjective
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LinearMapFibreRankSplitCompSurjective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,7 +56,7 @@ theorem fibreDim_quot_torsionIdeal : ∀ (p : ℕ) [Fact p.Prime] (O : Type) [Co
   have hmulPow := G.exists_mulPow_fibreRank_eq p O k m
   obtain ⟨r, μ, hr, hker, hμ, hμq⟩ := hmulPow
   have hjq : fibreRank (j : B →ₐ[O] G.A (k + m)).toLinearMap q = fibreDim B q :=
-    (GlobalTheory.T.linearMapFibreRank_split_comp_surjective O B (G.A (k + m)) (G.A (k + m)) (j : B →ₐ[O] G.A (k + m)).toLinearMap).1 ρ hρ q
+    (_root_.GlobalTheory.FibreRanks.fibre_ranks O B (G.A (k + m)) (G.A (k + m)) (j : B →ₐ[O] G.A (k + m)).toLinearMap).1 ρ hρ q
   have h1 := fibreDim_eq_ker_mul_range j q
   rw [hjq, G.fibreDim_eq] at h1
   have h2 := fibreDim_eq_ker_mul_range (r.comp j) q
@@ -84,8 +85,8 @@ theorem fibreDim_quot_torsionIdeal : ∀ (p : ℕ) [Fact p.Prime] (O : Type) [Co
     rw [map_mulBy, hμ]
   have h4 : fibreRank (mulBy O B (p ^ m) : B →ₐ[O] B).toLinearMap q =
       fibreRank ((r.comp j) : B →ₐ[O] G.A k).toLinearMap q := by
-    rw [← (GlobalTheory.T.linearMapFibreRank_split_comp_surjective O B B (G.A (k + m)) _).2.1 _ q hjq, hlin,
-      (GlobalTheory.T.linearMapFibreRank_split_comp_surjective O B (G.A k) (G.A (k + m)) _).2.1 _ q (hμq q)]
+    rw [← (_root_.GlobalTheory.FibreRanks.fibre_ranks O B B (G.A (k + m)) _).2.1 _ q hjq, hlin,
+      (_root_.GlobalTheory.FibreRanks.fibre_ranks O B (G.A k) (G.A (k + m)) _).2.1 _ q (hμq q)]
   change fibreDim (B ⧸ kerIdeal (mulBy O B (p ^ m))) q = _
   rw [h4] at h3
   have hp : 0 < p ^ (k * G.height) := pow_pos (Fact.out : p.Prime).pos _

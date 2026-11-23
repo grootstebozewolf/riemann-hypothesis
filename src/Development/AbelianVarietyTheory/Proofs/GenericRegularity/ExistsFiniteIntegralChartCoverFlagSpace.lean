@@ -5,9 +5,9 @@ public import Development.AbelianVarietyTheory.Definitions.RegularCharts.ModelAt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsChartFiniteType
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsFiniteMchartCover
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsFlagCellChartOverModelChartStatement
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsFlagCellChartOverModelChart
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsIntegralPivotDecomposition
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.IsCombAtIffCoordinateCombinationStatement
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.IsCombAtIffCoordinateCombination
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.LieBasisCoordinatesBijectiveTangent
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.NonemptyLift
 import Mathlib.Algebra.Order.Floor.Extended
@@ -69,7 +69,7 @@ theorem MChart.Lift.exists_coordinates (E : Type) [Field E] [NumberField E] [IsC
       Λ.LieTie g y.u ∧ ∀ τ, LinearIndependent L (g τ).transpose := by
   classical
   have hb := vec_bijective E H Dw l Xo c O β Y M L f y.x Λ
-  have hc := GlobalTheory.T.isCombAt_iff_coordinate_combination E H Dw l Xo c O β Y M L f y.x Λ
+  have hc := _root_.GlobalTheory.Reg.VecComb.isCombAt_iff_vec E H Dw l Xo c O β Y M L f y.x Λ
   choose cv hcv using fun τ i => (hb.2.2 (y.u τ i) (y.4 τ i)).exists
   refine ⟨fun τ j i => cv τ i j, fun τ i => hcv τ i, fun τ => ?_⟩
   refine Fintype.linearIndependent_iff.2 fun a ha k => ?_
@@ -118,7 +118,7 @@ theorem exists_finite_pchart_cover : ReciprocityTheory.ChartRestriction.G.Out.Se
   classical
   obtain ⟨J₀, hJ₀, M, hM⟩ := exists_finite_mchart_cover E H Dw l Xo c O (algebraMap O c.F) Y hP
   have hT := fun (j : J₀) (ix : ∀ τ : E →+* ℂ, Fin (Dw.mult τ) ↪ Fin (M j).n) =>
-    GlobalTheory.T.exists_flagCellChart_over_modelChart hS E H Dw l Xo c hBC O Y hP (M j) ix
+    _root_.GlobalTheory.Reg.exists_pChart_of_cell hS E H Dw l Xo c hBC O Y hP (M j) ix
   choose K hK P hPc using hT
   refine ⟨(j : J₀) × (ix : ∀ τ : E →+* ℂ, Fin (Dw.mult τ) ↪ Fin (M j).n) × K j ix, ?_,
     fun q => P q.1 q.2.1 q.2.2, ?_⟩

@@ -4,7 +4,9 @@ public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.NCoor
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FlagUnipotentLebesgueMeasureIsHaarOn
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicStabilizerRadicalStructure
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HaarLieIsHaarOnUnipotentRadicalStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HaarLieNilpotentEqLebesgueStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UpperOff
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HaarLieNilpotentEqLebesgue
+public import Mathlib.LinearAlgebra.Eigenspace.Zero
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicLeviEmbeddingHomomorphismProperties
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnipotentLeviRadicalCoordsHomeomorph
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
@@ -19,7 +21,6 @@ import Mathlib.Combinatorics.Enumerative.DyckWord
 import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
 import Mathlib.Data.NNRat.Floor
 import Mathlib.Geometry.Euclidean.Volume.Basic
-public import Mathlib.LinearAlgebra.Eigenspace.Zero
 import Mathlib.NumberTheory.Chebyshev
 import Mathlib.NumberTheory.Height.NumberField
 import Mathlib.NumberTheory.Height.Projectivization
@@ -320,7 +321,7 @@ theorem haarLie_entries : ∀ (k r : ℕ), IsHaarOn (Nset k r) (haarLie (Nset k 
     refine ⟨Matrix.of.symm (NHaar.coord k r (x, q)), hbij.mapsTo (Set.mem_univ (x, q)), ?_⟩
     rw [nCoords_coord, hq, hx]
   · have hΦ' : Continuous fun q => (Matrix.of.symm (NHaar.coord k r q) : Mt k r) := hΦ
-    rw [GlobalTheory.T.haar_lie_nilpotent_eq_lebesgue, Measure.map_smul _ cont_nCoords.measurable.aemeasurable, add_comm (r * (k + 1)), lebN, Measure.map_map cont_nCoords.measurable hΦ'.measurable]
+    rw [_root_.GlobalTheory.Amp.NLie.haarLie_eq_lebN, Measure.map_smul _ cont_nCoords.measurable.aemeasurable, add_comm (r * (k + 1)), lebN, Measure.map_map cont_nCoords.measurable hΦ'.measurable]
     exact congrArg _ entries_mp.map_eq
 
 end GlobalTheory.SnMass.NEntry

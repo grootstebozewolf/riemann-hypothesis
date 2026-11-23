@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LabelDatum
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CentralIdempotentOfIrrCharacterOrthogonalCentralStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraFrobeniusReciprocityStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraProductListIsCharacterAndPermInvariStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraRestrictionCuspidalProductSumSubsetStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraRestrictionTwoBlockCuspidalEqZeroStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CentralIdempotentOfIrrCharacterOrthogonalCentral
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraFrobeniusReciprocity
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraProductListIsCharacterAndPermInvari
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraRestrictionCuspidalProductSumSubset
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraRestrictionTwoBlockCuspidalEqZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -173,8 +173,8 @@ theorem ip_long_cusp (a : ℕ) (ψ : Gn g a → ℂ) (hψ : IsCusp ψ) (K : List
     subst hd
     rw [hcL_cons, ip_comm]
     show ip ψ (hcT p.1 (degL r) (fun x y => p.2 x * hcL r (degL r) y) _) = 0
-    rw [GlobalTheory.T.harishChandra_frobenius_reciprocity g p.1 (degL r) _ rfl ψ _ (isClass_of_isChar (isChar_of_isCusp hψ))]
-    have h := GlobalTheory.T.harishChandraRestrictionTwoBlock_cuspidal_eq_zero g (p.1 + degL r) p.1 ψ hψ hp (by omega)
+    rw [_root_.GlobalTheory.GLq.FrobRecHC.hcT_adjoint g p.1 (degL r) _ rfl ψ _ (isClass_of_isChar (isChar_of_isCusp hψ))]
+    have h := _root_.GlobalTheory.GLq.res_cusp_eq_zero g (p.1 + degL r) p.1 ψ hψ hp (by omega)
     rw [Nat.add_sub_cancel_left] at h
     simp [ip, h]
 
@@ -183,7 +183,7 @@ theorem ip_single_cusp (a : ℕ) (ψ : Gn g a → ℂ) (hψ : IsCusp ψ) (p : Pc
   obtain ⟨d, χ⟩ := p
   dsimp only at hd hp
   subst hd
-  rw [hcL_single d χ (isClass_of_isChar (isChar_of_isCusp hp)), (GlobalTheory.T.centralIdempotentOfIrrCharacter_orthogonal_central _ χ ψ hp.2.1 hψ.2.1).2.2]
+  rw [hcL_single d χ (isClass_of_isChar (isChar_of_isCusp hp)), (_root_.GlobalTheory.GLq.ZOrth.zorth _ χ ψ hp.2.1 hψ.2.1).2.2]
   by_cases h : χ = ψ
   · subst h; simp
   · simp [h]
@@ -237,15 +237,15 @@ theorem finiteRing_sq_sub_mul_sq_eq_of_card : ∀ (L' L : List (Pc g)) (n : ℕ)
     have hψ : IsCusp ψ := hc' ⟨a, ψ⟩ (by simp)
     have hcM : ∀ p ∈ M, IsCusp p.2 := fun p hp => hc' p (by simp [hp])
     have hclass : IsClass (hcL L (a + degL M)) :=
-      isClass_of_isChar (GlobalTheory.T.harishChandraProductList_isCharacter_and_perm_invariant g L L _ hL.symm (fun p hp => isChar_of_isCusp (hc p hp))).1
+      isClass_of_isChar (_root_.GlobalTheory.gl_list_product_perm_char g L L _ hL.symm (fun p hp => isChar_of_isCusp (hc p hp))).1
     have key : ip (hcL L (a + degL M)) (hcL (⟨a, ψ⟩ :: M) (a + degL M)) =
         ∑ I ∈ (Finset.univ : Finset (Finset (Fin L.length))).filter (fun I => ∑ i ∈ I, (L.get i).1 = a),
           ip (hcL ((I.sort (· ≤ ·)).map L.get) a) ψ *
             ip (hcL ((Iᶜ.sort (· ≤ ·)).map L.get) (degL M)) (hcL M (degL M)) := by
       rw [hcL_cons]
       show ip _ (hcT a (degL M) (fun x y => ψ x * hcL M (degL M) y) _) = _
-      rw [GlobalTheory.T.harishChandra_frobenius_reciprocity g a (degL M) _ rfl _ _ hclass]
-      have hres := GlobalTheory.T.harishChandraRestriction_cuspidal_product_sum_subsets g L a (degL M) hL hc
+      rw [_root_.GlobalTheory.GLq.FrobRecHC.hcT_adjoint g a (degL M) _ rfl _ _ hclass]
+      have hres := _root_.GlobalTheory.GLq.ResCuspProd.main g L a (degL M) hL hc
       simp only [hres]
       rw [ip_sum_left]
       refine Finset.sum_congr rfl fun I _ => ?_

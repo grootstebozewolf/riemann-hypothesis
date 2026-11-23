@@ -5,7 +5,7 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCochain
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCochainEvalOnSimplexDifferentialValuesStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalPrimitiveRootAndRootsOfUnityStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalPropertyCalculusRulesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSheafSectionsExtAndGlueStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSheafSectionsExtAndGlue
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCochainEvEqOfNaturalStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -120,7 +120,7 @@ theorem loc_trans {U : Scheme.{0}} {P : ∀ V : Scheme.{0}, (V ⟶ U) → Prop}
     (h : Loc U (fun V g => Loc V fun W k => P W (k ≫ g))) : Loc U P := GlobalTheory.T.etaleLocal_property_calculus_rules.2.2.2.2.1 U P h
 
 theorem sep {F : Shv R} {U : Scheme.{0}} {a b : Sec F U} (h : Loc U fun _ g => Sec.res g a = Sec.res g b) : a = b :=
-  (GlobalTheory.T.etaleSheafSections_ext_and_glue R F U).1 a b h
+  (_root_.GlobalTheory.EtC.sec_ext_glue R F U).1 a b h
 
 theorem glue_family (F : Shv R) {E : Spc} {p : ℕ} (Rel : ∀ U : Scheme.{0}, Sx E p U → Sec F U → Prop)
     (hex : ∀ (U : Scheme.{0}) (x : Sx E p U), Loc U fun V g => ∃ s, Rel V (x.res g) s)
@@ -134,7 +134,7 @@ theorem glue_family (F : Shv R) {E : Spc} {p : ℕ} (Rel : ∀ U : Scheme.{0}, S
     intro U x
     obtain ⟨S, hS, hP⟩ := hex U x
     choose s hs using hP
-    obtain ⟨a, ha⟩ := (GlobalTheory.T.etaleSheafSections_ext_and_glue R F U).2 S hS s (fun V W g k hg => by
+    obtain ⟨a, ha⟩ := (_root_.GlobalTheory.EtC.sec_ext_glue R F U).2 S hS s (fun V W g k hg => by
       refine huniq W (x.res (k ≫ g)) _ _ ?_ (hs _ _ _)
       rw [← sx_res_comp]
       exact hres _ _ _ _ _ (hs _ _ hg))

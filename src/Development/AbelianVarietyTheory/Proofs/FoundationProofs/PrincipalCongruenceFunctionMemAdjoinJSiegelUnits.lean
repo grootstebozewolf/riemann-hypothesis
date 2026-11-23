@@ -5,8 +5,13 @@ public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModularTowerMemAdjoinJOfSlTwoIntInvariantStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelInvarianceImpliesCongruenceStatement
+public import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
+public import Mathlib.FieldTheory.IsAlgClosed.Basic
+public import Mathlib.RingTheory.SimpleRing.Principal
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModularTowerMemAdjoinJOfSlTwoIntInvariant
+public import Development.AbelianVarietyTheory.Definitions.Foundations.SgC
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelInvarianceImpliesCongruence
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Imports
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelUnitInTowerSlActionRowVector
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SmoothedSiegelUnitIndexAddIntVector
 import Mathlib.Algebra.Order.Floor.Extended
@@ -56,7 +61,6 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Definitions.Foundations.Imports
 import Development.AbelianVarietyTheory.Definitions.Foundations.Integral
 
 @[expose] public section
@@ -276,7 +280,7 @@ theorem fracGen : ∀ {Ω : Type} [Field Ω] [Algebra ℚ Ω] [IsAlgClosure ℚ 
       rw [inv_inv] at h3
       rw [← h3]
       exact h2
-    have hj' := GlobalTheory.T.modularTower_mem_adjoin_j_of_slTwoInt_invariant ε X hj (x : X.K) hinv
+    have hj' := _root_.GlobalTheory.KZ.LevelOneFrac.mem_adjoin_of_sl_inv ε X hj (x : X.K) hinv
     show (algebraMap (FM X M) X.K x) ∈ L
     exact IntermediateField.adjoin.mono Ω _ _ Set.subset_union_left hj'
   have hfix : ∀ g : (rhoF X M).range, (∀ x ∈ Lsub, g • x = x) → ∀ x : FM X M, g • x = x := by
@@ -291,7 +295,7 @@ theorem fracGen : ∀ {Ω : Type} [Field Ω] [Algebra ℚ Ω] [IsAlgClosure ℚ 
         exact IntermediateField.subset_adjoin Ω _ (Or.inr ⟨a, b, hab, rfl⟩)
       have := congrArg Subtype.val (hg _ hin)
       exact this
-    rcases GlobalTheory.T.siegel_invariance_implies_congruence ε X M c γ⁻¹ hM hc hc6 hcM hs with h | h
+    rcases _root_.GlobalTheory.SiegSep.fix_siegel_pm_one ε X M c γ⁻¹ hM hc hc6 hcM hs with h | h
     · apply Subtype.ext
       show X.sl (ofSL γ⁻¹) x = x
       exact (mem_FM X M x).1 x.2 _ h

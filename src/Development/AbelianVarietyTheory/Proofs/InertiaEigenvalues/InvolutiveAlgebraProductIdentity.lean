@@ -6,10 +6,13 @@ public import Mathlib.LinearAlgebra.FreeModule.PID
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ValIrreducible
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EtaGramDetEqOneOfSelfDualLatticeStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LatticeCountAndGramDetSignNormClassStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeightedCountStableLatticesProductDescentGLStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EtaGramDetEqOneOfSelfDualLattice
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LatticeCountAndGramDetSignNormClass
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeightedCountStableLatticesProductDescentGL
 public import Mathlib.Algebra.Module.Lattice.Full
+public import Mathlib.LinearAlgebra.Semisimple
+public import Mathlib.Algebra.Module.Lattice.Basic
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsLatticeIdempotentPositionInvolutionStable
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -27,7 +30,6 @@ import Mathlib.FieldTheory.IsAlgClosed.Spectrum
 import Mathlib.Geometry.Euclidean.Volume.Basic
 import Mathlib.LinearAlgebra.Charpoly.ToMatrix
 import Mathlib.LinearAlgebra.Matrix.Charpoly.Eigs
-public import Mathlib.LinearAlgebra.Semisimple
 import Mathlib.NumberTheory.Chebyshev
 import Mathlib.NumberTheory.Height.NumberField
 import Mathlib.NumberTheory.Height.Projectivization
@@ -65,7 +67,6 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import Mathlib.Algebra.Module.Lattice.Basic
 
 @[expose] public section
 
@@ -340,21 +341,7 @@ theorem sigma_smul (B : InvAlg K) (a : K.O) : ∃ b : K.O, ∀ y, B.σ (a • y)
     IsScalarTower.algebraMap_apply K.O K.E B.A b, B.σ_alg, hb]
 
 theorem sigma_integral (B : InvAlg K) {y : B.A} (hi : IsIntegral K.O y) : IsIntegral K.O (B.σ y) := by
-  have hinj : Function.Injective (algebraMap K.O K.E) := IsFractionRing.injective K.O K.E
-
-  choose c' hc' using K.c_int
-  let φ : K.O →+* K.O :=
-    { toFun := c'
-      map_one' := hinj (by simp [← hc'])
-      map_mul' := fun x y => hinj (by simp [← hc'])
-      map_zero' := hinj (by simp [← hc'])
-      map_add' := fun x y => hinj (by simp [← hc']) }
-  have hsq : (algebraMap K.O B.A).comp φ = B.σ.toRingHom.comp (algebraMap K.O B.A) := by
-    refine RingHom.ext fun x => ?_
-    show algebraMap K.O B.A (c' x) = B.σ (algebraMap K.O B.A x)
-    rw [IsScalarTower.algebraMap_apply K.O K.E B.A (c' x), IsScalarTower.algebraMap_apply K.O K.E B.A x,
-      B.σ_alg, hc']
-  exact IsIntegral.map_of_comp_eq φ B.σ.toRingHom hsq hi
+  apply GlobalTheory.UnitLemma.Desc.isIntegral_sigma <;> assumption
 
 theorem conj_mem (x : K.E) : K.c x ∈ (algebraMap K.O K.E).range ↔ x ∈ (1 : Submodule K.O K.E) := by
   rw [RingHom.mem_range, Submodule.mem_one]
@@ -1014,7 +1001,7 @@ private theorem stSum_eq_N_one_of_swap_idempotent (B : InvAlg K) {e : B.A} (hi :
   stSum_eq B hi hs B.N (B.N 1) fun x hx hf => by
     obtain ⟨u, hu⟩ := exists_norm B hi hs x hx hf
     rw [hu]
-    exact (GlobalTheory.T.latticeCount_and_gramDetSign_norm_class K B 1 u).1
+    exact (_root_.GlobalTheory.UnitLemma.NormClass.N_norm_class K B 1 u).1
 
 private theorem kapSum_eq_eta_gramDet_mul_N_one (B₁ B₂ : InvAlg K) {e : (B₁.prod B₂).A} (hi : e * e = e)
     (hs : e + (B₁.prod B₂).σ e = 1) :
@@ -1024,7 +1011,7 @@ private theorem kapSum_eq_eta_gramDet_mul_N_one (B₁ B₂ : InvAlg K) {e : (B�
     let u₁ : B₁.Aˣ := Units.map (MonoidHom.fst B₁.A B₂.A) u
     have h1 : x.1 = 1 * ((u₁ : B₁.A) * B₁.σ (u₁ : B₁.A)) := congrArg Prod.fst hu
     show K.eta (B₁.gramDet x.1) * (B₁.prod B₂).N x = _
-    rw [h1, (GlobalTheory.T.latticeCount_and_gramDetSign_norm_class K B₁ 1 u₁).2, hu, (GlobalTheory.T.latticeCount_and_gramDetSign_norm_class K (B₁.prod B₂) 1 u).1]
+    rw [h1, (_root_.GlobalTheory.UnitLemma.NormClass.N_norm_class K B₁ 1 u₁).2, hu, (_root_.GlobalTheory.UnitLemma.NormClass.N_norm_class K (B₁.prod B₂) 1 u).1]
 
 private theorem prod_P' (B₁ B₂ : InvAlg K) : (B₁.prod B₂).P = B₁.P * B₂.P := by
   show (LinearMap.mulLeft K.E ((B₁.g, B₂.g) : B₁.A × B₂.A)).charpoly = B₁.P * B₂.P
@@ -1098,9 +1085,9 @@ theorem identity_of_swap : ∀ (K : UQ) (B₁ B₂ : InvAlg K), B₁.g * B₁.σ
   have NBq := (Half.prod h₁' h₂').N_one hσe hP hu hi
   have hsp : (p₁ * p₂).Separable := hs.of_dvd ⟨q₁ * q₂, by rw [hd₁, hd₂]; ring⟩
   have hsq : (q₁ * q₂).Separable := hs.of_dvd ⟨p₁ * p₂, by rw [hd₁, hd₂]; ring⟩
-  have Cp := GlobalTheory.T.weighted_count_stable_lattices_product_descent_GL K.O K.E (B₁.A ⧸ Ideal.span {B₁.σ e.1}) (B₂.A ⧸ Ideal.span {B₂.σ e.2})
+  have Cp := _root_.GlobalTheory.UnitLemma.DescentGL.countGL_prod K.O K.E (B₁.A ⧸ Ideal.span {B₁.σ e.1}) (B₂.A ⧸ Ideal.span {B₂.σ e.2})
     (Ideal.Quotient.mk _ B₁.g) (Ideal.Quotient.mk _ B₂.g) hsp
-  have Cq := GlobalTheory.T.weighted_count_stable_lattices_product_descent_GL K.O K.E (B₁.A ⧸ Ideal.span {e.1}) (B₂.A ⧸ Ideal.span {e.2})
+  have Cq := _root_.GlobalTheory.UnitLemma.DescentGL.countGL_prod K.O K.E (B₁.A ⧸ Ideal.span {e.1}) (B₂.A ⧸ Ideal.span {e.2})
     (Ideal.Quotient.mk _ B₁.g) (Ideal.Quotient.mk _ B₂.g) hsq
   have hc : ((Nat.card (IsLocalRing.ResidueField K.O) : ℕ) : ℚ) = (K.q : ℚ) ^ 2 := by
     rw [K.card_res]; push_cast; ring
@@ -1160,7 +1147,7 @@ theorem identity_of_swap : ∀ (K : UQ) (B₁ B₂ : InvAlg K), B₁.g * B₁.σ
     have hab : val K.O (resultant p₁ p₂) = val K.O (resultant q₁ q₂) :=
       zpow_right_injective₀ hQ hQ1 (mul_right_cancel₀ hz (E1.symm.trans E2))
     have hne := X_one_nonempty_of_N_one_ne_zero B₁ (left_ne_zero_of_mul hz)
-    rw [GlobalTheory.T.eta_gramDet_eq_one_of_selfDual_lattice K B₁ 1 (map_one _) hne, E1, ← hab]
+    rw [_root_.GlobalTheory.UnitLemma.Unimod.eta_gramDet_eq_one K B₁ 1 (map_one _) hne, E1, ← hab]
     have hQ0 : (K.q : ℚ) ^ 2 ≠ 0 := hQ.ne'
     rw [show -(val K.O (resultant p₁ p₂) + val K.O (resultant p₁ p₂)) =
         2 * (-val K.O (resultant p₁ p₂)) by ring, zpow_mul,

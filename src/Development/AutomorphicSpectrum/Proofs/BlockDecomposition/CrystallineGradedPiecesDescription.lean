@@ -2,7 +2,8 @@ module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.AcrisKummerUnits.MapUgAlgebraMap
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CrystallineFiltrationSpanDividedPowers
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PerfectoidXiNonZeroDivisorStatement
+public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.MapWXi
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PerfectoidXiNonZeroDivisor
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.AcrisKummerUnits.ConstantCoeffSurjective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -192,9 +193,9 @@ theorem divided_power_multiple_next_level_iff (r : ℕ) (w : A.W) :
       simp only [map_mul, map_pow, map_natCast] at e2 ⊢
       linear_combination e2 - (l : A.Acr0) ^ N * algebraMap A.W A.Acr0 w * hr
     have e3 : (l : A.W) ^ N * w = A.xi * ((r.factorial : A.W) * v) :=
-      (mul_cancel_right_mem_nonZeroDivisors (pow_mem (GlobalTheory.T.perfectoid_xi_nonZeroDivisor A).2.1 r)).1 (hinj e1)
+      (mul_cancel_right_mem_nonZeroDivisors (pow_mem (_root_.GlobalTheory.CompanionTheory.UntiltRegular.untilt_regular A).2.1 r)).1 (hinj e1)
     have e4 : (r.factorial : A.W) * v ∈ Ideal.span {(l : A.W) ^ N} := by
-      apply (GlobalTheory.T.perfectoid_xi_nonZeroDivisor A).2.2 N
+      apply (_root_.GlobalTheory.CompanionTheory.UntiltRegular.untilt_regular A).2.2 N
       rw [← e3]
       exact Ideal.mem_span_singleton.2 ⟨w, rfl⟩
     obtain ⟨y, hy⟩ := Ideal.mem_span_singleton.1 e4

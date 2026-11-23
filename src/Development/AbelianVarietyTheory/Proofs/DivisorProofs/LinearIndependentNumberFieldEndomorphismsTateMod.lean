@@ -10,9 +10,11 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AmpleCubical
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CardAbelianVarietyTorsionSepClosedStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DivisibleAlgClosureOfKillsTorsionSepClosedStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfActsTriviallyAbelianVarietyAlgClosureStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsDvdCoordsOfDefiniteParallelogramFormStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTateModuleLevelComponentEqOfCardTorsionStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PadicIntExistsLevelNotDvdMulLiftStatement
+public import Mathlib.LinearAlgebra.LinearIndependent.Defs
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsDvdCoordsOfDefiniteParallelogramForm
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTateModuleLevelComponentEqOfCardTorsion
+public import Mathlib.NumberTheory.Padics.RingHoms
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PadicIntExistsLevelNotDvdMulLift
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProdEndomorphismPowLevelComponentEqOneOfRelationStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -104,7 +106,7 @@ theorem linearIndependent_actTate : ∀ (K Ω : Type) [Field K] [Field Ω] [Alge
       refine LinearIndependent.of_comp (algebraMap O F).toAddMonoidHom.toIntLinearMap ?_
       exact h1
     exact h2.map' ψ.toIntLinearMap (LinearMap.ker_eq_bot.2 hinj)
-  obtain ⟨e, he, hE⟩ := GlobalTheory.T.exists_dvd_coords_of_definite_parallelogram_form (Additive (B ⟶ B)) H (fun f => Q (Additive.toMul f))
+  obtain ⟨e, he, hE⟩ := _root_.GlobalTheory.exists_dvd_coords_of_definite_form (Additive (B ⟶ B)) H (fun f => Q (Additive.toMul f))
     (fun f g => by
       have := hQ1 (Additive.toMul f) (Additive.toMul g)
       simpa [div_eq_mul_inv] using this)
@@ -116,7 +118,7 @@ theorem linearIndependent_actTate : ∀ (K Ω : Type) [Field K] [Field Ω] [Alge
   by_contra hne
   push_neg at hne
   obtain ⟨j, hj⟩ := hne
-  obtain ⟨N, hN⟩ := GlobalTheory.T.padicInt_exists_level_not_dvd_mul_lift l (c j) hj e he
+  obtain ⟨N, hN⟩ := _root_.GlobalTheory.padicInt_toZModPow_not_dvd_mul l (c j) hj e he
   haveI : NeZero (l ^ N) := ⟨pow_ne_zero _ (Fact.out : l.Prime).ne_zero⟩
   let m : Fin n → ℤ := fun i => ((PadicInt.toZModPow N (c i)).val : ℤ)
   have hm : ∀ i, PadicInt.toZModPow N (c i) = (m i : ZMod (l ^ N)) := fun i => by
@@ -137,7 +139,7 @@ theorem linearIndependent_actTate : ∀ (K Ω : Type) [Field K] [Field Ω] [Alge
     rw [GlobalTheory.T.card_abelianVariety_torsion_sepClosed K Ω A hA d hdim (l ^ k) (by rw [Nat.cast_pow]; exact pow_ne_zero _ hl), ← pow_mul, mul_comm k]
   have hx : ∀ y : ptOver K Ω ⟶ A, y ^ (l ^ N) = 1 → y ≫ α.act x = 1 := by
     intro y hy
-    obtain ⟨tt, rfl⟩ := GlobalTheory.T.exists_tateModule_levelComponent_eq_of_card_torsion (ptOver K Ω ⟶ A) l (2 * d) hcard N y hy
+    obtain ⟨tt, rfl⟩ := _root_.GlobalTheory.exists_tate_lev_eq_of_card_torsion (ptOver K Ω ⟶ A) l (2 * d) hcard N y hy
     rw [hcomp, ← kill tt]
     rfl
   obtain ⟨h, hh, hfh⟩ := GlobalTheory.T.divisible_algClosure_of_kills_torsion_sepClosed K Ω A hA (l ^ N) (by rw [Nat.cast_pow]; exact pow_ne_zero _ hl) (α.act x) (α.hom x) hx

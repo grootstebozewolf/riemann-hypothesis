@@ -1,7 +1,7 @@
 module
 
+public import Mathlib.MeasureTheory.Group.ModularCharacter
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Descent.OpenSlices.OpenSlice
-public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Descent.SliceVanishing.Unimodularity.ModularCharacterFunEqOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -20,7 +20,9 @@ import Mathlib.NumberTheory.Height.NumberField
 import Mathlib.NumberTheory.Height.Projectivization
 import Mathlib.NumberTheory.LucasLehmer
 import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.Order.CompletePartialOrder
 import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Echelon.Zsqrtd
 import Mathlib.Tactic.Inclusion.Extension.Core.Core
 import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
@@ -28,6 +30,7 @@ import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
 import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
 import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
 import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.NormNum.Irrational
 import Mathlib.Tactic.NormNum.IsCoprime
 import Mathlib.Tactic.NormNum.IsSquare
@@ -40,9 +43,109 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Mathlib.Topology.Algebra.Group.Units
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
+import Mathlib.Topology.Algebra.Group.Units
 
+-- This file was produced by scripts/clump.py from the modules listed below.
+-- Members: Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Descent.SliceVanishing.Unimodularity.ModularCharacterFunEqOne, Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Descent.SliceVanishing.Unimodularity.UnimodOfIndexSym
+
+-- ===== clump member: Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Descent.SliceVanishing.Unimodularity.ModularCharacterFunEqOne =====
+-- clump-header: {"m": "Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Descent.SliceVanishing.Unimodularity.ModularCharacterFunEqOne", "h": "module\n\npublic import Mathlib.MeasureTheory.Group.ModularCharacter\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.Order.CompletePartialOrder\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.WittVector.IsPoly\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.HaveILetI\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Tactic.TypeStar\nimport Mathlib.Topology.Sheaves.Init\n\n"}
+section -- clump:auto
+@[expose] public section
+
+noncomputable section
+
+open MeasureTheory MeasureTheory.Measure
+open scoped ENNReal NNReal
+
+namespace PositivityTheory.RgUd.T.Desc.SLF.Un2
+
+theorem measure_subgroup_eq {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [MeasurableSpace G] [BorelSpace G] (μ : Measure G) [IsMulLeftInvariant μ] (H K : Subgroup G)
+    (hKH : K ≤ H) (hH : IsOpen (H : Set G)) (hK : IsOpen (K : Set G)) (hfin : K.relIndex H ≠ 0) :
+    μ H = K.relIndex H * μ K := by
+  classical
+  haveI : (K.subgroupOf H).FiniteIndex := ⟨hfin⟩
+  letI : Fintype (H ⧸ K.subgroupOf H) := Fintype.ofFinite _
+  have hcover : (H : Set G) =
+      ⋃ q : H ⧸ K.subgroupOf H, (fun y => ((q.out : H) : G)⁻¹ * y) ⁻¹' (K : Set G) := by
+    ext x
+    simp only [Set.mem_iUnion, Set.mem_preimage, SetLike.mem_coe]
+    constructor
+    · intro hx
+      obtain ⟨h, hh⟩ := QuotientGroup.mk_out_eq_mul (K.subgroupOf H) (⟨x, hx⟩ : H)
+      refine ⟨(QuotientGroup.mk (⟨x, hx⟩ : H) : H ⧸ K.subgroupOf H), ?_⟩
+      rw [hh]
+      have hk : (((h⁻¹ : K.subgroupOf H) : H) : G) ∈ K := Subgroup.mem_subgroupOf.mp (h⁻¹).2
+      simpa [mul_assoc] using hk
+    · rintro ⟨q, hq⟩
+      have := H.mul_mem (q.out).2 (hKH hq)
+      simpa using this
+  have hdisj : Pairwise (Function.onFun Disjoint
+      fun q : H ⧸ K.subgroupOf H => (fun y => ((q.out : H) : G)⁻¹ * y) ⁻¹' (K : Set G)) := by
+    intro q q' hqq'
+    rw [Function.onFun, Set.disjoint_left]
+    intro x hx hx'
+    simp only [Set.mem_preimage, SetLike.mem_coe] at hx hx'
+    apply hqq'
+    rw [← QuotientGroup.out_eq' q, ← QuotientGroup.out_eq' q', QuotientGroup.eq,
+      Subgroup.mem_subgroupOf]
+    have hm := K.mul_mem hx (K.inv_mem hx')
+    simpa [mul_assoc] using hm
+  rw [hcover, measure_iUnion hdisj
+    (fun q => (hK.preimage (continuous_const_mul _)).measurableSet)]
+  simp only [measure_preimage_mul, tsum_fintype, Finset.sum_const, Finset.card_univ,
+    nsmul_eq_mul]
+  rw [Subgroup.relIndex, Subgroup.index, Nat.card_eq_fintype_card]
+
+theorem modularCharacterFun_eq_one {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [LocallyCompactSpace G] (g : G) (K K₂ K' : Subgroup G) (hKc : IsCompact (K : Set G))
+    (hKo : IsOpen (K : Set G)) (hK'o : IsOpen (K' : Set G)) (hK₂ : ∀ x, x ∈ K₂ ↔ g⁻¹ * x * g ∈ K)
+    (h1 : K' ≤ K) (h2 : K' ≤ K₂) (h3 : K'.relIndex K₂ = K'.relIndex K) (h4 : K'.relIndex K ≠ 0) :
+    modularCharacterFun g = 1 := by
+  borelize G
+  let μ : Measure G := haar
+  have hKcl : closure (K : Set G) = K := (Subgroup.isClosed_of_isOpen K hKo).closure_eq
+  have hc := measure_isMulInvariant_eq_smul_of_isCompact_closure (map (· * g) μ) μ
+    (s := (K : Set G)) (by rw [hKcl]; exact hKc)
+  rw [← modularCharacterFun_eq_haarScalarFactor μ g] at hc
+  have hK₂set : (K₂ : Set G) = (fun x => g⁻¹ * x * g) ⁻¹' (K : Set G) := by
+    ext x
+    exact hK₂ x
+  have hK₂o : IsOpen (K₂ : Set G) := by
+    rw [hK₂set]
+    exact hKo.preimage ((continuous_const.mul continuous_id).mul continuous_const)
+  have hmap : map (· * g) μ K = μ K₂ := by
+    rw [map_apply (measurable_mul_const g) hKo.measurableSet]
+    have : (fun x => x * g) ⁻¹' (K : Set G) = (fun y => g * y) ⁻¹' (K₂ : Set G) := by
+      ext x
+      simp only [Set.mem_preimage, SetLike.mem_coe, hK₂, mul_assoc, inv_mul_cancel_left]
+    rw [this, measure_preimage_mul]
+  have hK₂eq : μ K₂ = μ K := by
+    rw [measure_subgroup_eq μ K₂ K' h2 hK₂o hK'o (h3 ▸ h4),
+      measure_subgroup_eq μ K K' h1 hKo hK'o h4, h3]
+  have hpos : μ K ≠ 0 := hKo.measure_ne_zero μ ⟨1, K.one_mem⟩
+  have hfin : μ K ≠ ∞ := hKc.measure_lt_top.ne
+  rw [hmap, hK₂eq, ENNReal.smul_def, smul_eq_mul] at hc
+  have h' : (1 : ℝ≥0∞) * μ K = (modularCharacterFun g : ℝ≥0∞) * μ K := by
+    rw [one_mul]
+    exact hc
+  have := (ENNReal.mul_left_inj hpos hfin).mp h'
+  exact_mod_cast this.symm
+
+end PositivityTheory.RgUd.T.Desc.SLF.Un2
+end -- clump:auto
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Descent.SliceVanishing.Unimodularity.ModularCharacterFunEqOne =====
+
+-- ===== clump member: Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Descent.SliceVanishing.Unimodularity.UnimodOfIndexSym =====
+-- clump-header: {"m": "Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Descent.SliceVanishing.Unimodularity.UnimodOfIndexSym", "h": "module\n\npublic import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Descent.OpenSlices.OpenSlice\npublic import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Descent.SliceVanishing.Unimodularity.ModularCharacterFunEqOne\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Topology.Algebra.Group.Units\nimport Mathlib.Topology.Sheaves.Init\n\n"}
+section -- clump:auto
 @[expose] public section
 
 noncomputable section
@@ -108,3 +211,7 @@ theorem unimod_of_indexSym (hI : IndexSym (k := k)) : Unimod (k := k) := by
     exact hne
 
 end PositivityTheory.RgUd.T.Desc.SLF.Un2
+end -- clump:auto
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Descent.SliceVanishing.Unimodularity.UnimodOfIndexSym =====

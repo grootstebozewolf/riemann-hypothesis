@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.MidChart
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitPlaceHermitianFramePropertiesStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitPlaceHermitianFrameProperties
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -87,7 +87,7 @@ theorem compAt_mt {D : D7} {k : Type} [Field k] [ValuativeRel k] [TopologicalSpa
     {p : SplitPt D k} {S : HSp D} {n : Type} [Fintype n] [DecidableEq n] (β : Frame p S n) (g : GL n k) (v : Pl D)
     (hv : v ≠ p.v) (i j : Fin S.rank) :
     FinPl.compAt D v (Formalism.L2.Theta.mt S (β.gl g) i j - (1 : Matrix (Fin S.rank) (Fin S.rank) (AE D)) i j) = 0 := by
-  have hmem : β.gl g ∈ grpAt S (· = p.v) := ((GlobalTheory.T.splitPlaceHermitianFrame_properties D k p S n β).1 _).2 ⟨g, rfl⟩
+  have hmem : β.gl g ∈ grpAt S (· = p.v) := ((_root_.GlobalTheory.FrameAt.frame_facts D k p S n β).1 _).2 ⟨g, rfl⟩
   unfold grpAt congGrp at hmem
   rw [MonoidHom.mem_ker, MonoidHom.comp_apply] at hmem
   have h1 := congrArg (fun u => u.1 i j) hmem

@@ -2,16 +2,17 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ValueDoubleExact
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HomLatticeCompletionSelfAnnihilatorAtPlaces
-import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittHyperbolicAnisotropicCommuteLevi
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemRangeOfOneTmulMem
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.OneEqSumPlaceIdempotentsOverTwoAddTwoMul
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.BesselToJacobiFlatMapVacuumAtGoodPlace
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.EventuallyIncAMulMemIntAt
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HomLatticeIndicatorOnSplitHalfEqHalfIndicator
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IwasawaDecompositionSelfDualWittSplitAtPlaceStatement
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IwasawaDecompositionSelfDualWittSplitAtPlace
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualLatticeStabilizersFixWeilVacuumOnPlaceSe
+import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittHyperbolicAnisotropicCommuteLevi
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.OneEqSumPlaceIdempotentsOverTwoAddTwoMul
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemHomLatticeCompletionIffSupportedMaps
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PlaceIdempotentActsOnSupportedAndOff
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualLatticeStabilizersFixWeilVacuumOnPlaceSeStatement
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualSplitComponentIsLatticeStabilizerEq
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.WittCoreEmbeddingPreservesSupportedUnitarySubgro
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
@@ -633,14 +634,14 @@ theorem supportShift : ∀ D : D7, GlobalTheory.FinPl.SupportShift D := by
       rw [← h𝔉.Heisenberg₂.core f hθ (2 • w) hx, map_nsmul, map_nsmul, h2 _ (hmem w hw)]
     · rw [← h𝔉.Heisenberg₂.core f hθ w (LatMem.latO_mxAt hw), hh e he _ (hmem w hw) (VacFlat.wittExt_wittInc_isHalf J.d B.d hwe)]
   · obtain ⟨n, hnN, hnG, t, ht, htG, γ, hγ, κ, hκ, rfl⟩ :=
-      GlobalTheory.T.iwasawa_decomposition_selfDual_wittSplit_at_place D B.V B.V₀ σ B.d LW LW₀ v hA.tame hA.sdW hA.sdW₀ hA.monoW h hh
+      _root_.GlobalTheory.IwaPlace.iwasawa_at_place D B.V B.V₀ σ B.d LW LW₀ v hA.tame hA.sdW hA.sdW₀ hA.monoW h hh
     have hmul : s.om (1, n * B.d.levi t * B.d.emb0 γ * κ) f =
         s.om (1, n) (s.om (1, B.d.levi t * B.d.emb0 γ) (s.om (1, κ) f)) := by
       have : ((1 : GA D J.W), n * B.d.levi t * B.d.emb0 γ * κ) = (1, n) * (1, B.d.levi t * B.d.emb0 γ) * (1, κ) := by
         simp only [Prod.mk_mul_mk, mul_one, mul_assoc]
       rw [this, map_mul, map_mul]; rfl
     have hκf : s.om (1, κ) f = f := by
-      refine GlobalTheory.T.selfDualLatticeStabilizers_fix_weilVacuum_on_placeSet D ψ J.W B.V s.χV s.χW s.om s.weil LV LW hA.sdV hA.sdW (· = v) ?_ f hf 1 κ ?_ hκ
+      refine _root_.GlobalTheory.StabSetFix.stab_fix_vac D ψ J.W B.V s.χV s.χW s.om s.weil LV LW hA.sdV hA.sdW (· = v) ?_ f hf 1 κ ?_ hκ
       · rintro w rfl; exact ⟨hA.tame, hU.1, hU.2⟩
       · exact ⟨one_mem _, fun y _ => by rw [mt_one, Matrix.one_mulVec]⟩
     have h1 := h𝔉.equiv _ (s.weil.om_pres (1, B.d.levi t * B.d.emb0 γ) _ hf.1) n hnN hnG 1 (one_mem _)

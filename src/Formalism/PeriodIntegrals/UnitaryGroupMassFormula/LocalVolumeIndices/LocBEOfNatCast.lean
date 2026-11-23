@@ -1,23 +1,28 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalVolumeIndices.LocLocGLInvVal
+public import Formalism.SatakeDualWeyl.Statement
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.HidaSetting
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
 import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import Mathlib.Combinatorics.Enumerative.DyckWord
 import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
 import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
 import Mathlib.Geometry.Euclidean.Volume.Basic
 import Mathlib.NumberTheory.Chebyshev
 import Mathlib.NumberTheory.Height.NumberField
 import Mathlib.NumberTheory.Height.Projectivization
 import Mathlib.NumberTheory.LucasLehmer
 import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Echelon.Zsqrtd
 import Mathlib.Tactic.Inclusion.Extension.Core.Core
 import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
@@ -25,7 +30,6 @@ import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
 import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
 import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
 import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.NormNum.Irrational
 import Mathlib.Tactic.NormNum.IsCoprime
 import Mathlib.Tactic.NormNum.IsSquare
@@ -38,8 +42,109 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Mathlib.Tactic.Linter.Style
 
+-- This file was produced by scripts/clump.py from the modules listed below.
+-- Members: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalVolumeIndices.LocLocGLInvVal, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalVolumeIndices.LocBEOfNatCast
+
+-- ===== clump member: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalVolumeIndices.LocLocGLInvVal =====
+-- clump-header: {"m": "Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalVolumeIndices.LocLocGLInvVal", "h": "module\n\npublic import Formalism.SatakeDualWeyl.Statement\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.PiTensorProduct\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.WittVector.IsPoly\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Sheaves.Init\n\n"}
+section -- clump:auto
+@[expose] public section
+
+noncomputable section
+
+namespace PI.MassDataKppVolLemmas
+
+open scoped TensorProduct Matrix
+
+section Gen
+
+variable {A : Type} [CommRing A] {n : Type} [Fintype n] [DecidableEq n]
+
+def locM (e : A) (M : Matrix n n A) : Matrix n n A := 1 + e • (M - 1)
+
+theorem Loc_locM_one (e : A) : locM e (1 : Matrix n n A) = 1 := by
+  simp [locM]
+
+theorem Loc_locM_zero (M : Matrix n n A) : locM (0 : A) M = 1 := by
+  simp [locM]
+
+theorem Loc_locM_one' (M : Matrix n n A) : locM (1 : A) M = M := by
+  simp [locM]
+
+theorem Loc_locM_add (a b : A) (hab : a * b = 0) (M : Matrix n n A) :
+    locM a M * locM b M = locM (a + b) M := by
+  simp only [locM, add_mul, mul_add, one_mul, mul_one, smul_mul_smul_comm, hab, zero_smul, add_zero, add_smul]
+  abel
+
+theorem Loc_locM_mul (e : A) (he : e * e = e) (M N : Matrix n n A) :
+    locM e (M * N) = locM e M * locM e N := by
+  have h : M * N - 1 = (M - 1) + (N - 1) + (M - 1) * (N - 1) := by noncomm_ring
+  simp only [locM, h, add_mul, mul_add, one_mul, mul_one, smul_mul_smul_comm, he, smul_add]
+  abel
+
+theorem Loc_locM_split (e : A) (he : e * e = e) (M : Matrix n n A) :
+    locM e M * locM (1 - e) M = M := by
+  rw [Loc_locM_add e (1 - e) (by rw [mul_sub, mul_one, he, sub_self]), show e + (1 - e) = (1 : A) by ring,
+    Loc_locM_one']
+
+theorem Loc_locM_sub_one (e : A) (M : Matrix n n A) (v : n → A) :
+    (locM e M - 1) *ᵥ v = e • ((M - 1) *ᵥ v) := by
+  rw [locM, add_sub_cancel_left]
+  first
+    | exact Matrix.smul_mulVec _ _ _
+    | (ext i; simp [Matrix.mulVec, dotProduct, Finset.mul_sum, mul_assoc])
+
+theorem Loc_locM_map {B : Type} [CommRing B] (f : A →+* B) (e : A) (M : Matrix n n A) :
+    (locM e M).map f = locM (f e) (M.map f) := by
+  ext i j
+  simp only [locM, Matrix.map_apply, Matrix.add_apply, Matrix.smul_apply, Matrix.sub_apply, Matrix.one_apply,
+    smul_eq_mul]
+  split_ifs <;> simp [map_add (f := _), map_mul, map_sub]
+
+theorem Loc_cT (σ : A →+* A) (e : A) (hσ : σ e = e) (M : Matrix n n A) :
+    Formalism.UG.cT σ (locM e M) = locM e (Formalism.UG.cT σ M) := by
+  unfold Formalism.UG.cT
+  rw [Loc_locM_map, hσ]
+  simp [locM, Matrix.transpose_add, Matrix.transpose_smul, Matrix.transpose_sub, Matrix.transpose_one]
+
+theorem Loc_locM_unitary (σ : A →+* A) (e : A) (he : e * e = e) (hσ : σ e = e) (J M : Matrix n n A)
+    (hM : Formalism.UG.cT σ M * J * M = J) : Formalism.UG.cT σ (locM e M) * J * locM e M = J := by
+  rw [Loc_cT σ e hσ]
+  set N := Formalism.UG.cT σ M with hN
+  have key : (N - 1) * J + J * (M - 1) + (N - 1) * J * (M - 1) = 0 := by
+    have h0 : N * J * M - J = 0 := sub_eq_zero.mpr hM
+    rw [← h0]; noncomm_ring
+  calc (locM e N) * J * locM e M = J + e • ((N - 1) * J + J * (M - 1) + (N - 1) * J * (M - 1)) := by
+        simp only [locM, add_mul, mul_add, one_mul, mul_one, smul_mul_assoc, mul_smul_comm, smul_smul, he,
+          smul_add, Matrix.mul_assoc]
+        abel
+    _ = J := by rw [key, smul_zero, add_zero]
+
+def locGL (e : A) (he : e * e = e) : GL n A →* GL n A where
+  toFun g := ⟨locM e g, locM e ↑g⁻¹, by rw [← Loc_locM_mul e he, Units.mul_inv, Loc_locM_one],
+    by rw [← Loc_locM_mul e he, Units.inv_mul, Loc_locM_one]⟩
+  map_one' := Units.ext (Loc_locM_one e)
+  map_mul' g h := Units.ext (Loc_locM_mul e he _ _)
+
+theorem Loc_locGL_val (e : A) (he : e * e = e) (g : GL n A) :
+    ((locGL e he g : GL n A) : Matrix n n A) = locM e (g : Matrix n n A) := rfl
+
+end Gen
+
+end PI.MassDataKppVolLemmas
+end -- clump:auto
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalVolumeIndices.LocLocGLInvVal =====
+
+-- ===== clump member: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalVolumeIndices.LocBEOfNatCast =====
+-- clump-header: {"m": "Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalVolumeIndices.LocBEOfNatCast", "h": "module\n\npublic import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalVolumeIndices.LocLocGLInvVal\npublic import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.HidaSetting\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Topology.Sheaves.Init\n\n"}
+section -- clump:auto
 @[expose] public section
 
 noncomputable section
@@ -210,3 +315,7 @@ theorem LocB_Kg (g : ℕ) (a c : Af I.F) (ha : a * a = a) (hc : c ∈ Formalism.
   · rw [LocB_fmat I (1 - a) h1a, Loc_locM_sub_one, ← hgc, ← LocB_eOf_mul, LocB_eOf_natCast, mul_smul]
 
 end PI.MassDataKppVolLemmas
+end -- clump:auto
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalVolumeIndices.LocBEOfNatCast =====

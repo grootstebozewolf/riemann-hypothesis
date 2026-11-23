@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.GoodTopBot
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RowPolarizationOperatorsActionOnRowWeightStatement
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RowPolarizationOperatorsActionOnRowWeight
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -187,7 +187,7 @@ theorem GlobalTheory.Alc.exists_dominant_highest_vector_of_lt : ∀ (k : Type) [
   · intro a b hab
     by_contra hnot
     have hne : a ≠ b := hab.ne
-    obtain ⟨_, hE⟩ := GlobalTheory.T.rowPolarizationOperators_action_on_rowWeight k N N μ v hvh
+    obtain ⟨_, hE⟩ := _root_.GlobalTheory.Alc.rowE_rowWeight k N N μ v hvh
     obtain ⟨hz, hw⟩ := hE a b hne
     by_cases hb : μ b = 0
     · exact hnot (by rw [hz hb]; exact M.zero_mem)

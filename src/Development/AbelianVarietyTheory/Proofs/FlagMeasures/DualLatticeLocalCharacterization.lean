@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.SelfDualAt
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemAdelicSpanOfLatticeIffForallPlaceStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemAdelicSpanOfLatticeIffForallPlace
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SelfDualLocalBasis.HformSumRight
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SelfDualLocalBasis.HvecApply
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SelfDualLocalBasis.LocBasis
@@ -331,7 +331,7 @@ theorem dualL_local_adelic : ∀ (F E : Type) [Field F] [NumberField F] [Field E
   refine ⟨hD, fun v x => ⟨fun hx => Dual.fwd cm.sig J _ _ L x hx, fun h => ?_⟩,
     fun x => ⟨fun hx => Dual.fwd cm.sig J _ _ L x hx, fun h => ?_⟩⟩
   · exact Dual.bwd_loc cm.sig J hJ L hL v x fun a ha => h _ (Submodule.subset_span ⟨a, ha, rfl⟩)
-  · rw [GlobalTheory.T.mem_adelicSpanOfLattice_iff_forall_place F E n _ hD]
+  · rw [_root_.GlobalTheory.St.G.mem_hat_iff_forall_loc F E n _ hD]
     intro v
     refine Dual.bwd_loc cm.sig J hJ L hL v _ fun a ha => ?_
     rw [← Dual.prV_hR]

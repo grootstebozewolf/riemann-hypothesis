@@ -2,12 +2,19 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotCoboundaryConstantOne
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CompletedLaurentIsDVRStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DivMemSubalgebraOfValuationLeOneOfUniformizerStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsFinitePidSubalgebraDivPadicIntStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsGeneratorValuationPrimeDvdPowSubOfFinitePaStatement
+public import Mathlib.Algebra.Algebra.Subalgebra.Basic
+public import Mathlib.Basic.NNReal.Defs
+public import Mathlib.RingTheory.IntegralClosure.IsIntegral.Defs
+public import Mathlib.RingTheory.Valuation.Basic
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DivMemSubalgebraOfValuationLeOneOfUniformizer
+public import Mathlib.NumberTheory.Padics.PadicIntegers
+public import Mathlib.RingTheory.Algebraic.Defs
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsFinitePidSubalgebraDivPadicInt
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsGeneratorValuationPrimeDvdPowSubOfFinitePa
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TowerParameterNotPowModMaximalIdealAdjoinAlgebra
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnramifiedIntegersAdicCompleteStatement
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ValuationLeOneIffIsIntegralOfCompleteDvrStatement
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnramifiedIntegersAdicComplete
+import Mathlib.RingTheory.DiscreteValuationRing.Basic
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ValuationLeOneIffIsIntegralOfCompleteDvr
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -72,9 +79,9 @@ theorem _root_.GlobalTheory.T.towerParameter_not_pow_mod_maximalIdeal_adjoin_alg
     exact IsLocalRing.maximalIdeal.isMaximal _
   have : IsAdicComplete (IsLocalRing.maximalIdeal (O0 p)) (O0 p) := by
     rw [huni]
-    exact GlobalTheory.T.unramified_integers_adic_complete p
+    exact _root_.GlobalTheory.K5.o0_isAdicComplete_span_p p
   have := hclo.alg
-  obtain ⟨v, hv⟩ := GlobalTheory.T.exists_valuation_le_one_iff_isIntegral_of_complete_dvr
+  obtain ⟨v, hv⟩ := _root_.GlobalTheory.valuation_le_one_iff_isIntegral_of_complete_dvr
     (O0 p) Ω hclo.inj
   have hp0 : (p : Ω) ≠ 0 := Nat.cast_ne_zero.2 (Fact.out : p.Prime).ne_zero
   have hvp0 : 0 < v (p : Ω) := (Valuation.pos_iff v).2 hp0
@@ -104,9 +111,9 @@ theorem _root_.GlobalTheory.T.towerParameter_not_pow_mod_maximalIdeal_adjoin_alg
     intro s hs
     obtain ⟨P, hP0, hP⟩ := hS s hs
     exact ⟨P, hP0, by rwa [Polynomial.aeval_map_algebraMap] at hP⟩
-  obtain ⟨R, hRfin, hRpid, hRS⟩ := GlobalTheory.T.exists_finite_pid_subalgebra_padicInt_contains_fractions p Ω hinj S hSalg
+  obtain ⟨R, hRfin, hRpid, hRS⟩ := _root_.GlobalTheory.exists_finite_pid_subalgebra_div_padicInt p Ω hinj S hSalg
   obtain ⟨π, hπR, hπ0, hvπ, hpπ, f, hf, hstep⟩ :=
-    GlobalTheory.T.exists_uniformizer_valuation_lt_one_frobenius_congr p Ω hinj v hvint hvp1 R hRfin hRpid
+    _root_.GlobalTheory.exists_generator_valuation_prime_dvd_pow_sub_of_finite_padicInt p Ω hinj v hvint hvp1 R hRfin hRpid
   have hfg : (Subalgebra.toSubmodule R).FG := Module.Finite.iff_fg.1 hRfin
   obtain ⟨T, hT⟩ := Subalgebra.fg_of_fg_toSubmodule hfg
   have hRB : ∀ x ∈ R, x ∈ Algebra.adjoin (O0 p) (T : Set Ω) := by
@@ -123,7 +130,7 @@ theorem _root_.GlobalTheory.T.towerParameter_not_pow_mod_maximalIdeal_adjoin_alg
     (hRB _ hpπ) f hf (fun t ht => hRB _ (hstep t (hTR t ht)))
   have hBint : ∀ x ∈ Algebra.adjoin (O0 p) (T : Set Ω), v x ≤ 1 := fun x hx =>
     (hv x).2 (Algebra.adjoin_le (S := integralClosure (O0 p) Ω) (fun t ht => hTint t ht) hx)
-  have hclosed := GlobalTheory.T.div_mem_subalgebra_of_valuation_le_one_of_uniformizer (O0 p) Ω v hv _ hBint π (hRB _ hπR) hπ0 hvπ hdiv
+  have hclosed := _root_.GlobalTheory.K5.IntFrac.mem_of_div_le_one (O0 p) Ω v hv _ hBint π (hRB _ hπR) hπ0 hvπ hdiv
   have hsub : Subfield.closure (Set.range (algebraMap (O0 p) Ω) ∪ (S : Set Ω)) ≤
       Subfield.closure (Algebra.adjoin (O0 p) (T : Set Ω) : Set Ω) := by
     rw [Subfield.closure_le]

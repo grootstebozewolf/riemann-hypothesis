@@ -1,7 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumVec
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ComplexMatrixGaussSumNormIntegralGaloisStatement
+public import Mathlib.NumberTheory.LegendreSymbol.AddCharacter
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ComplexMatrixGaussSumNormIntegralGalois
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MatrixGaussSumSingularAndInvertible
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -161,7 +162,7 @@ theorem fourier_flatDatum_finite : ∀ (k : Type) [Field k] [Fintype k] (ψ : Ad
   obtain ⟨hsing, hinv⟩ := GlobalTheory.matrixGaussSum_singular_and_invertible k ℂ ψ⁻¹ ξ⁻¹ r hψ' hξ'
   set G : ℂ := ∑ x : GL (Fin r) k, (((ξ⁻¹ (Matrix.GeneralLinearGroup.det x))⁻¹ : ℂˣ) : ℂ) *
     ψ⁻¹ (Matrix.trace (x : Matrix (Fin r) (Fin r) k)) with hG
-  obtain ⟨hnorm, hGint, hGinv, -⟩ := GlobalTheory.T.galois_matrix_gaussSum_eq_char_pow_mul k ψ⁻¹ ξ⁻¹ r hψ' hξ' G rfl
+  obtain ⟨hnorm, hGint, hGinv, -⟩ := _root_.GlobalTheory.complexMatrixGaussSum_norm_integral_galois k ψ⁻¹ ξ⁻¹ r hψ' hξ' G rfl
   set q : ℂ := (Fintype.card k : ℂ) with hq
   have hq0 : q ≠ 0 := Nat.cast_ne_zero.mpr Fintype.card_ne_zero
   have hG0 : G ≠ 0 := by
