@@ -336,6 +336,9 @@ section -- clump:auto
 
 set_option maxSynthPendingDepth 1
 
+-- Use the same Abelian instance as Mathlib's `Sheaf.H` and `Sheaf.H'`.
+attribute [local instance 1100] CategoryTheory.sheafIsAbelian
+
 namespace GroundTheory.Arith.SchemeCoh
 
 open CategoryTheory Limits Opposite Abelian
@@ -557,6 +560,9 @@ section -- clump:auto
 @[expose] public section
 
 set_option maxSynthPendingDepth 1
+
+-- Use the same Abelian instance as Mathlib's `Sheaf.H` and `Sheaf.H'`.
+attribute [local instance 1100] CategoryTheory.sheafIsAbelian
 
 namespace GroundTheory.Arith.SchemeCoh
 
